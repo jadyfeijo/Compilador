@@ -1,6 +1,6 @@
 %{ 
     //Eduarda Trindade 274709
-    //Jady Feijó
+    //Jady Feijó 230210
 
     #include <stdio.h>
     #include <stdlib.h>
@@ -28,15 +28,12 @@ print                       { return KW_PRINT; }
 or                          { return OPERATOR_OR ; }
 and                         { return OPERATOR_AND; }
 not                         { return OPERATOR_NOT; }
-
-"ZZ"						
+						
 [a-z_0-9]                   { return TK_IDENTIFIER; } // conferir, acho que isso está errado
 
-//Nao sei se essas do LIT estão certas, não testei
-
-[0-9]+"."[0-9]+				{return LIT_FLOAT;}
-"'"[A-Za-z.]"'"				{return LIT_CHAR;} 
-"\"" [A-Za-z.]+"\""			{return LIT_STRING;}
+[0-9]+"."[0-9]+				{ return LIT_FLOAT; } //Nao sei se essas do LIT estão certas, não testei
+"'"[A-Za-z.]"'"				{ return LIT_CHAR; } 
+"\"" [A-Za-z.]+"\""			{ return LIT_STRING; }
 
 [-+*/=(){}<>;,:&$#]         { return (int)yytext[0]; }
 "["                         { return (int)yytext[0]; }
@@ -48,12 +45,13 @@ not                         { return OPERATOR_NOT; }
 "!="                        { return OPERATOR_DIF; }
 
 [ \t]
-"\n"						{++line;}
+"\n"						{ ++line; }
 
-"XXX"						{BEGIN (COMMENT);}
-<COMMENT> "XXX"				{BEGIN(INITIAL);}
+"ZZ".*
+"XXX"						{ BEGIN (COMMENT); }
+<COMMENT> "XXX"				{ BEGIN(INITIAL); }
 <COMMENT> .					
-<COMMENT> "\n"				{++line;}
+<COMMENT> "\n"				{ ++line; }
 
 .				            { return TOKEN_ERROR; }
 
