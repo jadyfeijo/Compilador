@@ -12,7 +12,7 @@ typedef struct hash_node
     struct hash_node *next;      
 } NODE;
 
-NODE *table[HASH_SIZE];
+NODE *Table[HASH_SIZE];
 
 void hashInit(void);
 int hashAddress(char *text);
