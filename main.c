@@ -3,8 +3,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "tokens.h"
-
 
 //lex.yy.h
 int yylex();
