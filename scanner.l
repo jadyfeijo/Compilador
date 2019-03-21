@@ -5,7 +5,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include "tokens.h"
-    //#include "hash.c"
+    #include "hash.h"
 	
 	int isRunning = 1;
 	int line = 1;
