@@ -6,9 +6,22 @@
     #include <stdlib.h>
     #include "tokens.h"
     #include "hash.h"
+
+
 	
-	int isRunning = 1;
-	int line = 1;
+    int isRunning = 1;
+    int line=1;
+
+    int getLineNumber(void)
+{
+
+    return line;
+}
+
+    void initMe()
+{
+    hashInit();
+}
 %}
 
 %x COMMENT
@@ -30,15 +43,16 @@
 "and"                         { return OPERATOR_AND; }
 "not"                         { return OPERATOR_NOT; }
 
-[a-z_0-9]+                    { return TK_IDENTIFIER; } // conferir, acho que isso está errado
+[a-z_0-9]+                    { hashInsert(0,yytext); return TK_IDENTIFIER; } 
+[A-IO]+                       { hashInsert(0,yytext); return LIT_INTEGER; }
 
-[0-9]+"."[0-9]+				  { return LIT_FLOAT; } //Nao sei se essas do LIT estão certas, não testei
-"'"[A-Za-z.]"'"				  { return LIT_CHAR; } 
-"\"" [A-Za-z.]+"\""			  { return LIT_STRING; }
+[0-9]+"."[0-9]+		      { return LIT_FLOAT; } 
+"'"."'"		              { hashInsert(0,yytext); return LIT_CHAR; } 
+"\"".+"\""  		      { hashInsert(0,yytext); return LIT_STRING; }
 
-[-+*/=(){}<>;,:&$#]           { return (int)yytext[0]; }
-"["                           { return (int)yytext[0]; }
-"]"                           { return (int)yytext[0]; }
+[-+*/=(){}<>;,:&$#]           { fprintf(stdout," <%c> ",(int)yytext[0]); }
+"["                           { fprintf(stdout," <%c> ",(int)yytext[0]); }
+"]"                           { fprintf(stdout," <%c> ",(int)yytext[0]); }
 
 "<="                          { return OPERATOR_LE; }
 ">="                          { return OPERATOR_GE; }
@@ -46,17 +60,19 @@
 "!="                          { return OPERATOR_DIF; }
 
 [ \t]
-"\n"						  { ++line; }
+"\n"			      { ++line; }
 
-"ZZ".*
-"XXX"					      { BEGIN(COMMENT); }
-.				              { return TOKEN_ERROR; }
+"ZZ".* 
+"XXX"			      { BEGIN(COMMENT); }
+.		              { return TOKEN_ERROR; }
 
-<COMMENT>"XXX"				  { BEGIN(INITIAL); }
+<COMMENT>"XXX"		      { BEGIN(INITIAL); }
 <COMMENT>.					
-<COMMENT>"\n"				  { ++line; }
+<COMMENT>"\n"	   	      { ++line; }
 
 %%
+
+//#include "main.c"
 
 int yywrap(void) 
 {
