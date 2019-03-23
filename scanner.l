@@ -36,7 +36,7 @@
 
 [0-9]+"."[0-9]+		          { return LIT_FLOAT; } 
 "'"."'"		                  { hashInsert(0,yytext); return LIT_CHAR; } 
-"\"".+"\""  		          { hashInsert(0,yytext); return LIT_STRING; }
+\"(\\.|[^"\n])*\"   		  { hashInsert(0,yytext); return LIT_STRING; }
 
 [-+*/=(){}<>;,:&$#]           { return (int)yytext[0]; }
 "["                           { return (int)yytext[0]; }
@@ -64,7 +64,7 @@ int getLineNumber(void)
     return line;
 }
 
-void initMe()
+void initMe(void)
 {
     hashInit();
 }

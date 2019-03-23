@@ -1,0 +1,44 @@
+ZZ Palavras Reservadas
+byte int float if then else loop
+leap read return print or and not
+
+ZZ Caracteres Especiais
+, ; : ( ) [ ] { } + - * / < > = & $ #
+
+ZZ Operadores Compostos
+<= >= == !=
+
+ZZ Identificadores
+a 0 _
+123 abc
+2_b
+1a2bc
+
+ZZ Literais Inteiros
+O I H G F E D C B A
+
+ZZ Literais Reais
+0.1
+123.456
+
+ZZ Literais do tipo Caracter
+'a' '1' 'X' '-'
+
+ZZ Literais do String
+"meu nome" "Mensagem!"
+"\"aspas\"" 
+"uma \n frase"
+"algo
+ bla"
+
+XXX Comentario
+de
+multiplas
+linhas
+"teste"
+A
+if
++ XXX
+
+linha43
+'erro' ZZ Caracter inválido =  ERROR
