@@ -2,6 +2,7 @@
 //Jady Feijó 230210
 
 #include <stdio.h>
+#include <string.h>
 
 #define HASH_SIZE 997
 

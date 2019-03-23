@@ -9,5 +9,6 @@ lex.yy.o: lex.yy.c
 	
 lex.yy.c: scanner.l
 	lex scanner.l 
+
 clean:
-	rm *.o setapa1
+	rm *.o lex.yy.c etapa1

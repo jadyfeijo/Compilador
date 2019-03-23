@@ -5,23 +5,11 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include "tokens.h"
-    #include "hash.h"
+    #include "hash.c"
 
 
-	
     int isRunning = 1;
-    int line=1;
-
-    int getLineNumber(void)
-{
-
-    return line;
-}
-
-    void initMe()
-{
-    hashInit();
-}
+    int line = 1;
 %}
 
 %x COMMENT
@@ -46,13 +34,13 @@
 [a-z_0-9]+                    { hashInsert(0,yytext); return TK_IDENTIFIER; } 
 [A-IO]+                       { hashInsert(0,yytext); return LIT_INTEGER; }
 
-[0-9]+"."[0-9]+		      { return LIT_FLOAT; } 
-"'"."'"		              { hashInsert(0,yytext); return LIT_CHAR; } 
-"\"".+"\""  		      { hashInsert(0,yytext); return LIT_STRING; }
+[0-9]+"."[0-9]+		          { return LIT_FLOAT; } 
+"'"."'"		                  { hashInsert(0,yytext); return LIT_CHAR; } 
+"\"".+"\""  		          { hashInsert(0,yytext); return LIT_STRING; }
 
-[-+*/=(){}<>;,:&$#]           { fprintf(stdout," <%c> ",(int)yytext[0]); }
-"["                           { fprintf(stdout," <%c> ",(int)yytext[0]); }
-"]"                           { fprintf(stdout," <%c> ",(int)yytext[0]); }
+[-+*/=(){}<>;,:&$#]           { return (int)yytext[0]; }
+"["                           { return (int)yytext[0]; }
+"]"                           { return (int)yytext[0]; }
 
 "<="                          { return OPERATOR_LE; }
 ">="                          { return OPERATOR_GE; }
@@ -60,20 +48,27 @@
 "!="                          { return OPERATOR_DIF; }
 
 [ \t]
-"\n"			      { ++line; }
+"\n"			              { ++line; }
 
-"ZZ".* 
-"XXX"			      { BEGIN(COMMENT); }
-.		              { return TOKEN_ERROR; }
+"ZZ".*  
+"XXX"			              { BEGIN(COMMENT); }
+.		                      { return TOKEN_ERROR; }
 
-<COMMENT>"XXX"		      { BEGIN(INITIAL); }
+<COMMENT>"XXX"		          { BEGIN(INITIAL); }
 <COMMENT>.					
-<COMMENT>"\n"	   	      { ++line; }
+<COMMENT>"\n"	   	          { ++line; }
 
 %%
+int getLineNumber(void)
+{   
+    return line;
+}
 
-//#include "main.c"
-
+void initMe()
+{
+    hashInit();
+}
+    
 int yywrap(void) 
 {
     isRunning = 0;
