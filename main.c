@@ -10,8 +10,7 @@ extern int yylex();
 extern char *yytext;
 extern FILE *yyin;
 
-extern int isRunning;
-//int isRunning(void);
+int isRunning(void);
 int getLineNumber(void);
 void initMe(void);
 
@@ -33,12 +32,12 @@ int main(int argc, char** argv)
 
     initMe();
 
-    while (isRunning)
+    while (isRunning())
     {
         token = yylex();
 
-        if (!isRunning)
-        break;
+        if (!isRunning())
+            break;
 
         switch(token)
         {

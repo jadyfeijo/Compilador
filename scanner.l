@@ -8,8 +8,8 @@
     #include "hash.c"
 
 
-    int isRunning = 1;
-    int line = 1;
+    int IsRunning = 1;
+    int Line = 1;
 %}
 
 %x COMMENT
@@ -48,7 +48,7 @@
 "!="                          { return OPERATOR_DIF; }
 
 [ \t]
-"\n"			              { ++line; }
+"\n"			              { ++Line; }
 
 "ZZ".*  
 "XXX"			              { BEGIN(COMMENT); }
@@ -56,21 +56,26 @@
 
 <COMMENT>"XXX"		          { BEGIN(INITIAL); }
 <COMMENT>.					
-<COMMENT>"\n"	   	          { ++line; }
+<COMMENT>"\n"	   	          { ++Line; }
 
 %%
 int getLineNumber(void)
 {   
-    return line;
+    return Line;
 }
 
 void initMe(void)
 {
     hashInit();
 }
+
+int isRunning(void)
+{
+    return IsRunning;
+}
     
 int yywrap(void) 
 {
-    isRunning = 0;
+    IsRunning = 0;
     return 1;
 } 
