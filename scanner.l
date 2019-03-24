@@ -31,12 +31,21 @@
 "and"                         { return OPERATOR_AND; }
 "not"                         { return OPERATOR_NOT; }
 
-[a-z_0-9]+                    { hashInsert(0,yytext); return TK_IDENTIFIER; } 
+a-z_0-9]+                     { if( yytext[-1]!='"')
+                                { hashInsert(0,yytext); 
+                                  return TK_IDENTIFIER;
+                                  }} 
+                                  
 [A-IO]+                       { hashInsert(0,yytext); return LIT_INTEGER; }
 
 [0-9]+"."[0-9]+		          { return LIT_FLOAT; } 
-"'"."'"		                  { hashInsert(0,yytext); return LIT_CHAR; } 
-\"(\\.|[^"\n])*\"   		  { hashInsert(0,yytext); return LIT_STRING; }
+'(\\.|[^'\n])*\'		      { if (yyleng==3)
+                                {  hashInsert(0,yytext);
+                                   return LIT_CHAR;
+                                }
+                                  else return TOKEN_ERROR;} 
+                
+\"(\\.|[^\"\n])*\"   		  {hashInsert(0,yytext); return LIT_STRING;}
 
 [-+*/=(){}<>;,:&$#]           { return (int)yytext[0]; }
 "["                           { return (int)yytext[0]; }
