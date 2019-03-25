@@ -1,3 +1,6 @@
+#Eduarda Trindade 274709
+#Jady Feijó 230210
+
 etapa1: lex.yy.o main.o
 	gcc lex.yy.o main.o -o etapa1
 

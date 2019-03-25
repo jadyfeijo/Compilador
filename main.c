@@ -1,4 +1,4 @@
-///Eduarda Trindade 274709
+//Eduarda Trindade 274709
 //Jady Feijó 230210
 
 #include <stdio.h>
