@@ -31,7 +31,7 @@
 "and"                         { return OPERATOR_AND; }
 "not"                         { return OPERATOR_NOT; }
 
-a-z_0-9]+                     { if( yytext[-1]!='"')
+[a-z_0-9]+                     { if( yytext[-1]!='"')
                                 { hashInsert(0,yytext); 
                                   return TK_IDENTIFIER;
                                   }} 
