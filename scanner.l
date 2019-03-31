@@ -8,8 +8,8 @@
     #include "hash.c"
 
 
-    int isRunning = 1;
-    int line = 1;
+    int IsRunning = 1;
+    int Line = 1;
 %}
 
 %x COMMENT
@@ -31,12 +31,23 @@
 "and"                         { return OPERATOR_AND; }
 "not"                         { return OPERATOR_NOT; }
 
-[a-z_0-9]+                    { hashInsert(0,yytext); return TK_IDENTIFIER; } 
+[a-z_0-9]+                    { if( yytext[-1]!='"')
+                                { hashInsert(0,yytext); 
+                                  return TK_IDENTIFIER;
+                                }
+                              } 
+                                  
 [A-IO]+                       { hashInsert(0,yytext); return LIT_INTEGER; }
 
-[A-IO]+"."[A-IO]+		      { return LIT_FLOAT; } 
-"'"."'"		                  { hashInsert(0,yytext); return LIT_CHAR; } 
-\"(\\.|[^"\n])*\"   		  { hashInsert(0,yytext); return LIT_STRING; }
+[A-IO]+"."[A-IO]+		      { return LIT_FLOAT; }
+'(\\.|[^'\n])*\'		      { if (yyleng==3)
+                                {  hashInsert(0,yytext);
+                                   return LIT_CHAR;
+                                }
+                                  else return TOKEN_ERROR;
+                              } 
+                
+\"(\\.|[^\"\n])*\"   		  {hashInsert(0,yytext); return LIT_STRING;}
 
 [-+*/=(){}<>;,:&$#]           { return (int)yytext[0]; }
 "["                           { return (int)yytext[0]; }
@@ -48,7 +59,7 @@
 "!="                          { return OPERATOR_DIF; }
 
 [ \t]
-"\n"			              { ++line; }
+"\n"			              { ++Line; }
 
 "ZZ".*  
 "XXX"			              { BEGIN(COMMENT); }
@@ -56,21 +67,26 @@
 
 <COMMENT>"XXX"		          { BEGIN(INITIAL); }
 <COMMENT>.					
-<COMMENT>"\n"	   	          { ++line; }
+<COMMENT>"\n"	   	          { ++Line; }
 
 %%
 int getLineNumber(void)
 {   
-    return line;
+    return Line;
 }
 
 void initMe(void)
 {
     hashInit();
 }
+
+int isRunning(void)
+{
+    return IsRunning;
+}
     
 int yywrap(void) 
 {
-    isRunning = 0;
+    IsRunning = 0;
     return 1;
 } 
