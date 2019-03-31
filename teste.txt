@@ -18,8 +18,8 @@ ZZ Literais Inteiros
 O I H G F E D C B A
 
 ZZ Literais Reais
-0.1
-123.456
+O.I
+IHG.FED
 
 ZZ Literais do tipo Caracter
 'a' '1' 'X' '-'

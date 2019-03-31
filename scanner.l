@@ -34,7 +34,7 @@
 [a-z_0-9]+                    { hashInsert(0,yytext); return TK_IDENTIFIER; } 
 [A-IO]+                       { hashInsert(0,yytext); return LIT_INTEGER; }
 
-[0-9]+"."[0-9]+		          { return LIT_FLOAT; } 
+[A-IO]+"."[A-IO]+		      { return LIT_FLOAT; } 
 "'"."'"		                  { hashInsert(0,yytext); return LIT_CHAR; } 
 \"(\\.|[^"\n])*\"   		  { hashInsert(0,yytext); return LIT_STRING; }
 
