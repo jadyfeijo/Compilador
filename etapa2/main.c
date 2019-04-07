@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "tokens.h"
+#include "y.tab.h"
 #include "hash.h"
 
 extern int yylex();
@@ -71,6 +71,7 @@ int main(int argc, char** argv)
         }
     }
 
+    yyparse();
     hashPrint();
     exit(0);
   }
