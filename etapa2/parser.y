@@ -57,9 +57,9 @@ declist: dec declist
 	;
 
 dec: 
-	type TK_IDENTIFIER '=' lit;
-	| type TK_IDENTIFIER '['LIT_INTEGER']' array_init;
-	| type TK_IDENTIFIER '('')'cmd;
+	type TK_IDENTIFIER '=' lit ';';
+	| type TK_IDENTIFIER '['LIT_INTEGER']' array_init ';';
+	| type TK_IDENTIFIER '('')'cmd ;
 	| type TK_IDENTIFIER '('dec_param')'cmd;
 	;
 
@@ -78,13 +78,13 @@ cmd:
 	| KW_RETURN exp 
 	| KW_READ TK_IDENTIFIER
 	| KW_PRINT print_list
-	| block
+	| block 
 	| ctrl_fluxo
 	| ';'
 	;
 
 block:
-	'{'cmd cmd_list '}'
+	'{'cmd_list '}' ';'
 	;
 
 cmd_list: 
@@ -95,6 +95,7 @@ cmd_list:
 ctrl_fluxo:
 	KW_IF '(' exp ')' KW_THEN cmd
 	| KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd
+	| KW_IF '(' exp ')' KW_THEN KW_ELSE cmd
 	| KW_LOOP '(' exp ')' cmd
 	| KW_LEAP
 	;
@@ -170,4 +171,5 @@ int yyerror (char *msg)
 	exit(3);
 }
 	
+
 
