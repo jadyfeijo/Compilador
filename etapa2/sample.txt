@@ -11,7 +11,7 @@ byte x = DE;
 byte main ()
   {
   a = C;
-  v[a] = A0;
+  v[a] = AO;
   print v[a];
 
   print "Digite um numero: \n";

@@ -31,7 +31,7 @@ int main(int argc, char** argv)
     }
 
     initMe();
-
+    /*
     while (isRunning())
     {
         token = yylex();
@@ -70,8 +70,8 @@ int main(int argc, char** argv)
 
         }
     }
-
+    */
     yyparse();
-    hashPrint();
+    //hashPrint();
     exit(0);
   }

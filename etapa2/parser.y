@@ -57,10 +57,10 @@ declist: dec declist
 	;
 
 dec: 
-	type TK_IDENTIFIER '=' lit ';';
-	| type TK_IDENTIFIER '['LIT_INTEGER']' array_init ';';
-	| type TK_IDENTIFIER '('')'cmd ;
-	| type TK_IDENTIFIER '('dec_param')'cmd;
+	type TK_IDENTIFIER '=' lit ';'
+	| type TK_IDENTIFIER '['LIT_INTEGER']' array_init ';'
+	| type TK_IDENTIFIER '('')'cmd
+	| type TK_IDENTIFIER '('dec_param')'cmd
 	;
 
 dec_param:
@@ -74,7 +74,7 @@ dec_param2:
 
 cmd:
 	TK_IDENTIFIER '=' exp 
-	| TK_IDENTIFIER '[' exp']' '=' exp
+	| TK_IDENTIFIER '[' exp ']' '=' exp
 	| KW_RETURN exp 
 	| KW_READ TK_IDENTIFIER
 	| KW_PRINT print_list
@@ -84,7 +84,7 @@ cmd:
 	;
 
 block:
-	'{'cmd_list '}' ';'
+	'{' cmd_list '}' ';'
 	;
 
 cmd_list: 
@@ -134,7 +134,7 @@ array_init2:
 
 exp:
 	TK_IDENTIFIER
-	| TK_IDENTIFIER '['exp']'
+	| TK_IDENTIFIER '[' exp ']'
 	| TK_IDENTIFIER '(' func_param ')'
 	| '(' exp ')'
 	| lit
