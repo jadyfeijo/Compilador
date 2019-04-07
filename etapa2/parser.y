@@ -77,7 +77,6 @@ cmd:
 	| ';'
 	;
 
-
 block:
 	'{'cmd cmd_list '}'
 	;
@@ -92,7 +91,8 @@ ctrl_fluxo:
 	| KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd
 	| KW_LOOP '(' exp ')' cmd
 	| KW_LEAP
-
+	;
+	
 print_list:
 	LIT_STRING print_list2
 	| exp print_list2
@@ -102,7 +102,6 @@ print_list2:
 	',' print_list
 	| ;
 	;
-
 
 lit:
 	LIT_INTEGER

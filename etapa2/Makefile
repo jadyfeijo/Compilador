@@ -14,10 +14,10 @@ y.tab.o: y.tab.c
 	gcc -c y.tab.c
 
 y.tab.c: parser.y 
-	yacc -d parser.y
+	yacc -d -v parser.y
 
 lex.yy.c: scanner.l
 	lex scanner.l 
 
 clean:
-	rm *.o lex.yy.c y.tab.c y.tab.h etapa2
+	rm *.o lex.yy.c y.tab.c y.tab.h y.output etapa2
