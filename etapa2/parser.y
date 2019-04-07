@@ -39,6 +39,12 @@
 
 %token TOKEN_ERROR 290
 
+%left '<' '>' '='
+%left '+' '-'
+%left '*' '/'
+%left OPERATOR_LE OPERATOR_GE
+%left OPERATOR_EQ OPERATOR_DIF
+%left OPERATOR_NOT OPERATOR_AND OPERATOR_OR
 
 %%
 
