@@ -11,43 +11,42 @@
 	int getLineNumber(void);
 %}
 
-%token KW_BYTE       256
-%token KW_INT        257
-%token KW_FLOAT      259
-%token KW_IF         261
-%token KW_THEN       262
-%token KW_ELSE       263
-%token KW_LOOP       264
-%token KW_LEAP       265
-%token KW_READ       266
-%token KW_RETURN     267
-%token KW_PRINT      268
+%token KW_BYTE
+%token KW_INT
+%token KW_FLOAT
+%token KW_IF
+%token KW_THEN
+%token KW_ELSE
+%token KW_LOOP
+%token KW_LEAP
+%token KW_READ
+%token KW_RETURN
+%token KW_PRINT
 
-%token OPERATOR_LE   270
-%token OPERATOR_GE   271
-%token OPERATOR_EQ   272
-%token OPERATOR_DIF  273
-%token OPERATOR_OR   274
-%token OPERATOR_AND  275
-%token OPERATOR_NOT  276
+%token OPERATOR_LE
+%token OPERATOR_GE
+%token OPERATOR_EQ
+%token OPERATOR_DIF
+%token OPERATOR_OR
+%token OPERATOR_AND
+%token OPERATOR_NOT
 
-%token TK_IDENTIFIER 280
-%token LIT_INTEGER   281
-%token LIT_FLOAT     282
-%token LIT_CHAR      285
-%token LIT_STRING    286
+%token TK_IDENTIFIER
+%token LIT_INTEGER
+%token LIT_FLOAT
+%token LIT_CHAR
+%token LIT_STRING
 
-%token TOKEN_ERROR 290
+%token TOKEN_ERROR
 
 %left '<' '>' '='
-%left '+' '-'
-%left '*' '/'
+%left '-' '+'
+%left '/' '*'
 %left OPERATOR_LE OPERATOR_GE
-%left OPERATOR_EQ OPERATOR_DIF
-%left OPERATOR_NOT OPERATOR_AND OPERATOR_OR
+%left OPERATOR_DIF OPERATOR_EQ
+%left OPERATOR_OR OPERATOR_AND OPERATOR_NOT  
 
 %%
-
 
 program: declist
 	;

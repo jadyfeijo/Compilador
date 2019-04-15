@@ -73,5 +73,6 @@ int main(int argc, char** argv)
     */
     yyparse();
     //hashPrint();
+    fprintf(stdout,"No sintax errors! \n\n");
     exit(0);
   }
