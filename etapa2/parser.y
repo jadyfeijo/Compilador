@@ -68,7 +68,7 @@ dec_param:
 
 dec_param2:
 	',' dec_param
-	| ;
+	|
 	;
 
 cmd:
@@ -88,7 +88,7 @@ block:
 
 cmd_list: 
 	cmd cmd_list
-	| ;
+	|
 	;
 
 ctrl_fluxo:
@@ -106,7 +106,7 @@ print_list:
 	
 print_list2:
 	',' print_list
-	| ;
+	|
 	;
 
 lit:
@@ -123,12 +123,12 @@ type:
 
 array_init:
 	':' lit array_init2
-	| ;
+	|
 	;
 
 array_init2:
 	lit array_init2
-	| ;
+	|
 	;
 
 exp:
@@ -154,12 +154,12 @@ exp:
 
 func_param:
 	exp func_param2
-	| ;
+	|
 	;
 
 func_param2:
 	',' func_param
-	| ;
+	|
 	;
 
 %%
