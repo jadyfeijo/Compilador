@@ -2,7 +2,6 @@
 //Jady Feijó 230210
 
 #include <stdio.h>
-#include "hash.h"
 
 #define MAX_SONS 4
 

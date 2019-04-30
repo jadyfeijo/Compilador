@@ -60,7 +60,6 @@ dec:
 	| type TK_IDENTIFIER '['LIT_INTEGER']' array_init ';'
 	| type TK_IDENTIFIER '('')'cmd_list
 	| type TK_IDENTIFIER '('dec_param')' cmd_list
-	|
 	;
 
 dec_param:

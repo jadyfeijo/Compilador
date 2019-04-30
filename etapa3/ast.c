@@ -2,8 +2,8 @@
 //Jady Feijó 230210
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "ast.h"
-#include "hash.h"
 
 AST *astCreate(int type, AST *s0, AST *s1, AST *s2, AST *s3)
 {
