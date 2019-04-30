@@ -60,7 +60,6 @@ dec:
 	| type TK_IDENTIFIER '['LIT_INTEGER']' array_init ';'
 	| type TK_IDENTIFIER '('')'cmd_list
 	| type TK_IDENTIFIER '('dec_param')' cmd_list
-	|
 	;
 
 dec_param:
@@ -76,6 +75,7 @@ cmd_list:
 	cmd ';' cmd_list
 	| 
 	;
+
 print_list:
 	LIT_STRING ',' print_list
 	| exp ',' print_list
@@ -98,7 +98,6 @@ block:
 	'{'cmd_list '}'
 	;
 
-
 ctrl_fluxo:
 	KW_IF '(' exp ')' KW_THEN cmd
 	| KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd
@@ -106,8 +105,6 @@ ctrl_fluxo:
 	| KW_LEAP
 	;
 	
-
-
 lit:
 	LIT_INTEGER
 	| LIT_FLOAT
