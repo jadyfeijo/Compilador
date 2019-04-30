@@ -11,6 +11,11 @@
 	int getLineNumber(void);
 %}
 
+%union
+{
+	int value;
+}
+
 %token KW_BYTE
 %token KW_INT
 %token KW_FLOAT
@@ -22,7 +27,6 @@
 %token KW_READ
 %token KW_RETURN
 %token KW_PRINT
-
 %token OPERATOR_LE
 %token OPERATOR_GE
 %token OPERATOR_EQ
@@ -30,14 +34,14 @@
 %token OPERATOR_OR
 %token OPERATOR_AND
 %token OPERATOR_NOT
-
 %token TK_IDENTIFIER
-%token LIT_INTEGER
+%token <value> LIT_INTEGER
 %token LIT_FLOAT
 %token LIT_CHAR
 %token LIT_STRING
-
 %token TOKEN_ERROR
+
+%type <value> exp
 
 %left '<' '>' '='
 %left '-' '+'
@@ -75,6 +79,7 @@ cmd_list:
 	cmd ';' cmd_list
 	| 
 	;
+
 print_list:
 	LIT_STRING ',' print_list
 	| exp ',' print_list
@@ -97,18 +102,15 @@ block:
 	'{'cmd_list '}'
 	;
 
-
 ctrl_fluxo:
-	KW_IF '(' exp ')' KW_THEN cmd
+	KW_IF '(' exp ')' KW_THEN cmd 					{ fprintf(stderr,"exp=%d", $3); }
 	| KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd
 	| KW_LOOP '(' exp ')' cmd
 	| KW_LEAP
 	;
 	
-
-
 lit:
-	LIT_INTEGER
+	LIT_INTEGER									
 	| LIT_FLOAT
 	| LIT_CHAR
 	;
@@ -130,11 +132,11 @@ array_init2:
 	;
 
 exp:
-	TK_IDENTIFIER
-	| TK_IDENTIFIER '[' exp ']'
-	| TK_IDENTIFIER '(' func_param ')'
-	| '(' exp ')'
-	| lit
+	TK_IDENTIFIER 								{ $$=0; }
+	| TK_IDENTIFIER '[' exp ']' 				{ $$=0; }
+	| TK_IDENTIFIER '(' func_param ')' 			{ $$=0; }
+	| '(' exp ')' 								{ $$=0; }
+	| lit										{ $$=0;}
 	| exp '+' exp
 	| exp '-' exp
 	| exp '*' exp
