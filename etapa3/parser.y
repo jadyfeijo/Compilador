@@ -88,7 +88,7 @@ dec:
 	;
 
 dec_param:
-	type TK_IDENTIFIER dec_param2			{$$=astCreate(AST_DEC_PARAM,0,$1,$2,$3,0);}			
+	type TK_IDENTIFIER dec_param2			{$$=astCreate(AST_DEC_PARAM,$2,$1,$3,0,0);}			
 	;
 
 dec_param2:
@@ -115,7 +115,7 @@ cmd:
 	TK_IDENTIFIER '=' exp					{$$=astCreate(AST_ASSIGN,$1,$3,0,0,0);}
 	| TK_IDENTIFIER '[' exp ']' '=' exp		{$$=astCreate(AST_ASSIGN,$1,$3,$6,0,0);}
 	| KW_RETURN exp							{$$=astCreate(AST_RETURN,0,$2,0,0,0);}
-	| KW_READ TK_IDENTIFIER					{$$=astCreate(AST_READ,0,$2,0,0,0);}
+	| KW_READ TK_IDENTIFIER					{$$=astCreate(AST_READ,$2,0,0,0,0);}
 	| KW_PRINT print						{$$=astCreate(AST_PRINT,0,$2,0,0,0);}
 	| block									{$$=$1;} 
 	| ctrl_fluxo							{$$=$1;}
@@ -156,8 +156,8 @@ array_init2:
 
 exp:
 	TK_IDENTIFIER							{$$=astCreate(AST_SYMBOL,$1,0,0,0,0);}							
-	| TK_IDENTIFIER '[' exp ']'				{$$=astCreate(AST_ARRAY,0,$1,$3,0,0);}
-	| TK_IDENTIFIER '(' func_param ')'		{$$=astCreate(AST_FUNCCALL,0,$1,$3,0,0);}
+	| TK_IDENTIFIER '[' exp ']'				{$$=astCreate(AST_ARRAY,$1,$3,0,0,0);}
+	| TK_IDENTIFIER '(' func_param ')'		{$$=astCreate(AST_FUNCCALL,$1,$3,0,0,0);}
 	| '(' exp ')' 							{$$=astCreate(AST_PARENTH,0,$2,0,0,0);}
 	| lit									{$$=astCreate(AST_SYMBOL,0,$1,0,0,0);}			
 	| exp '+' exp							{$$=astCreate(AST_ADD,0,$1,$3,0,0);}

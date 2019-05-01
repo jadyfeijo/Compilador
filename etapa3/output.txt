@@ -1,1 +1,1 @@
-int symb int symb int symb int symb symb symb symb symb symb symb symb symb symb int symb symb == symb print if symb symb + = { 
+byte symb byte symb int symb symb symb symb symb symb symb symb symb symb int float byte symb byte symb byte symb symb = symb symb symb = symb print symb print read symb symb symb < symb symb symb = symb symb symb = { loop symb symb symb print symb symb symb == symb print if symb symb symb symb or == symb symb == symb print if symb symb symb == if { { { byte byte byte symb symb + return { 
