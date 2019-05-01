@@ -39,6 +39,6 @@ byte main ()
 
 byte incn ( byte x, byte n )
   {
-  return x+n
+  return x+n;
   };
 

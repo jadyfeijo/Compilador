@@ -4,9 +4,9 @@
 
     #include <stdio.h>
     #include <stdlib.h>
-    #include "y.tab.h"
     #include "hash.c"
     #include "ast.h"
+    #include "y.tab.h"
 
     int IsRunning = 1;
     int Line = 1;
@@ -37,7 +37,7 @@
                                 }
                               } 
                                   
-[A-IO]+                       { hashInsert(0,yytext); yylval.value = atoi(yytext); return LIT_INTEGER; }
+[A-IO]+                       { hashInsert(0,yytext); return LIT_INTEGER; }
 
 [A-IO]+"."[A-IO]+		      { return LIT_FLOAT; }
 '(\\.|[^'\n])*\'		      { if (yyleng==3)

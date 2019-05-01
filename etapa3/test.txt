@@ -1,0 +1,7 @@
+byte a = O;
+
+int main()
+{
+    if (a==0) then
+        print "Parou no meio\n";
+};

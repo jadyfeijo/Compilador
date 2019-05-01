@@ -1,8 +1,6 @@
 //Eduarda Trindade 274709
 //Jady Feijó 230210
 
-#ifndef AST_HEADER
-#define AST_HEADER
 #include <stdio.h>
 #include "hash.h"
 
@@ -52,9 +50,6 @@
 #define AST_FUNC_PARAM 42
 #define AST_FUNC_PARAM2 43
 
-
-
-
 typedef struct ast_node
 {
     int type;
@@ -62,7 +57,5 @@ typedef struct ast_node
     struct ast_node *son[MAX_SONS];
 } AST;
 
-AST *astCreate(int type, NODE *symbol,AST *s0, AST *s1, AST *s2, AST *s3);
+AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3);
 void astPrint(int level, AST *node);
-
-#endif

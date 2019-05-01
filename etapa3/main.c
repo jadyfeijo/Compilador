@@ -3,8 +3,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "y.tab.h"
 #include "hash.h"
+#include "ast.h"
+#include "y.tab.h"
 
 extern int yylex();
 extern char *yytext;
@@ -31,10 +32,10 @@ int main(int argc, char** argv)
     }
 
     initMe();
-    
+
     yyparse();
 
-    hashPrint();
+    //hashPrint();
 
     fprintf(stderr,"No sintax errors! \n\n");
     exit(0);
