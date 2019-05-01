@@ -10,6 +10,7 @@
 	int yyerror (char *msg);
 	int yylex(void);
 	int getLineNumber(void);
+	extern char *output;
 %}
 
 %union
@@ -38,12 +39,11 @@
 %token OPERATOR_NOT
 %token <symbol>TK_IDENTIFIER
 %token <symbol>LIT_INTEGER
-%token /*<symbol>*/LIT_FLOAT
+%token <symbol>LIT_FLOAT
 %token <symbol>LIT_CHAR
 %token <symbol>LIT_STRING
 %token TOKEN_ERROR
 
-//%type <ast> init
 %type <ast> program
 %type <ast> declist
 %type <ast> dec
@@ -72,7 +72,7 @@
 
 %%
 
-program: declist							{$$=$1; astPrint(0,$1);}
+program: declist							{$$=$1; astPrint(0,$1); astDecompilation(output,$1);}
 	;
 
 declist:
@@ -81,10 +81,10 @@ declist:
 	;
 
 dec: 
-	type TK_IDENTIFIER '=' lit ';'								{$$=astCreate(AST_VARDEC,0,$1,$2,$4,0);}
-	| type TK_IDENTIFIER '['LIT_INTEGER']' array_init ';'		{$$=astCreate(AST_VETDEC,0,$1,$2,$4,$6);}
-	| type TK_IDENTIFIER '('')'cmd_list							{$$=astCreate(AST_DECFUNC_VOID,0,$1,$2,$5,0);}	
-	| type TK_IDENTIFIER '('dec_param')' cmd_list				{$$=astCreate(AST_DECFUNC,0,$1,$2,$4,$6);}		
+	type TK_IDENTIFIER '=' lit ';'								{$$=astCreate(AST_VARDEC,$2,$1,$4,0,0);}
+	| type TK_IDENTIFIER '['LIT_INTEGER']' array_init ';'		{$$=astCreate(AST_VETDEC,$2,$1,astCreate(AST_VECSIZE, $4, 0, 0, 0, 0),$6,0);}
+	| type TK_IDENTIFIER '('')'cmd_list							{$$=astCreate(AST_DECFUNC_VOID,$2,$1,$5,0,0);}	
+	| type TK_IDENTIFIER '('dec_param')' cmd_list				{$$=astCreate(AST_DECFUNC,$2,$1,$4,$6,0);}		
 	;
 
 dec_param:
@@ -112,8 +112,8 @@ print_list:
 	;
 
 cmd:
-	TK_IDENTIFIER '=' exp					{$$=astCreate(AST_ASSIGN,0,$1,$3,0,0);}
-	| TK_IDENTIFIER '[' exp ']' '=' exp		{$$=astCreate(AST_ASSIGN,0,$1,$3,$6,0);}
+	TK_IDENTIFIER '=' exp					{$$=astCreate(AST_ASSIGN,$1,$3,0,0,0);}
+	| TK_IDENTIFIER '[' exp ']' '=' exp		{$$=astCreate(AST_ASSIGN,$1,$3,$6,0,0);}
 	| KW_RETURN exp							{$$=astCreate(AST_RETURN,0,$2,0,0,0);}
 	| KW_READ TK_IDENTIFIER					{$$=astCreate(AST_READ,0,$2,0,0,0);}
 	| KW_PRINT print						{$$=astCreate(AST_PRINT,0,$2,0,0,0);}

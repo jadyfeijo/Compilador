@@ -10,6 +10,8 @@
 extern int yylex();
 extern char *yytext;
 extern FILE *yyin;
+FILE *out;
+char *output;
 
 int isRunning(void);
 int getLineNumber(void);
@@ -20,7 +22,7 @@ int main(int argc, char** argv)
     int token = 0;
     int i = 1;
 
-    if (argc < 2)
+    if (argc < 3)
     {
         printf("call: ./etapa3 input.txt output.txt\n");
         exit(1);
@@ -30,12 +32,19 @@ int main(int argc, char** argv)
         printf("Cannot open file %s... \n",argv[1]);
         exit(1);
     }
+    if (0==(out = fopen(argv[2],"w"))) 
+    {
+        printf("Cannot open file %s... \n",argv[2]);
+        exit(1);
+    }
+    
+    output = argv[2];
 
     initMe();
 
     yyparse();
 
-    //hashPrint();
+    hashPrint();
 
     fprintf(stderr,"No sintax errors! \n\n");
     exit(0);

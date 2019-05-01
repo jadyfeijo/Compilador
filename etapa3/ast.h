@@ -49,6 +49,7 @@
 #define AST_FUNCCALL 41
 #define AST_FUNC_PARAM 42
 #define AST_FUNC_PARAM2 43
+#define AST_VECSIZE 44
 
 typedef struct ast_node
 {
@@ -59,3 +60,4 @@ typedef struct ast_node
 
 AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3);
 void astPrint(int level, AST *node);
+void astDecompilation(char *output, AST *node);
