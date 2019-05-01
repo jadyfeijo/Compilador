@@ -1,6 +1,9 @@
 //Eduarda Trindade 274709
 //Jady Feijó 230210
 
+#ifndef HASH_HEADER
+#define HASH_HEADER
+
 #include <stdio.h>
 #include <string.h>
 
@@ -20,3 +23,5 @@ int hashAddress(char *text);
 NODE* hashFind(char *text);
 NODE* hashInsert(int type, char *text);
 void hashPrint(void);
+
+#endif
