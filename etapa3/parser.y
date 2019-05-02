@@ -159,7 +159,7 @@ exp:
 	| TK_IDENTIFIER '[' exp ']'				{$$=astCreate(AST_ARRAY,$1,$3,0,0,0);}
 	| TK_IDENTIFIER '(' func_param ')'		{$$=astCreate(AST_FUNCCALL,$1,$3,0,0,0);}
 	| '(' exp ')' 							{$$=astCreate(AST_PARENTH,0,$2,0,0,0);}
-	| lit									{$$=astCreate(AST_SYMBOL,0,$1,0,0,0);}			
+	| lit									{$$ = $1;}			
 	| exp '+' exp							{$$=astCreate(AST_ADD,0,$1,$3,0,0);}
 	| exp '-' exp							{$$=astCreate(AST_SUB,0,$1,$3,0,0);}
 	| exp '*' exp							{$$=astCreate(AST_MULT,0,$1,$3,0,0);}
