@@ -102,8 +102,8 @@ cmd_list:
 	;
 
 print:
-	print ',' print_list				{$$=astCreate(AST_PRINT_PARAM,0,$3,$1,0,0);}
-	|print_list							{$$=astCreate(AST_PRINT_PARAM,0,$1,0,0,0);}
+	print ',' print_list				{$$=astCreate(AST_PRINT_PARAM,0,$1,$3,0,0);}
+	| print_list							{$$=astCreate(AST_PRINT_PARAM,0,$1,0,0,0);}
 	;
 
 print_list:
