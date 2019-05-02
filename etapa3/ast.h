@@ -40,16 +40,17 @@
 #define AST_DEC_PARAM 32
 #define AST_DEC_PARAM2 33
 #define AST_PRINT_PARAM 34
-#define AST_LITFLOAT 35
-#define AST_INT 36
-#define AST_FLOAT 37
-#define AST_BYTE 38
-#define AST_ARRAY_INIT 39
-#define AST_ARRAY_INIT2 40
-#define AST_FUNCCALL 41
-#define AST_FUNC_PARAM 42
-#define AST_FUNC_PARAM2 43
-#define AST_VECSIZE 44
+#define AST_INT 35
+#define AST_FLOAT 36
+#define AST_BYTE 37
+#define AST_ARRAY_INIT 38
+#define AST_ARRAY_INIT2 39
+#define AST_FUNCCALL 40
+#define AST_FUNC_PARAM 41
+#define AST_FUNC_PARAM2 42
+#define AST_VECSIZE 43
+#define AST_VECSIZE 43
+#define AST_ASSIGNARRAY 44
 
 typedef struct ast_node
 {

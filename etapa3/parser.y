@@ -113,7 +113,7 @@ print_list:
 
 cmd:
 	TK_IDENTIFIER '=' exp					{$$=astCreate(AST_ASSIGN,$1,$3,0,0,0);}
-	| TK_IDENTIFIER '[' exp ']' '=' exp		{$$=astCreate(AST_ASSIGN,$1,$3,$6,0,0);}
+	| TK_IDENTIFIER '[' exp ']' '=' exp		{$$=astCreate(AST_ASSIGNARRAY,$1,$3,$6,0,0);}
 	| KW_RETURN exp							{$$=astCreate(AST_RETURN,0,$2,0,0,0);}
 	| KW_READ TK_IDENTIFIER					{$$=astCreate(AST_READ,$2,0,0,0,0);}
 	| KW_PRINT print						{$$=astCreate(AST_PRINT,0,$2,0,0,0);}
@@ -134,7 +134,7 @@ ctrl_fluxo:
 	
 lit:
 	LIT_INTEGER				{$$=astCreate(AST_SYMBOL,$1,0,0,0,0);}									
-	| LIT_FLOAT				{$$=astCreate(AST_LITFLOAT,0,0,0,0,0);}
+	| LIT_FLOAT				{$$=astCreate(AST_SYMBOL,$1,0,0,0,0);}
 	| LIT_CHAR				{$$=astCreate(AST_SYMBOL,$1,0,0,0,0);}
 	;
 

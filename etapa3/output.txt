@@ -1,12 +1,48 @@
-int  a = B; 
-int  b = A; 
-int  c = C; 
+byte  a = O; 
+byte  1 = O; 
 int v[IO]: O O O O O O O O O O; 
-int main()
+int mat[IO]; 
+float  f = IO.EE; 
+byte  c = 'x'; 
+byte  x = DE; 
+byte main()
 {
-if(a == 0) then 
+a = C;
+v[a] = AO;
+print [v];
+print "Digite um numero: \n";
+read a;
+loop(1 < IO)
+{
+1 = incn(1,I);
+a = incn(a,I);
+
+};
+print "\n",a,"Incrementado algumas vezes fica ";
+if(a == E) then 
 print "Parou no meio\n";
-c = a + b;
+if(a == II or a == IC) then 
+print "Var a ficou II ou IC\n";
+if(a == IO) then else ;
+;
+;
+;
+
+{
 ;
 
 };
+
+{
+
+};
+
+};
+ 
+byte  incn(x
+)
+{
+return x + n;
+
+};
+;

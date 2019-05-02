@@ -138,9 +138,6 @@ void astPrint(int level, AST *node)
         case AST_PRINT_PARAM:
             fprintf(stderr,"AST_PRINT_PARAM,");
             break;
-        case AST_LITFLOAT:
-            fprintf(stderr,"AST_LITFLOAT,");
-            break;
         case AST_FLOAT:
             fprintf(stderr,"AST_FLOAT,");
             break;
@@ -167,6 +164,9 @@ void astPrint(int level, AST *node)
             break;
         case AST_VECSIZE:
             fprintf(stderr,"AST_VECSIZE,");
+            break;
+        case AST_ASSIGNARRAY:
+            fprintf(stderr,"ASSIGNARRAY,");
             break;
         default:
             fprintf(stderr,"AST_UNKNOWN,");
@@ -254,12 +254,11 @@ void astDecompilation(AST *node)
             fprintf(out,"return "); astDecompilation(node->son[0]);
             break;
         case AST_LCMD:
+            astDecompilation(node->son[0]); fprintf(out,";\n");
             if(node->son[1] != NULL)
             {
-                astDecompilation(node->son[0]); fprintf(out,";\n"); astDecompilation(node->son[1]);
+                astDecompilation(node->son[1]);
             }
-            else
-                astDecompilation(node->son[0]); fprintf(out,";\n");
             break;  
         case AST_DECFUNC:
             astDecompilation(node->son[0]); fprintf(out," "); fprintf(out,"%s", node->symbol->text); fprintf(out,"("); astDecompilation(node->son[1]); fprintf(out,")"); astDecompilation(node->son[2]); fprintf(out,";");
@@ -271,17 +270,7 @@ void astDecompilation(AST *node)
             fprintf(out,"%s", node->symbol->text); fprintf(out," = "); astDecompilation(node->son[0]);
             break;
         case AST_ARRAY:
-                fprintf(out,"%s", node->symbol->text); 
-                fprintf(out,": "); 
-                astDecompilation(node->son[0]); 
-                fprintf(out,"["); 	
-                astDecompilation(node->son[1]); 
-                fprintf(out,"]"); 	
-				
-				if(node->son[2]!=NULL)
-					astDecompilation(node->son[2]);
-
-				fprintf(out,";");
+                fprintf(out,"["); fprintf(out,"%s", node->symbol->text); fprintf(out,"]"); 
             break;
         case AST_BLOCK:
             fprintf(out,"\n{\n"); astDecompilation(node->son[0]); fprintf(out,"\n}");
@@ -293,10 +282,12 @@ void astDecompilation(AST *node)
             astDecompilation(node->son[0]); fprintf(out,"%s", node->symbol->text); fprintf(out, "()"); astDecompilation(node->son[1]);
             break;
         case AST_VETDEC:
-            astDecompilation(node->son[0]); fprintf(out,"%s", node->symbol->text); fprintf(out,"["); astDecompilation(node->son[1]); fprintf(out,"]");  fprintf(out,": ");	
+            astDecompilation(node->son[0]); fprintf(out,"%s", node->symbol->text); fprintf(out,"["); astDecompilation(node->son[1]); fprintf(out,"]");	
 				
 			if(node->son[2]!=NULL)
-				astDecompilation(node->son[2]);
+            {
+                fprintf(out,": "); astDecompilation(node->son[2]);
+            }
 
 			fprintf(out,";");
             break;
@@ -321,10 +312,8 @@ void astDecompilation(AST *node)
             else
            	 	astDecompilation(node->son[0]);
             break;
-        case AST_LITFLOAT:
-            break;
         case AST_FLOAT:
-            fprintf(out ,"float ");
+            fprintf(out,"float ");
             break;
         case AST_INT:
             fprintf(out, "int ");
@@ -350,11 +339,24 @@ void astDecompilation(AST *node)
             fprintf(out,"%s", node->symbol->text); fprintf(out,"("); astDecompilation(node->son[0]); fprintf(out,")");
             break;
         case AST_FUNC_PARAM:
+            astDecompilation(node->son[0]);
+            if(node->son[1] != NULL)
+            {
+            	fprintf(out,","); astDecompilation(node->son[1]);
+        	}
             break;
         case AST_FUNC_PARAM2:
+            astDecompilation(node->son[0]);
+            if(node->son[1] != NULL)
+            {
+            	fprintf(out,","); astDecompilation(node->son[1]);
+        	}
             break;
         case AST_VECSIZE:
             fprintf(out,"%s", node->symbol->text);
+            break;
+        case AST_ASSIGNARRAY:
+            fprintf(out, "%s", node->symbol->text); fprintf(out, "["); astDecompilation(node->son[0]);fprintf(out, "]"); fprintf(out, " = "); astDecompilation(node->son[1]);
             break;
         default:
             fprintf(out,"\nUNKNOWN\n");
