@@ -19,10 +19,10 @@ a = incn(a,I);
 };
 print "Incrementado algumas vezes fica ",a,"\n";
 if(a == E) then 
-print "Parou no meio\n";
+print "Parou no meio\n" ;
 if(a == II or a == IC) then 
-print "Var a ficou II ou IC\n";
-if(a == IO) then else ;
+print "Var a ficou II ou IC\n" ;
+if(a == IO) then a = a else c = b;
 ;
 ;
 ;

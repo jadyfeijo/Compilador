@@ -236,7 +236,7 @@ void astDecompilation(AST *node)
             fprintf(out,"if("); astDecompilation(node->son[0]); fprintf(out,") then \n"); astDecompilation(node->son[1]); fprintf(out," ");
             break;
         case AST_IFTE:
-            fprintf(out,"if("); astDecompilation(node->son[0]); fprintf(out,") then "); astDecompilation(node->son[1]); fprintf(out," "); fprintf(out,"else "); astDecompilation(node->son[1]);
+            fprintf(out,"if("); astDecompilation(node->son[0]); fprintf(out,") then "); astDecompilation(node->son[1]); fprintf(out," "); fprintf(out,"else "); astDecompilation(node->son[2]);
             break;
         case AST_LOOP:
             fprintf(out,"loop("); astDecompilation(node->son[0]); fprintf(out,")"); astDecompilation(node->son[1]);
