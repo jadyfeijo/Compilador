@@ -44,7 +44,7 @@ int main(int argc, char** argv)
 
     yyparse();
 
-    hashPrint();
+    //hashPrint();
 
     fprintf(stderr,"No sintax errors! \n\n");
     exit(0);

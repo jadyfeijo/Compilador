@@ -194,7 +194,10 @@ void astDecompilation(char *output, AST *node)
     switch (node->type)
     {
         case AST_SYMBOL:
-            fprintf(file, "symb "/*"%s ", node->symbol->text*/);
+            if(node->symbol)
+                fprintf(file,"%s\n", node->symbol->text);
+             else
+                fprintf(file,"VAZIO \n");
             break;
         case AST_ADD:
             fprintf(file,"+ ");
@@ -256,8 +259,16 @@ void astDecompilation(char *output, AST *node)
         case AST_LCMD:
             break;
         case AST_DECFUNC:
+            if(node->symbol)
+                fprintf(file,"%s\n", node->symbol->text);
+             else
+                fprintf(file,"VAZIO \n");
             break;
         case AST_VARDEC:
+            if(node->symbol)
+                fprintf(file,"%s\n", node->symbol->text);
+             else
+                fprintf(file,"VAZIO \n");
             break;
         case AST_ASSIGN:
             fprintf(file,"= ");
@@ -271,12 +282,24 @@ void astDecompilation(char *output, AST *node)
             fprintf(file,"( ");
             break;
         case AST_DECFUNC_VOID:
+            if(node->symbol)
+                fprintf(file,"%s\n", node->symbol->text);
+             else
+                fprintf(file,"VAZIO \n");
             break;
         case AST_VETDEC:
+            if(node->symbol)
+                fprintf(file,"%s\n", node->symbol->text);
+             else
+                fprintf(file,"VAZIO \n");
             break;
         case AST_DEC:
             break;
         case AST_DEC_PARAM:
+            if(node->symbol)
+                fprintf(file,"%s\n", node->symbol->text);
+             else
+                fprintf(file,"VAZIO \n");
             break;
         case AST_DEC_PARAM2:
             break;
@@ -304,6 +327,10 @@ void astDecompilation(char *output, AST *node)
         case AST_FUNC_PARAM2:
             break;
         case AST_VECSIZE:
+            if(node->symbol)
+                fprintf(file,"%s\n", node->symbol->text);
+             else
+                fprintf(file,"VAZIO \n");
             break;
         default:
             fprintf(file,"\nUNKNOWN\n");

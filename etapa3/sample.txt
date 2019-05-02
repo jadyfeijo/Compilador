@@ -2,7 +2,7 @@ ZZ UFRGS - Compiladores - Marcelo Johann - 2019/1
 
 byte a = O;
 byte 1 = O;
-int v [IO]: O O O O O O O O O O; 
+int v [IO]: O O O O O O O O O O;
 int mat [IO]; 
 float f = IO.EE;
 byte c = 'x';
@@ -41,4 +41,3 @@ byte incn ( byte x, byte n )
   {
   return x+n;
   };
-

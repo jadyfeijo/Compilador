@@ -123,7 +123,7 @@ cmd:
 	;
 
 block:
-	'{'cmd_list '}'							{$$=astCreate(AST_BLOCK,0,$2,0,0,0);/*astPrint(0,$2);*/}
+	'{'cmd_list '}'							{$$=astCreate(AST_BLOCK,0,$2,0,0,0);}
 
 ctrl_fluxo:
 	KW_IF '(' exp ')' KW_THEN cmd 					{$$=astCreate(AST_IFT,0,$3,$6,0,0);}					
