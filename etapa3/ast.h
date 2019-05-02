@@ -60,4 +60,4 @@ typedef struct ast_node
 
 AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3);
 void astPrint(int level, AST *node);
-void astDecompilation(char *output, AST *node);
+void astDecompilation(AST *node);

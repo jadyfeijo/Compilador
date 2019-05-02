@@ -1,4 +1,5 @@
-int B a = int A b = int C c = int IOv[]: ;int main() 
- 
- 
- 
+int  a = B; 
+int  b = A; 
+int  c = C; 
+int v[IO]: O O O O O O O O O O; 
+int main()

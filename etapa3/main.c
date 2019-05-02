@@ -11,7 +11,7 @@ extern int yylex();
 extern char *yytext;
 extern FILE *yyin;
 FILE *out;
-char *output;
+//char *output;
 
 int isRunning(void);
 int getLineNumber(void);
@@ -38,14 +38,14 @@ int main(int argc, char** argv)
         exit(1);
     }
     
-    output = argv[2];
+    //output = argv[2];
 
     initMe();
 
     yyparse();
 
     //hashPrint();
-
+    fclose(out);
     fprintf(stderr,"No sintax errors! \n\n");
     exit(0);
   }

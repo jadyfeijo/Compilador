@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include "ast.h"
 
+extern FILE *out;
+
 AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3)
 {
     AST *newnode;
@@ -180,16 +182,8 @@ void astPrint(int level, AST *node)
         astPrint(level+1, node->son[i]);
 }
 
-void astDecompilation(char *output, AST *node)
+void astDecompilation(AST *node)
 {
-    FILE *file = fopen(output, "a");
-
-    if (file == NULL)
-    {
-        printf("Error opening file!\n");
-        exit(1);
-    }
-
     int i;
 
     if(!node) return;
@@ -197,133 +191,125 @@ void astDecompilation(char *output, AST *node)
     switch (node->type)
     {
         case AST_SYMBOL:
-            fprintf(stderr," %d ", AST_SYMBOL);
-            fprintf(file,"%s ", node->symbol->text);
+            fprintf(out,"%s", node->symbol->text);
             break;
         case AST_ADD:
-            astDecompilation(output,node->son[0]); fprintf(file," + "); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]); fprintf(out," + "); astDecompilation(node->son[1]);
             break;
         case AST_SUB:
-            astDecompilation(output,node->son[0]); fprintf(file," - "); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]); fprintf(out," - "); astDecompilation(node->son[1]);
             break;
         case AST_MULT:
-            astDecompilation(output,node->son[0]); fprintf(file," * "); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]); fprintf(out," * "); astDecompilation(node->son[1]);
             break;
         case AST_DIV:
-            astDecompilation(output,node->son[0]); fprintf(file," / "); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]); fprintf(out," / "); astDecompilation(node->son[1]);
             break;
         case AST_LESS:
-            astDecompilation(output,node->son[0]); fprintf(file," < "); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]); fprintf(out," < "); astDecompilation(node->son[1]);
             break;
         case AST_GREATER:
-            astDecompilation(output,node->son[0]); fprintf(file," > "); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]); fprintf(out," > "); astDecompilation(node->son[1]);
             break;
         case AST_LE:
-            astDecompilation(output,node->son[0]); fprintf(file," <= "); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]); fprintf(out," <= "); astDecompilation(node->son[1]);
             break;
         case AST_GE:
-            astDecompilation(output,node->son[0]); fprintf(file," >= "); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]); fprintf(out," >= "); astDecompilation(node->son[1]);
             break;
         case AST_EQ:
-            astDecompilation(output,node->son[0]); fprintf(file," == "); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]); fprintf(out," == "); astDecompilation(node->son[1]);
             break;
         case AST_DIF:
-            astDecompilation(output,node->son[0]); fprintf(file," != "); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]); fprintf(out," != "); astDecompilation(node->son[1]);
             break;
         case AST_OR:
-            astDecompilation(output,node->son[0]); fprintf(file," or "); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]); fprintf(out," or "); astDecompilation(node->son[1]);
             break;
         case AST_AND:
-            astDecompilation(output,node->son[0]); fprintf(file," and "); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]); fprintf(out," and "); astDecompilation(node->son[1]);
             break;
         case AST_NOT:
-             fprintf(file," not "); astDecompilation(output,node->son[0]);
+             fprintf(out," not "); astDecompilation(node->son[0]);
             break;
         case AST_IFT:
-            fprintf(file,"if("); astDecompilation(output,node->son[0]); fprintf(file,") then "); fprintf(file," \n"); astDecompilation(output,node->son[1]);
+            fprintf(out,"if("); astDecompilation(node->son[0]); fprintf(out,") then "); fprintf(out," \n"); astDecompilation(node->son[1]);
             break;
         case AST_IFTE:
-            fprintf(file,"if("); astDecompilation(output,node->son[0]); fprintf(file,") then "); astDecompilation(output,node->son[1]); fprintf(file,"else "); astDecompilation(output,node->son[1]);
+            fprintf(out,"if("); astDecompilation(node->son[0]); fprintf(out,") then "); astDecompilation(node->son[1]); fprintf(out,"else "); astDecompilation(node->son[1]);
             break;
         case AST_LOOP:
-            fprintf(file,"loop("); astDecompilation(output,node->son[0]); fprintf(file,")"); astDecompilation(output,node->son[1]);
+            fprintf(out,"loop("); astDecompilation(node->son[0]); fprintf(out,")"); astDecompilation(node->son[1]);
             break;
         case AST_LEAP:
-            fprintf(file,"leap "); fprintf(file,"%s", node->symbol->text);
+            fprintf(out,"leap "); fprintf(out,"%s", node->symbol->text);
             break;
         case AST_PRINT:
-            fprintf(file,"print "); astDecompilation(output,node->son[0]);
+            fprintf(out,"print "); astDecompilation(node->son[0]);
             break;
         case AST_READ:
-            fprintf(file,"read "); fprintf(file,"%s", node->symbol->text);
+            fprintf(out,"read "); fprintf(out,"%s", node->symbol->text);
             break;
         case AST_RETURN:
-            fprintf(file,"return "); astDecompilation(output,node->son[0]);
+            fprintf(out,"return "); astDecompilation(node->son[0]);
             break;
         case AST_LCMD:
             if(node->son[1] != NULL)
             {
-                astDecompilation(output,node->son[0]); fprintf(file,";\n"); astDecompilation(output,node->son[1]);
+                astDecompilation(node->son[0]); fprintf(out,";\n"); astDecompilation(node->son[1]);
             }
             else
-                astDecompilation(output,node->son[0]);
+                astDecompilation(node->son[0]);
             break;  
         case AST_DECFUNC:
-            astDecompilation(output,node->son[0]);
-            fprintf(file,"%s\n", node->symbol->text);
+            astDecompilation(node->son[0]); fprintf(out," "); fprintf(out,"%s", node->symbol->text); fprintf(out,"("); astDecompilation(node->son[1]); fprintf(out,")"); astDecompilation(node->son[2]); fprintf(out,";");
             break;
         case AST_VARDEC:
-            fprintf(stderr,"%d", AST_VARDEC);
-            astDecompilation(output,node->son[0]); fprintf(file,"%s = ", node->symbol->text); astDecompilation(output,node->son[1]);
+            astDecompilation(node->son[0]);  fprintf(out," "); fprintf(out,"%s", node->symbol->text); fprintf(out," = "); astDecompilation(node->son[1]) ;fprintf(out,";"); astDecompilation(node->son[2]);
             break;
         case AST_ASSIGN:
-            fprintf(file,"%s", node->symbol->text); fprintf(file," = "); astDecompilation(output,node->son[0]);
+            fprintf(out,"%s", node->symbol->text); fprintf(out," = "); astDecompilation(node->son[0]);
             break;
         case AST_ARRAY:
-                fprintf(file,"%s", node->symbol->text); 
-                fprintf(file,": "); 
-                astDecompilation(output,node->son[0]); 
-                fprintf(file,"["); 	
-                astDecompilation(output,node->son[1]); 
-                fprintf(file,"]"); 	
+                fprintf(out,"%s", node->symbol->text); 
+                fprintf(out,": "); 
+                astDecompilation(node->son[0]); 
+                fprintf(out,"["); 	
+                astDecompilation(node->son[1]); 
+                fprintf(out,"]"); 	
 				
 				if(node->son[2]!=NULL)
-					astDecompilation(output,node->son[2]);
+					astDecompilation(node->son[2]);
 
-				fprintf(file,";");
+				fprintf(out,";");
             break;
         case AST_BLOCK:
-            fprintf(file,"{\n"); astDecompilation(output,node->son[0]); fprintf(file,"}");
+            fprintf(out,"{\n"); astDecompilation(node->son[0]); fprintf(out,"}");
             break;
         case AST_PARENTH:
-            fprintf(file,"("); astDecompilation(output,node->son[0]); fprintf(file,")");
+            fprintf(out,"("); astDecompilation(node->son[0]); fprintf(out,")");
             break;
         case AST_DECFUNC_VOID:
-            astDecompilation(output,node->son[0]);
-            fprintf(file,"%s", node->symbol->text);
-            fprintf(file, "()");
+            astDecompilation(node->son[0]); fprintf(out,"%s", node->symbol->text); fprintf(out, "()"); astDecompilation(node->son[2]);
             break;
         case AST_VETDEC:
-            astDecompilation(output,node->son[0]); fprintf(file,"%s", node->symbol->text); fprintf(file,"["); astDecompilation(output,node->son[1]); fprintf(file,"]");  fprintf(file,": ");	
+            astDecompilation(node->son[0]); fprintf(out,"%s", node->symbol->text); fprintf(out,"["); astDecompilation(node->son[1]); fprintf(out,"]");  fprintf(out,": ");	
 				
-				if(node->son[2]!=NULL)
-					astDecompilation(output,node->son[2]);
-				fprintf(file,";");
+			if(node->son[2]!=NULL)
+				astDecompilation(node->son[2]);
+
+			fprintf(out,";");
             break;
         case AST_DEC:
-            fprintf(stderr," %d ", AST_DEC);
             if(node->son[1] != NULL)
             {
-                astDecompilation(output,node->son[0]); fprintf(file," \n"); astDecompilation(output,node->son[1]);
+                astDecompilation(node->son[0]); fprintf(out," \n"); astDecompilation(node->son[1]);
             }	
             else
-                astDecompilation(output,node->son[0]);
+                astDecompilation(node->son[0]);
             break;
         case AST_DEC_PARAM:
-            if(node->symbol)
-                fprintf(file,"%s\n", node->symbol->text);
-             else
-                fprintf(file,"VAZIO \n");
+            fprintf(out,"%s\n", node->symbol->text);
             break;
         case AST_DEC_PARAM2:
             break;
@@ -332,37 +318,44 @@ void astDecompilation(char *output, AST *node)
         case AST_LITFLOAT:
             break;
         case AST_FLOAT:
-            fprintf(file ,"float ");
+            fprintf(out ,"float ");
             break;
         case AST_INT:
-            fprintf(stderr," %d ", AST_INT);
-            fprintf(file, "int ");
+            fprintf(out, "int ");
             break;
         case AST_BYTE:
-            fprintf(file, "byte ");
+            fprintf(out, "byte ");
             break;
         case AST_ARRAY_INIT:
+            astDecompilation(node->son[0]);
+            if(node->son[1] != NULL)
+            {
+                fprintf(out," "); astDecompilation(node->son[1]);
+        	}
             break;
         case AST_ARRAY_INIT2:
+            astDecompilation(node->son[0]);
+            if(node->son[1] != NULL)
+            {
+                fprintf(out," "); astDecompilation(node->son[1]);
+        	}
             break;
         case AST_FUNCCALL:
-            fprintf(file,"%s", node->symbol->text); fprintf(file,"("); astDecompilation(output,node->son[0]); fprintf(file,")");
+            fprintf(out,"%s", node->symbol->text); fprintf(out,"("); astDecompilation(node->son[0]); fprintf(out,")");
             break;
         case AST_FUNC_PARAM:
             break;
         case AST_FUNC_PARAM2:
             break;
         case AST_VECSIZE:
-            fprintf(file,"%s", node->symbol->text);
+            fprintf(out,"%s", node->symbol->text);
             break;
         default:
-            fprintf(file,"\nUNKNOWN\n");
+            fprintf(out,"\nUNKNOWN\n");
         break;
     }
 
    //for(i = 0; i < MAX_SONS; ++i)
-        //astDecompilation(output, node->son[i]);
-
-    fclose(file);
+        //astDecompilation( node->son[i]);
     return;
 }

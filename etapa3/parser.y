@@ -10,7 +10,7 @@
 	int yyerror (char *msg);
 	int yylex(void);
 	int getLineNumber(void);
-	extern char *output;
+	//extern char *output;
 %}
 
 %union
@@ -72,7 +72,7 @@
 
 %%
 
-program: declist							{$$=$1; astPrint(0,$1); astDecompilation(output,$1);}
+program: declist							{$$=$1; astPrint(0,$1); astDecompilation($1);}
 	;
 
 declist:
