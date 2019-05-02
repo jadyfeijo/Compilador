@@ -3,3 +3,10 @@ int  b = A;
 int  c = C; 
 int v[IO]: O O O O O O O O O O; 
 int main()
+{
+if(a == 0) then 
+print "Parou no meio\n";
+c = a + b;
+;
+
+};
