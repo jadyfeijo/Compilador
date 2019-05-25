@@ -63,7 +63,20 @@ void checkOperands(AST *node)
 
     switch(node->type)
     {
-        case AST_VARDEC:
+        case AST_ADD:
+        if(
+            ((node->son[0]->type != AST_ADD) && 
+            (node->son[0]->type != AST_SUB) &&
+            (node->son[0]->type != AST_SYMBOL))
+            ||
+            ((node->son[0]->type == AST_SYMBOL) &&
+            (node->son[0]->symbol->type == SYMBOL_FUN))
+            ||
+            ((node->son[0]->type == AST_SYMBOL) &&
+            (node->son[0]->symbol->type == SYMBOL_VAR) &&
+            (node->son[0]->symbol->datatype != SYMBOL_DATATYPE_INT))
+        )
+        fprintf(stderr,"Invalid first operand of +\n");
         break;
     }
 }

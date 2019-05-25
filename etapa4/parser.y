@@ -74,6 +74,7 @@
 
 program: declist							{$$=$1; astPrint(0,$1); astDecompilation($1); 
 												setAndCheckRedeclared($1);
+												hashCheckUndeclared();
 											}
 	;
 
