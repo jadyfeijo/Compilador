@@ -1,6 +1,9 @@
 //Eduarda Trindade 274709
 //Jady Feijó 230210
 
+#ifndef AST_HEADER
+#define AST_HEADER
+
 #include <stdio.h>
 #include "hash.h"
 
@@ -51,6 +54,8 @@
 #define AST_VECSIZE 43
 #define AST_VECSIZE 43
 #define AST_ASSIGNARRAY 44
+#define AST_DATATYPE_INT 45
+#define AST_DATATYPE_CHAR 46
 
 typedef struct ast_node
 {
@@ -62,3 +67,5 @@ typedef struct ast_node
 AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3);
 void astPrint(int level, AST *node);
 void astDecompilation(AST *node);
+
+#endif

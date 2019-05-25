@@ -20,6 +20,10 @@ void setAndCheckRedeclared(AST *node)
             if(node->symbol->type == SYMBOL_IDENTIFIER)
             {
                 node->symbol->type = SYMBOL_VAR;
+                if(node->son[0]->type == AST_DATATYPE_INT)
+                    node->symbol->datatype = SYMBOL_DATATYPE_INT;
+                if(node->son[0]->type == AST_DATATYPE_CHAR)
+                    node->symbol->datatype = SYMBOL_DATATYPE_CHAR;
             }
             else
             {
@@ -31,6 +35,10 @@ void setAndCheckRedeclared(AST *node)
             if(node->symbol->type == SYMBOL_IDENTIFIER)
             {
                 node->symbol->type = SYMBOL_FUN;
+                if(node->son[0]->type == AST_DATATYPE_INT)
+                    node->symbol->datatype = SYMBOL_DATATYPE_INT;
+                if(node->son[0]->type == AST_DATATYPE_CHAR)
+                    node->symbol->datatype = SYMBOL_DATATYPE_CHAR;
             }
             else
             {
@@ -40,5 +48,22 @@ void setAndCheckRedeclared(AST *node)
     
         default:
             break;
+    }
+}
+
+void checkOperands(AST *node)
+{
+    int i;
+
+    if(node == 0)
+        return;
+
+    for(i = 0; i < MAX_SONS; ++i)
+        checkOperands(node->son[i]);
+
+    switch(node->type)
+    {
+        case AST_VARDEC:
+        break;
     }
 }

@@ -3,3 +3,4 @@
 #include "ast.h"
 
 void setAndCheckRedeclared(AST *node);
+void checkOperands(AST *node);

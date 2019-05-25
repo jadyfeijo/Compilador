@@ -63,3 +63,17 @@ void hashPrint(void)
             fprintf(stderr," Table[%d] has %s\n",i,node->text);
 
 }
+
+void hashCheckUndeclared(void)
+{
+    int i;
+
+    NODE *node;
+
+    for(i = 0; i < HASH_SIZE; ++i)
+        for(node = Table[i]; node; node=node->next)
+            if(node->type == SYMBOL_IDENTIFIER)
+            {
+                fprintf(stderr," Undeclared identifier %s\n", node->text);
+            }
+}
