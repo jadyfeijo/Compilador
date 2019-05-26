@@ -127,11 +127,10 @@ void checkOperands(AST *node)
         break;
 
         case AST_ADD:
-        /*case AST_SUB:
+        case AST_SUB:
         case AST_MULT:
-        case AST_DIV:*/
-           if(
-                (!aritmeticOp(node->son[0]->type) &&
+        case AST_DIV:
+           if((!arithmeticOperation(node->son[0]->type) &&
                 (node->son[0]->type != AST_SYMBOL))
                 ||
                 ((node->son[0]->type == AST_SYMBOL) &&
@@ -139,10 +138,18 @@ void checkOperands(AST *node)
                 ||
                 ((node->son[0]->type == AST_SYMBOL) &&
                 (node->son[0]->symbol->type == SYMBOL_VAR) &&
-                (node->son[0]->symbol->datatype != SYMBOL_DATATYPE_INT || node->son[0]->symbol->datatype !=  SYMBOL_DATATYPE_BYTE))
-            )
-            fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid first operand of +\n",node->lineNumber);
-            
+                ((node->son[0]->symbol->datatype != SYMBOL_DATATYPE_INT) && (node->son[0]->symbol->datatype !=  SYMBOL_DATATYPE_BYTE))))
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid first operand.\n",node->lineNumber);
+            if((!arithmeticOperation(node->son[1]->type) &&
+                (node->son[1]->type != AST_SYMBOL))
+                ||
+                ((node->son[1]->type == AST_SYMBOL) &&
+                (node->son[1]->symbol->type == SYMBOL_FUN))
+                ||
+                ((node->son[1]->type == AST_SYMBOL) &&
+                (node->son[1]->symbol->type == SYMBOL_VAR) &&
+                ((node->son[1]->symbol->datatype != SYMBOL_DATATYPE_INT) && (node->son[1]->symbol->datatype !=  SYMBOL_DATATYPE_BYTE))))
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid second operand.\n",node->lineNumber);                          
         break;
        
         case AST_ASSIGN:
@@ -217,7 +224,7 @@ void checkOperands(AST *node)
 
 }*/
 
-int aritmeticOp(int nodeType)
+int arithmeticOperation(int nodeType)
 {
     return (nodeType == AST_ADD || nodeType == AST_SUB || nodeType == AST_MULT || nodeType == AST_DIV);
 }

@@ -4,4 +4,4 @@
 
 void setAndCheckRedeclared(AST *node);
 void checkOperands(AST *node);
-int aritmeticOp(int nodeType);
+int arithmeticOperation(int nodeType);
