@@ -54,6 +54,10 @@
 #define AST_VECSIZE 43
 #define AST_VECSIZE 43
 #define AST_ASSIGNARRAY 44
+#define AST_SYMBOL_INT 45
+#define AST_SYMBOL_FLOAT 46
+#define AST_SYMBOL_CHAR 47
+
 
 
 typedef struct ast_node

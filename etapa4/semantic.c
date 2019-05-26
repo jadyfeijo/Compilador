@@ -114,6 +114,24 @@ void checkOperands(AST *node)
 
     switch(node->type)
     {
+        case AST_SYMBOL_INT:
+            node->symbol->datatype = SYMBOL_DATATYPE_INT;
+            node->symbol->type = SYMBOL_LIT_INT; 
+        
+
+        break;
+        case AST_SYMBOL_FLOAT:
+            node->symbol->datatype = SYMBOL_DATATYPE_FLOAT;
+            node->symbol->type = SYMBOL_LIT_FLOAT; 
+        
+
+        break;
+        case AST_SYMBOL_CHAR:
+            node->symbol->datatype = SYMBOL_DATATYPE_CHAR;
+            node->symbol->type = SYMBOL_LIT_CHAR; 
+        
+
+        break;
         case AST_ADD:
         if(
             ((node->son[0]->type != AST_ADD) && 

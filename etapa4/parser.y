@@ -75,6 +75,7 @@
 program: declist							{$$=$1; astPrint(0,$1); astDecompilation($1); 
 												setAndCheckRedeclared($1);
 												hashCheckUndeclared();
+												checkOperands($1);
 											}
 	;
 
@@ -136,9 +137,9 @@ ctrl_fluxo:
 	;
 	
 lit:
-	LIT_INTEGER				{$$=astCreate(AST_SYMBOL,$1,0,0,0,0);}									
-	| LIT_FLOAT				{$$=astCreate(AST_SYMBOL,$1,0,0,0,0);}
-	| LIT_CHAR				{$$=astCreate(AST_SYMBOL,$1,0,0,0,0);}
+	LIT_INTEGER				{$$=astCreate(AST_SYMBOL_INT,$1,0,0,0,0);}									
+	| LIT_FLOAT				{$$=astCreate(AST_SYMBOL_FLOAT,$1,0,0,0,0);}
+	| LIT_CHAR				{$$=astCreate(AST_SYMBOL_CHAR,$1,0,0,0,0);}
 	;
 
 type:

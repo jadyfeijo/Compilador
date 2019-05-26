@@ -19,6 +19,7 @@ AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3)
     newnode->son[2] = s2;
     newnode->son[3] = s3;
     newnode->symbol = symbol;
+   // newnode->symbol->type = SYMBOL_IDENTIFIER;
 
     return newnode;
 }
@@ -37,6 +38,11 @@ void astPrint(int level, AST *node)
     switch (node->type)
     {
         case AST_SYMBOL:
+        case AST_SYMBOL_INT:
+        case AST_SYMBOL_FLOAT:
+        case AST_SYMBOL_CHAR:
+
+        
             fprintf(stderr,"AST_SYMBOL,");
             break;
         case AST_ADD:
@@ -191,6 +197,10 @@ void astDecompilation(AST *node)
     switch (node->type)
     {
         case AST_SYMBOL:
+        case AST_SYMBOL_INT:
+        case AST_SYMBOL_FLOAT:
+        case AST_SYMBOL_CHAR:
+
             fprintf(out,"%s", node->symbol->text);
             break;
         case AST_ADD:
