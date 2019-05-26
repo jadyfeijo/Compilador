@@ -54,8 +54,7 @@
 #define AST_VECSIZE 43
 #define AST_VECSIZE 43
 #define AST_ASSIGNARRAY 44
-#define AST_DATATYPE_INT 45
-#define AST_DATATYPE_CHAR 46
+
 
 typedef struct ast_node
 {

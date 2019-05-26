@@ -9,14 +9,22 @@
 
 #define HASH_SIZE 997
 
-#define SYMBOL_LITINT 1
-#define SYMBOL_IDENTIFIER 2
+#define SYMBOL_LIT_INT 1
+#define SYMBOL_LIT_FLOAT 2
+#define SYMBOL_LIT_BYTE 3
+#define SYMBOL_IDENTIFIER 276
+//const int SYMBOL_IDENTIFIER = TK_IDENTIFIER;
 
-#define SYMBOL_VAR 3
-#define SYMBOL_FUN 4
+
+#define SYMBOL_VAR 5
+#define SYMBOL_FUN 6
+#define SYMBOL_VET 7
+
 
 #define SYMBOL_DATATYPE_INT 1
-#define SYMBOL_DATATYPE_CHAR 2
+#define SYMBOL_DATATYPE_BYTE 2
+#define SYMBOL_DATATYPE_FLOAT 3
+
 
 typedef struct hash_node
 {

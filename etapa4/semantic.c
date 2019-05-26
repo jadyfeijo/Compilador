@@ -7,6 +7,7 @@
 void setAndCheckRedeclared(AST *node)
 {
     int i;
+    AST *aux=NULL;
 
     if(node == 0)
         return;
@@ -14,40 +15,76 @@ void setAndCheckRedeclared(AST *node)
     for(i=0; i < MAX_SONS; ++i)
         setAndCheckRedeclared(node->son[i]);
 
-    switch (node->type)
+    if(node->type == AST_VARDEC || node->type == AST_VETDEC || node->type == AST_DECFUNC_VOID || node->type == AST_DECFUNC)
     {
-        case AST_VARDEC:
-            if(node->symbol->type == SYMBOL_IDENTIFIER)
-            {
-                node->symbol->type = SYMBOL_VAR;
-                if(node->son[0]->type == AST_DATATYPE_INT)
-                    node->symbol->datatype = SYMBOL_DATATYPE_INT;
-                if(node->son[0]->type == AST_DATATYPE_CHAR)
-                    node->symbol->datatype = SYMBOL_DATATYPE_CHAR;
-            }
-            else
-            {
-                fprintf(stderr,"SEMANTIC ERROR: Identifier %s redeclared\n",node->symbol->text);
-            }
-            break;
+        if(node->symbol->type != SYMBOL_IDENTIFIER)
+            fprintf(stderr,"SEMANTIC ERROR: Identifier %s redeclared type=%d \n",node->symbol->text,node->symbol->type);
 
-        case AST_DECFUNC:
-            if(node->symbol->type == SYMBOL_IDENTIFIER)
+
+        else
+        {
+            
+            switch (node->type)
             {
-                node->symbol->type = SYMBOL_FUN;
-                if(node->son[0]->type == AST_DATATYPE_INT)
-                    node->symbol->datatype = SYMBOL_DATATYPE_INT;
-                if(node->son[0]->type == AST_DATATYPE_CHAR)
-                    node->symbol->datatype = SYMBOL_DATATYPE_CHAR;
-            }
-            else
-            {
-                fprintf(stderr,"SEMANTIC ERROR: Identifier %s redeclared\n",node->symbol->text);
-            }
-            break;
+                case AST_VARDEC: node->symbol->type = SYMBOL_VAR; break;
+                case AST_VETDEC: node->symbol->type = SYMBOL_VET; break;
+                case AST_DECFUNC_VOID: node->symbol->type = SYMBOL_FUN; break;
     
-        default:
-            break;
+                case AST_DECFUNC:
+                {
+                    if(node->son[1]->symbol->type != SYMBOL_IDENTIFIER) 
+                        fprintf(stderr,"SEMANTIC ERROR: Identifier %s redeclared\n",node->son[1]->symbol->text);
+
+                    else
+                    {
+                      switch(node->son[1]->son[0]->type) //tipos da lista de parametros
+                      {
+                          case AST_INT: node->son[1]->symbol->datatype = SYMBOL_DATATYPE_INT;
+                          case AST_FLOAT: node->son[1]->symbol->datatype = SYMBOL_DATATYPE_FLOAT;
+                          case AST_BYTE: node->son[1]->symbol->datatype = SYMBOL_DATATYPE_BYTE;
+                          default: break;
+                      }
+                      node->son[1]->symbol->type= SYMBOL_VAR;
+                    }
+                    node->symbol->type = SYMBOL_FUN;
+
+                    if(node->son[1]->son[1] !=NULL)
+                    {
+                        aux = node->son[1];
+
+                        while(aux->son[1]!=NULL) //continuação da lista de parametros
+                        {
+                            aux=aux->son[1]->son[0];
+                            switch (aux->son[0]->type)
+                            {
+                                case AST_INT: aux->symbol->datatype = SYMBOL_DATATYPE_INT;
+                                case AST_FLOAT: aux->symbol->datatype = SYMBOL_DATATYPE_FLOAT;
+                                case AST_BYTE: aux->symbol->datatype = SYMBOL_DATATYPE_BYTE;
+                                default: break;
+                            }
+
+                            if (aux->symbol->type !=SYMBOL_IDENTIFIER)
+                                fprintf(stderr,"SEMANTIC ERROR: Identifier %s redeclared\n",aux->symbol->text);
+
+                            aux->symbol->type = SYMBOL_VAR;
+                            
+                        }
+                    }
+                    
+                    break;
+                 }
+                    default: break;
+            }
+        }
+
+        switch (node->son[0]->type)
+        {
+            case AST_INT: node->symbol->datatype = SYMBOL_DATATYPE_INT;
+            case AST_FLOAT: node->symbol->datatype = SYMBOL_DATATYPE_FLOAT;
+            case AST_BYTE: node->symbol->datatype = SYMBOL_DATATYPE_BYTE;
+            default: break;
+        }
+
     }
 }
 
