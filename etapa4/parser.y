@@ -80,112 +80,112 @@ program: declist							{$$=$1; astPrint(0,$1); astDecompilation($1);
 	;
 
 declist:
-	dec declist								{$$=astCreate(AST_DEC,0,$1,$2,0,0);}	
+	dec declist								{$$=astCreate(AST_DEC,0,$1,$2,0,0,getLineNumber());}	
 	|										{$$=0;}
 	;
 
 dec: 
-	type TK_IDENTIFIER '=' lit ';'								{$$=astCreate(AST_VARDEC,$2,$1,$4,0,0);}
-	| type TK_IDENTIFIER '['LIT_INTEGER']' array_init ';'		{$$=astCreate(AST_VETDEC,$2,$1,astCreate(AST_VECSIZE, $4, 0, 0, 0, 0),$6,0);}
-	| type TK_IDENTIFIER '('')'cmd_list							{$$=astCreate(AST_DECFUNC_VOID,$2,$1,$5,0,0);}	
-	| type TK_IDENTIFIER '('dec_param')' cmd_list				{$$=astCreate(AST_DECFUNC,$2,$1,$4,$6,0);}		
+	type TK_IDENTIFIER '=' lit ';'								{$$=astCreate(AST_VARDEC,$2,$1,$4,0,0,getLineNumber());}
+	| type TK_IDENTIFIER '['LIT_INTEGER']' array_init ';'		{$$=astCreate(AST_VETDEC,$2,$1,astCreate(AST_VECSIZE, $4, 0, 0, 0, 0,getLineNumber()),$6,0,getLineNumber());}
+	| type TK_IDENTIFIER '('')'cmd_list							{$$=astCreate(AST_DECFUNC_VOID,$2,$1,$5,0,0,getLineNumber());}	
+	| type TK_IDENTIFIER '('dec_param')' cmd_list				{$$=astCreate(AST_DECFUNC,$2,$1,$4,$6,0,getLineNumber());}		
 	;
 
 dec_param:
-	type TK_IDENTIFIER dec_param2			{$$=astCreate(AST_DEC_PARAM,$2,$1,$3,0,0);}			
+	type TK_IDENTIFIER dec_param2			{$$=astCreate(AST_DEC_PARAM,$2,$1,$3,0,0,getLineNumber());}			
 	;
 
 dec_param2:
-	',' dec_param					{$$=astCreate(AST_DEC_PARAM2,0,$2,0,0,0);}	
+	',' dec_param					{$$=astCreate(AST_DEC_PARAM2,0,$2,0,0,0,getLineNumber());}	
 	|								{$$=0;}
 	;
 
 cmd_list: 
-	cmd ';' cmd_list				{$$=astCreate(AST_LCMD,0,$1,$3,0,0);}
+	cmd ';' cmd_list				{$$=astCreate(AST_LCMD,0,$1,$3,0,0,getLineNumber());}
 	| 								{$$=0;}
 	;
 
 print:
-	print ',' print_list				{$$=astCreate(AST_PRINT_PARAM,0,$1,$3,0,0);}
-	| print_list							{$$=astCreate(AST_PRINT_PARAM,0,$1,0,0,0);}
+	print ',' print_list				{$$=astCreate(AST_PRINT_PARAM,0,$1,$3,0,0,getLineNumber());}
+	| print_list							{$$=astCreate(AST_PRINT_PARAM,0,$1,0,0,0,getLineNumber());}
 	;
 
 print_list:
-	LIT_STRING					{$$=astCreate(AST_SYMBOL,$1,0,0,0,0);}
+	LIT_STRING					{$$=astCreate(AST_SYMBOL,$1,0,0,0,0,getLineNumber());}
 	|exp						{$$=$1;}
 	;
 
 cmd:
-	TK_IDENTIFIER '=' exp					{$$=astCreate(AST_ASSIGN,$1,$3,0,0,0);}
-	| TK_IDENTIFIER '[' exp ']' '=' exp		{$$=astCreate(AST_ASSIGNARRAY,$1,$3,$6,0,0);}
-	| KW_RETURN exp							{$$=astCreate(AST_RETURN,0,$2,0,0,0);}
-	| KW_READ TK_IDENTIFIER					{$$=astCreate(AST_READ,$2,0,0,0,0);}
-	| KW_PRINT print						{$$=astCreate(AST_PRINT,0,$2,0,0,0);}
+	TK_IDENTIFIER '=' exp					{$$=astCreate(AST_ASSIGN,$1,$3,0,0,0,getLineNumber());}
+	| TK_IDENTIFIER '[' exp ']' '=' exp		{$$=astCreate(AST_ASSIGNARRAY,$1,$3,$6,0,0,getLineNumber());}
+	| KW_RETURN exp							{$$=astCreate(AST_RETURN,0,$2,0,0,0,getLineNumber());}
+	| KW_READ TK_IDENTIFIER					{$$=astCreate(AST_READ,$2,0,0,0,0,getLineNumber());}
+	| KW_PRINT print						{$$=astCreate(AST_PRINT,0,$2,0,0,0,getLineNumber());}
 	| block									{$$=$1;} 
 	| ctrl_fluxo							{$$=$1;}
 	|										{$$=0;}
 	;
 
 block:
-	'{'cmd_list '}'							{$$=astCreate(AST_BLOCK,0,$2,0,0,0);}
+	'{'cmd_list '}'							{$$=astCreate(AST_BLOCK,0,$2,0,0,0,getLineNumber());}
 
 ctrl_fluxo:
-	KW_IF '(' exp ')' KW_THEN cmd 					{$$=astCreate(AST_IFT,0,$3,$6,0,0);}					
-	| KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd		{$$=astCreate(AST_IFTE,0,$3,$6,$8,0);}
-	| KW_LOOP '(' exp ')' cmd						{$$=astCreate(AST_LOOP,0,$3,$5,0,0);}
-	| KW_LEAP										{$$=astCreate(AST_LEAP,0,0,0,0,0);}
+	KW_IF '(' exp ')' KW_THEN cmd 					{$$=astCreate(AST_IFT,0,$3,$6,0,0,getLineNumber());}					
+	| KW_IF '(' exp ')' KW_THEN cmd KW_ELSE cmd		{$$=astCreate(AST_IFTE,0,$3,$6,$8,0,getLineNumber());}
+	| KW_LOOP '(' exp ')' cmd						{$$=astCreate(AST_LOOP,0,$3,$5,0,0,getLineNumber());}
+	| KW_LEAP										{$$=astCreate(AST_LEAP,0,0,0,0,0,getLineNumber());}
 	;
 	
 lit:
-	LIT_INTEGER				{$$=astCreate(AST_SYMBOL_INT,$1,0,0,0,0);}									
-	| LIT_FLOAT				{$$=astCreate(AST_SYMBOL_FLOAT,$1,0,0,0,0);}
-	| LIT_CHAR				{$$=astCreate(AST_SYMBOL_CHAR,$1,0,0,0,0);}
+	LIT_INTEGER				{$$=astCreate(AST_SYMBOL_INT,$1,0,0,0,0,getLineNumber());}									
+	| LIT_FLOAT				{$$=astCreate(AST_SYMBOL_FLOAT,$1,0,0,0,0,getLineNumber());}
+	| LIT_CHAR				{$$=astCreate(AST_SYMBOL_CHAR,$1,0,0,0,0,getLineNumber());}
 	;
 
 type:
-	KW_INT					{$$=astCreate(AST_INT,0,0,0,0,0);}	
-	| KW_FLOAT				{$$=astCreate(AST_FLOAT,0,0,0,0,0);}
-	| KW_BYTE				{$$=astCreate(AST_BYTE,0,0,0,0,0);}
+	KW_INT					{$$=astCreate(AST_INT,0,0,0,0,0,getLineNumber());}	
+	| KW_FLOAT				{$$=astCreate(AST_FLOAT,0,0,0,0,0,getLineNumber());}
+	| KW_BYTE				{$$=astCreate(AST_BYTE,0,0,0,0,0,getLineNumber());}
 	;
 
 array_init:
-	':' lit array_init2			{$$=astCreate(AST_ARRAY_INIT,0,$2,$3,0,0);}			
+	':' lit array_init2			{$$=astCreate(AST_ARRAY_INIT,0,$2,$3,0,0,getLineNumber());}			
 	|							{$$=0;}
 	;
 
 array_init2:
-	lit array_init2				{$$=astCreate(AST_ARRAY_INIT2,0,$1,$2,0,0);}
+	lit array_init2				{$$=astCreate(AST_ARRAY_INIT2,0,$1,$2,0,0,getLineNumber());}
 	|							{$$=0;}
 	;
 
 exp:
-	TK_IDENTIFIER							{$$=astCreate(AST_SYMBOL,$1,0,0,0,0);}							
-	| TK_IDENTIFIER '[' exp ']'				{$$=astCreate(AST_ARRAY,$1,$3,0,0,0);}
-	| TK_IDENTIFIER '(' func_param ')'		{$$=astCreate(AST_FUNCCALL,$1,$3,0,0,0);}
-	| '(' exp ')' 							{$$=astCreate(AST_PARENTH,0,$2,0,0,0);}
+	TK_IDENTIFIER							{$$=astCreate(AST_SYMBOL,$1,0,0,0,0,getLineNumber());}							
+	| TK_IDENTIFIER '[' exp ']'				{$$=astCreate(AST_ARRAY,$1,$3,0,0,0,getLineNumber());}
+	| TK_IDENTIFIER '(' func_param ')'		{$$=astCreate(AST_FUNCCALL,$1,$3,0,0,0,getLineNumber());}
+	| '(' exp ')' 							{$$=astCreate(AST_PARENTH,0,$2,0,0,0,getLineNumber());}
 	| lit									{$$ = $1;}			
-	| exp '+' exp							{$$=astCreate(AST_ADD,0,$1,$3,0,0);}
-	| exp '-' exp							{$$=astCreate(AST_SUB,0,$1,$3,0,0);}
-	| exp '*' exp							{$$=astCreate(AST_MULT,0,$1,$3,0,0);}
-	| exp '/' exp							{$$=astCreate(AST_DIV,0,$1,$3,0,0);}
-	| exp OPERATOR_LE exp					{$$=astCreate(AST_LE,0,$1,$3,0,0);}
-	| exp OPERATOR_GE exp					{$$=astCreate(AST_GE,0,$1,$3,0,0);}
-	| exp OPERATOR_EQ exp					{$$=astCreate(AST_EQ,0,$1,$3,0,0);}
-	| exp OPERATOR_DIF exp					{$$=astCreate(AST_DIF,0,$1,$3,0,0);}
-	| exp OPERATOR_OR exp					{$$=astCreate(AST_OR,0,$1,$3,0,0);}
-	| exp OPERATOR_AND exp					{$$=astCreate(AST_AND,0,$1,$3,0,0);}
-	| exp OPERATOR_NOT exp					{$$=astCreate(AST_NOT,0,$1,$3,0,0);}
-	| exp '>' exp							{$$=astCreate(AST_GREATER,0,$1,$3,0,0);}
-	| exp '<' exp							{$$=astCreate(AST_LESS,0,$1,$3,0,0);}
+	| exp '+' exp							{$$=astCreate(AST_ADD,0,$1,$3,0,0,getLineNumber());}
+	| exp '-' exp							{$$=astCreate(AST_SUB,0,$1,$3,0,0,getLineNumber());}
+	| exp '*' exp							{$$=astCreate(AST_MULT,0,$1,$3,0,0,getLineNumber());}
+	| exp '/' exp							{$$=astCreate(AST_DIV,0,$1,$3,0,0,getLineNumber());}
+	| exp OPERATOR_LE exp					{$$=astCreate(AST_LE,0,$1,$3,0,0,getLineNumber());}
+	| exp OPERATOR_GE exp					{$$=astCreate(AST_GE,0,$1,$3,0,0,getLineNumber());}
+	| exp OPERATOR_EQ exp					{$$=astCreate(AST_EQ,0,$1,$3,0,0,getLineNumber());}
+	| exp OPERATOR_DIF exp					{$$=astCreate(AST_DIF,0,$1,$3,0,0,getLineNumber());}
+	| exp OPERATOR_OR exp					{$$=astCreate(AST_OR,0,$1,$3,0,0,getLineNumber());}
+	| exp OPERATOR_AND exp					{$$=astCreate(AST_AND,0,$1,$3,0,0,getLineNumber());}
+	| exp OPERATOR_NOT exp					{$$=astCreate(AST_NOT,0,$1,$3,0,0,getLineNumber());}
+	| exp '>' exp							{$$=astCreate(AST_GREATER,0,$1,$3,0,0,getLineNumber());}
+	| exp '<' exp							{$$=astCreate(AST_LESS,0,$1,$3,0,0,getLineNumber());}
 	;
 
 func_param:
-	exp func_param2				{$$=astCreate(AST_FUNC_PARAM,0,$1,$2,0,0);}
+	exp func_param2				{$$=astCreate(AST_FUNC_PARAM,0,$1,$2,0,0,getLineNumber());}
 	|							{$$=0;}
 	;
 
 func_param2:
-	',' func_param				{$$=astCreate(AST_FUNC_PARAM2,0,$2,0,0,0);}
+	',' func_param				{$$=astCreate(AST_FUNC_PARAM2,0,$2,0,0,0,getLineNumber());}
 	|							{$$=0;}
 	;
 

@@ -63,11 +63,12 @@
 typedef struct ast_node
 {
     int type;
+    int lineNumber;
     NODE *symbol;
     struct ast_node *son[MAX_SONS];
 } AST;
 
-AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3);
+AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3, int lineNumber);
 void astPrint(int level, AST *node);
 void astDecompilation(AST *node);
 

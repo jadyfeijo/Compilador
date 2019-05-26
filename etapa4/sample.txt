@@ -8,8 +8,9 @@ byte x = DE;
 int v [IO]: O O O O O O O O O O;
 int mat [IO]; 
 float f = IO.EE;
-int t = I;
-int t2 = A;
+int r = I;
+int s = A;
+int t = B;
 
 byte main ()
   {
@@ -23,7 +24,7 @@ byte main ()
     {
     1 = incn(1,I);
     a = incn(a,I);
-    t = t + t2;
+    ZZ r = s + t;
     };
 
   print "Incrementado algumas vezes fica ",a,"\n";

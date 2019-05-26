@@ -7,7 +7,7 @@
 
 extern FILE *out;
 
-AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3)
+AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3, int lineNumber)
 {
     AST *newnode;
 
@@ -19,7 +19,7 @@ AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3)
     newnode->son[2] = s2;
     newnode->son[3] = s3;
     newnode->symbol = symbol;
-   // newnode->symbol->type = SYMBOL_IDENTIFIER;
+    newnode->lineNumber = lineNumber;
 
     return newnode;
 }

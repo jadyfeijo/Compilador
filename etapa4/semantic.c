@@ -127,12 +127,11 @@ void checkOperands(AST *node)
         break;
 
         case AST_ADD:
-        //case AST_SUB:
-        //case AST_MULT:
-        //case AST_DIV:
-            if(
-                ((node->son[0]->type != AST_ADD) && 
-                (node->son[0]->type != AST_SUB) &&
+        /*case AST_SUB:
+        case AST_MULT:
+        case AST_DIV:*/
+           if(
+                (!aritmeticOp(node->son[0]->type) &&
                 (node->son[0]->type != AST_SYMBOL))
                 ||
                 ((node->son[0]->type == AST_SYMBOL) &&
@@ -140,11 +139,12 @@ void checkOperands(AST *node)
                 ||
                 ((node->son[0]->type == AST_SYMBOL) &&
                 (node->son[0]->symbol->type == SYMBOL_VAR) &&
-                (node->son[0]->symbol->datatype != SYMBOL_DATATYPE_INT))
+                (node->son[0]->symbol->datatype != SYMBOL_DATATYPE_INT || node->son[0]->symbol->datatype !=  SYMBOL_DATATYPE_BYTE))
             )
-            fprintf(stderr,"SEMANTIC ERROR: Invalid first operand of +\n");
+            fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid first operand of +\n",node->lineNumber);
+            
         break;
-
+       
         case AST_ASSIGN:
             if(node->symbol->type != SYMBOL_VAR)
             {
@@ -152,7 +152,7 @@ void checkOperands(AST *node)
                 semanticError=1;
             }
                 
-            if(node->symbol->datatype !=node->son[0]->symbol->datatype)
+            if(node->symbol->datatype != node->son[0]->symbol->datatype)
             {
                 if(node->symbol->datatype==SYMBOL_DATATYPE_FLOAT || node->son[0]->symbol->datatype==SYMBOL_DATATYPE_FLOAT)
                 {
@@ -179,7 +179,7 @@ void checkOperands(AST *node)
                 semanticError=1;
             }
         break;
-
+        
         case AST_FUNCCALL:
             fprintf(stderr,"Passou na func %s \n",node->symbol->text);
 
@@ -189,6 +189,7 @@ void checkOperands(AST *node)
                 semanticError=1;
 
             }
+            
             //  functionValidation(node);
             /* else
                 {
@@ -201,8 +202,10 @@ void checkOperands(AST *node)
                     }
                 }*/
         break;
-
-        default: break;
+        
+        default: 
+            //fprintf(stderr,"\ncheckOperands() DEFAULT: node type = %d \n", node->type);
+        break;
 
     }
 }
@@ -213,3 +216,8 @@ void checkOperands(AST *node)
     
 
 }*/
+
+int aritmeticOp(int nodeType)
+{
+    return (nodeType == AST_ADD || nodeType == AST_SUB || nodeType == AST_MULT || nodeType == AST_DIV);
+}
