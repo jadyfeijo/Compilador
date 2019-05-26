@@ -154,33 +154,31 @@ void checkOperands(AST *node)
        
         case AST_ASSIGN:
             if(node->symbol->type != SYMBOL_VAR)
-            {
                 fprintf(stderr,"SEMANTIC ERROR: Symbol %s must be scalar!\n", node->symbol->text);
-                semanticError=1;
-            }
-                
-            if(node->symbol->datatype != node->son[0]->symbol->datatype)
+
+            if(node->symbol->datatype != getType(node->son[0]))  
             {
-                if(node->symbol->datatype==SYMBOL_DATATYPE_FLOAT || node->son[0]->symbol->datatype==SYMBOL_DATATYPE_FLOAT)
+                if(node->symbol->datatype == SYMBOL_DATATYPE_FLOAT || node->son[0]->symbol->datatype == SYMBOL_DATATYPE_FLOAT)
                 {
-                    fprintf(stderr,"SEMANTIC ERROR: Imcompatible type in assign %s = %s \n",node->symbol->text,node->son[0]->symbol->text);
+                    fprintf(stderr,"SEMANTIC ERROR: Incompatible type in assign %s = %s \n",node->symbol->text,node->son[0]->symbol->text);
                     semanticError=1;
                 }
+
             }
         break;
 
         case AST_ASSIGNARRAY:
-            if(node->symbol->datatype !=node->son[1]->symbol->datatype)
+            if(node->symbol->datatype !=getType(node->son[1]))
             {
-                if(node->symbol->datatype==SYMBOL_DATATYPE_FLOAT || node->son[1]->symbol->datatype==SYMBOL_DATATYPE_FLOAT)
+                if(node->symbol->datatype == SYMBOL_DATATYPE_FLOAT || node->son[1]->symbol->datatype == SYMBOL_DATATYPE_FLOAT)
                 {
-                    fprintf(stderr,"SEMANTIC ERROR: Imcompatible type in assign %s[%s] = %s",node->symbol->text,node->son[0]->symbol->text,node->son[1]->symbol->text);
+                    fprintf(stderr,"SEMANTIC ERROR: Incompatible type in assign %s[%s] = %s",node->symbol->text,node->son[0]->symbol->text,node->son[1]->symbol->text);
                     semanticError=1;
                     break;
                 }
 
             }
-            if(node->son[0]->symbol->datatype!=SYMBOL_DATATYPE_INT && node->son[0]->symbol->datatype!=SYMBOL_DATATYPE_BYTE)
+            if(node->son[0]->symbol->datatype != SYMBOL_DATATYPE_INT && node->son[0]->symbol->datatype != SYMBOL_DATATYPE_BYTE)
             {
                 fprintf(stderr,"SEMANTIC ERROR: Invalid Index type in assign %s[%s] = %s\n",node->symbol->text,node->son[0]->symbol->text,node->son[1]->symbol->text);
                 semanticError=1;
@@ -217,14 +215,118 @@ void checkOperands(AST *node)
     }
 }
 
-/*void functionValidation (AST *node)
-{
-
-    
-
-}*/
-
 int arithmeticOperation(int nodeType)
 {
     return (nodeType == AST_ADD || nodeType == AST_SUB || nodeType == AST_MULT || nodeType == AST_DIV);
+}
+
+int getType(AST* node) 
+{
+	int op1, op2;
+	
+	switch(node->type) 
+	{
+		case AST_SYMBOL: 
+        case AST_SYMBOL_INT: 
+        case AST_SYMBOL_FLOAT : 
+        case AST_SYMBOL_CHAR: 
+		case AST_ARRAY:
+		case AST_FUNCCALL:
+			return node->symbol->datatype;
+		case AST_PARENTH:
+			return getType(node);
+		case AST_ADD:
+		case AST_SUB:
+		case AST_DIV:
+		case AST_MULT:
+				op1 = getType(node->son[0]);
+			    op2 = getType(node->son[1]);
+				return expressionTypes(op1,op2);
+		case AST_LE:
+		case AST_GE:
+		case AST_EQ:
+		case AST_DIF:
+		case AST_AND:
+		case AST_OR: 
+		case AST_GREATER:
+		case AST_LESS: 
+        case AST_NOT:
+			return SYMBOL_DATATYPE_BOOL;
+	}
+}
+
+int expressionTypes(int op1,int op2)
+{
+    switch (op1)
+    {
+    case SYMBOL_DATATYPE_BOOL:
+        switch (op2)
+        {
+        case SYMBOL_DATATYPE_BOOL:
+            return SYMBOL_DATATYPE_BOOL;
+
+        default: return SYMBOL_DATATYPE_ERROR;
+        }
+        
+    case SYMBOL_DATATYPE_BYTE:
+        switch (op2)
+        {
+        case SYMBOL_DATATYPE_BYTE:
+        case SYMBOL_DATATYPE_INT:
+        case SYMBOL_DATATYPE_CHAR:
+            return SYMBOL_DATATYPE_INT;
+        
+        case SYMBOL_DATATYPE_FLOAT:
+            return SYMBOL_DATATYPE_FLOAT;
+
+        default: return SYMBOL_DATATYPE_ERROR;        
+       
+        }    
+
+    case SYMBOL_DATATYPE_INT:
+        switch (op2)
+        {
+        case SYMBOL_DATATYPE_BYTE:
+        case SYMBOL_DATATYPE_INT:
+        case SYMBOL_DATATYPE_CHAR:
+            return SYMBOL_DATATYPE_INT;
+
+        case SYMBOL_DATATYPE_FLOAT:
+            return SYMBOL_DATATYPE_FLOAT;
+
+        default: return SYMBOL_DATATYPE_ERROR;        
+       
+        }    
+
+    case SYMBOL_DATATYPE_CHAR:
+        switch (op2)
+        {
+        case SYMBOL_DATATYPE_BYTE:
+        case SYMBOL_DATATYPE_INT:
+            return SYMBOL_DATATYPE_INT;
+
+        case SYMBOL_DATATYPE_CHAR:
+            return SYMBOL_DATATYPE_CHAR;
+
+        case SYMBOL_DATATYPE_FLOAT:
+            return SYMBOL_DATATYPE_FLOAT;
+
+        default: return SYMBOL_DATATYPE_ERROR;        
+       
+        }   
+
+    case SYMBOL_DATATYPE_FLOAT:
+        switch (op2)
+        {
+        case SYMBOL_DATATYPE_BOOL:
+            return SYMBOL_DATATYPE_ERROR;
+
+        case SYMBOL_DATATYPE_ERROR:
+            return SYMBOL_DATATYPE_ERROR;
+
+        default: return SYMBOL_DATATYPE_FLOAT;
+        }
+    
+    default: return SYMBOL_DATATYPE_ERROR;
+    }
 }

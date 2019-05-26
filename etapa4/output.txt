@@ -20,6 +20,7 @@ loop(1 < IO)
 {
 1 = incn(1,I);
 a = incn(a,I);
+r = s + t;
 };
 print "Incrementado algumas vezes fica ",a,"\n";
 if(a == E) then 
