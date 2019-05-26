@@ -1,12 +1,15 @@
 ZZ UFRGS - Compiladores - Marcelo Johann - 2019/1
 
 byte a = O;
+byte b = O;
 byte 1 = O;
+byte c = 'x';
+byte x = DE;
 int v [IO]: O O O O O O O O O O;
 int mat [IO]; 
 float f = IO.EE;
-byte c = 'x';
-byte x = DE;
+int t = I;
+int t2 = A;
 
 byte main ()
   {
@@ -20,6 +23,7 @@ byte main ()
     {
     1 = incn(1,I);
     a = incn(a,I);
+    t = t + t2;
     };
 
   print "Incrementado algumas vezes fica ",a,"\n";
@@ -37,7 +41,7 @@ byte main ()
   {};
   };
 
-byte incn ( byte x, byte n )
+byte incn ( byte xis, byte n )
   {
-  return x+n;
+  return xis+n;
   };

@@ -30,22 +30,23 @@ int main(int argc, char** argv)
     if (0==(yyin = fopen(argv[1],"r")))
     {
         printf("Cannot open file %s... \n",argv[1]);
-        exit(1);
+        exit(2);
     }
     if (0==(out = fopen(argv[2],"w"))) 
     {
         printf("Cannot open file %s... \n",argv[2]);
-        exit(1);
+        exit(2);
     }
-    
-    //output = argv[2];
+
 
     initMe();
 
     yyparse();
 
     //hashPrint();
+
     fclose(out);
     fprintf(stderr,"No sintax errors! \n\n");
+    
     exit(0);
   }
