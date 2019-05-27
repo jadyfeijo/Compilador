@@ -125,7 +125,7 @@ void checkOperands(AST *node)
             node->symbol->datatype = SYMBOL_DATATYPE_CHAR;
             node->symbol->type = SYMBOL_LIT_CHAR; 
         break;
-
+        
         case AST_ADD:
         case AST_SUB:
         case AST_MULT:
@@ -154,13 +154,13 @@ void checkOperands(AST *node)
        
         case AST_ASSIGN:
             if(node->symbol->type != SYMBOL_VAR)
-                fprintf(stderr,"SEMANTIC ERROR: Symbol %s must be scalar!\n", node->symbol->text);
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Symbol %s must be scalar!\n",node->lineNumber, node->symbol->text);
 
             if(node->symbol->datatype != getType(node->son[0]))  
             {
-                if(node->symbol->datatype == SYMBOL_DATATYPE_FLOAT || node->son[0]->symbol->datatype == SYMBOL_DATATYPE_FLOAT)
+                if(node->symbol->datatype == SYMBOL_DATATYPE_FLOAT || getType(node->son[0]) == SYMBOL_DATATYPE_FLOAT)
                 {
-                    fprintf(stderr,"SEMANTIC ERROR: Incompatible type in assign %s = %s \n",node->symbol->text,node->son[0]->symbol->text);
+                    fprintf(stderr,"SEMANTIC ERROR in line %d. Incompatible type in assignment. \n",node->lineNumber);
                     semanticError=1;
                 }
 
@@ -172,7 +172,7 @@ void checkOperands(AST *node)
             {
                 if(node->symbol->datatype == SYMBOL_DATATYPE_FLOAT || node->son[1]->symbol->datatype == SYMBOL_DATATYPE_FLOAT)
                 {
-                    fprintf(stderr,"SEMANTIC ERROR: Incompatible type in assign %s[%s] = %s",node->symbol->text,node->son[0]->symbol->text,node->son[1]->symbol->text);
+                    fprintf(stderr,"SEMANTIC ERROR in line %d. Incompatible type in assignment. \n",node->lineNumber);
                     semanticError=1;
                     break;
                 }
@@ -180,7 +180,7 @@ void checkOperands(AST *node)
             }
             if(node->son[0]->symbol->datatype != SYMBOL_DATATYPE_INT && node->son[0]->symbol->datatype != SYMBOL_DATATYPE_BYTE)
             {
-                fprintf(stderr,"SEMANTIC ERROR: Invalid Index type in assign %s[%s] = %s\n",node->symbol->text,node->son[0]->symbol->text,node->son[1]->symbol->text);
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid Index type in assignment. \n",node->lineNumber);
                 semanticError=1;
             }
         break;
@@ -188,9 +188,9 @@ void checkOperands(AST *node)
         case AST_FUNCCALL:
             fprintf(stderr,"Passou na func %s \n",node->symbol->text);
 
-            if(node->symbol->type !=SYMBOL_FUN)
+            if(node->symbol->type != SYMBOL_FUN)
             {
-                fprintf(stderr,"SEMANTIC ERROR: Identifier %s is not a function\n",node->symbol->text);
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s is not a function\n",node->lineNumber,node->symbol->text);
                 semanticError=1;
 
             }
