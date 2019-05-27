@@ -48,7 +48,7 @@ int main(int argc, char** argv)
     fclose(out);
     fprintf(stderr,"\nNo syntactic errors! \n\n");
 
-    if(semanticError != 0)
+    if(semanticError > 0)
     {
         fprintf(stderr,"Total of %d semantic errors! \n\n",semanticError);
         exit(4);

@@ -4,6 +4,3 @@
 
 void setAndCheckRedeclared(AST *node);
 void checkOperands(AST *node);
-int arithmeticOperation(int nodeType);
-int expressionTypes(int op1,int op2);
-int getType(AST* node);

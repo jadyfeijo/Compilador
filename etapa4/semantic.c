@@ -5,9 +5,11 @@
 int semanticError=0;
 AST *nodeDeclared;
 
+int arithmeticOperation(int nodeType);
+int expressionTypes(int op1,int op2);
+int getType(AST* node);
 int functionValidation (AST* nodeDeclared, AST *node);
 int validReturn(AST* nodeDeclared,AST *node);
-
 
 void setAndCheckRedeclared(AST *node)
 {
@@ -163,7 +165,7 @@ void checkOperands(AST *node)
         case AST_ASSIGN:
             if(node->symbol->type !=SYMBOL_VAR)
             {
-                fprintf(stderr,"SEMANTIC ERROR in line %d. Symbol %s must be scalar!\n",node->lineNumber, node->symbol->text);
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Symbol %s must be scalar.\n",node->lineNumber, node->symbol->text);
                 semanticError++;
             }
             if(node->symbol->datatype != getType(node->son[0]))  
@@ -182,9 +184,8 @@ void checkOperands(AST *node)
         case AST_ASSIGNARRAY:
             if(node->symbol->type !=SYMBOL_VET)
             {
-                fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s is not a vector\n",node->lineNumber,node->symbol->text);
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s is not a vector.\n",node->lineNumber,node->symbol->text);
                 semanticError++;
-
             }
 
             if(node->symbol->datatype !=getType(node->son[1]))
@@ -193,7 +194,7 @@ void checkOperands(AST *node)
                 node->symbol->datatype==SYMBOL_DATATYPE_ERROR ||getType(node->son[0])==SYMBOL_DATATYPE_ERROR ||
                 node->symbol->datatype==SYMBOL_DATATYPE_BOOL ||getType(node->son[0])==SYMBOL_DATATYPE_BOOL)           
                 {
-                    fprintf(stderr,"SEMANTIC ERROR in line %d. Imcompatible type in assignment %s[%s] = %s",node->lineNumber,node->symbol->text,node->son[0]->symbol->text,node->son[1]->symbol->text);
+                    fprintf(stderr,"SEMANTIC ERROR in line %d. Imcompatible type in assignment %s[%s] = %s.",node->lineNumber,node->symbol->text,node->son[0]->symbol->text,node->son[1]->symbol->text);
                     semanticError++;
                     break;
                 }
@@ -208,43 +209,43 @@ void checkOperands(AST *node)
 
         case AST_IFT:
         case AST_IFTE:
-
             if(getType(node->son[0]) !=SYMBOL_DATATYPE_BOOL)
             {
-                fprintf(stderr,"SEMANTIC ERROR: If condition type must be BOOL\n");
-                semanticError=1;
+                fprintf(stderr,"SEMANTIC ERROR in line %d. If condition type must be BOOL.\n",node->lineNumber);
+                semanticError++;
             }
         break;
 
        case AST_LOOP:
-
             if(getType(node->son[0]) !=SYMBOL_DATATYPE_BOOL)
             {
-                fprintf(stderr,"SEMANTIC ERROR: Loop condition type must be BOOL\n");
-                semanticError=1;
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Loop condition type must be BOOL.\n",node->lineNumber);
+                semanticError++;
             }
             break;
         
         case AST_ARRAY:
             if(node->symbol->type !=SYMBOL_VET)
             {
-                fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s is not a vector \n",node->lineNumber,node->symbol->text);
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s is not a vector.\n",node->lineNumber,node->symbol->text);
                 semanticError++;
             }
         break;
         
         case AST_DECFUNC:
-        if(validReturn(nodeDeclared,node)==0)
-                fprintf(stderr, "SEMANTIC ERROR: Invalid return type in function %s at line %d \n", node->symbol->text, node->lineNumber);
-                semanticError=1;
+            if(validReturn(nodeDeclared,node)==0)
+            {
+                    fprintf(stderr, "SEMANTIC ERROR in line %d. Invalid return type in function %s.\n",node->lineNumber,node->symbol->text);
+                    semanticError++;
+            }
         break;
 
-          case AST_FUNCCALL:
+        case AST_FUNCCALL:
 
         if (node->symbol->type != SYMBOL_FUN)
         {
-            fprintf(stderr, "SEMANTIC ERROR: Identifier %s in line %d is not a function\n", node->symbol->text, node->lineNumber);
-            semanticError = 1;
+            fprintf(stderr, "SEMANTIC ERROR in line %d. Identifier %s is not a function.\n",node->lineNumber,node->symbol->text);
+            semanticError++;
         }
 
         else
@@ -255,14 +256,14 @@ void checkOperands(AST *node)
             case 1:
                 break; //parametros certos
             case 2:
-                fprintf(stderr, "SEMANTIC ERROR: Incompatible parameter type in function %s at line %d \n", node->symbol->text, node->lineNumber);
-                semanticError = 1;
+                fprintf(stderr, "SEMANTIC ERROR in line %d. Incompatible parameter type in function %s.\n",node->lineNumber,node->symbol->text);
+                semanticError++;
                 break;
 
             case 3:
-                fprintf(stderr, "SEMANTIC ERROR: Invalid number of parameters in function %s at line %d \n", node->symbol->text, node->lineNumber);
-                semanticError = 1;
-
+                fprintf(stderr, "SEMANTIC ERROR in line %d. Invalid number of parameters in function %s. \n",node->lineNumber, node->symbol->text);
+                semanticError++;
+                break;
             default:
                 break;
             }
@@ -391,6 +392,7 @@ int expressionTypes(int op1,int op2)
     default: return SYMBOL_DATATYPE_ERROR;
     }
 }
+
 int functionValidation(AST *nodeDeclared, AST *node)
 {
     AST *aux = nodeDeclared;
