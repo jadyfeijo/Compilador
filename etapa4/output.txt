@@ -10,6 +10,8 @@ float r = I.A;
 int s = A; 
 float t = B.C; 
 int i = O; 
+int e = A; 
+int g = O; 
 byte main()
 {
 a = C;
@@ -21,12 +23,14 @@ loop(1 < IO)
 {
 1 = incn(1,I);
 a = incn(a,I);
-s = s + (1 < IO);
-r = s + t + i;
+r = e + t + i;
+g = 'a' + I;
 s = 'b';
-s = 'a' + I;
-i[A] = O;
-f = A;
+f = soma_float_int(f,s);
+f = soma_float_int(e,s);
+x = soma_float_int(f,s);
+x = retfloat(s,x);
+x = retfloat(s);
 };
 print "Incrementado algumas vezes fica ",a,"\n";
 if(a == E) then 
@@ -39,4 +43,14 @@ if(a == IO) then a = a else c = b;
 byte incn(byte xis, byte n)
 {
 return xis + n;
+};
+ 
+float soma_float_int(float y, int z)
+{
+return y + z;
+};
+ 
+byte retfloat(int u, byte m)
+{
+return IO.IO;
 };

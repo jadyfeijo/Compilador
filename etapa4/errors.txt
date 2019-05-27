@@ -12,6 +12,8 @@ float r = I.A;
 int s = A;
 float t = B.C;
 int i = O;
+int e = A;
+int g = O;
 
 byte main ()
   {
@@ -26,12 +28,22 @@ byte main ()
     1 = incn(1,I);
     a = incn(a,I);
 
-    s = s + (1<IO); ZZ TESTE int = int op booleano              -> deve dar ERRO
-    r = s + t + i;  ZZ TESTE float = int op float               -> deve aceitar
-    s = 'b';        ZZ TESTE int = char                         -> deve aceitar
-    s = 'a' + I;    ZZ TESTE int = char op int                  -> deve aceitar
-    i[A] = O;       ZZ TESTE var int sendo usada como vetor     -> deve dar ERRO
-    f = A;          ZZ TESTE float = int                        -> deve dar ERRO
+    r = e + t + i;  ZZ TESTE float = int op float               -> deve aceitar       OK
+    g = 'a' + I;    ZZ TESTE int = char op int                  -> deve aceitar       OK
+    ZZ s = s + (1<IO); ZZ TESTE int = int op booleano              -> deve dar ERRO   OK
+
+    ZZ i[A] = O;       ZZ TESTE var int sendo usada como vetor     -> deve dar ERRO   OK
+    ZZ f = A;          ZZ TESTE float = int                        -> deve dar ERRO   OK
+    s = 'b';        ZZ TESTE int = char                         -> deve aceitar       OK
+
+    ZZ ------------------ NOVOS TESTES ------------------
+
+    f = soma_float_int(f,s); ZZ TESTA função que soma int com float       -> deve aceitar
+    f = soma_float_int(e,s); ZZ TESTA passagem de param com tipo errado   -> deve dar erro OK
+    x = soma_float_int(f,s); ZZ TESTA assign de byte = float              -> deve dar erro OK
+    x = retfloat(s,x);       ZZ                                           -> deve aceitar
+    x = retfloat(s);         ZZ TESTA passagem do núm de param incorreto  -> deve dar erro 
+    
     };
 
   print "Incrementado algumas vezes fica ",a,"\n";
@@ -49,4 +61,14 @@ byte main ()
 byte incn ( byte xis, byte n )
   {
   return xis+n;
+  };
+
+float soma_float_int ( float y, int z )
+  {
+    return y+z;                                        ZZ -> deve ACEITAR pois retorna float em uma op int + float
+  };
+
+byte retfloat ( int u, byte m )
+  {
+    return IO.IO;                                      ZZ -> deve dar ERRO pois retorna float em uma função do tipo byte
   };

@@ -134,36 +134,15 @@ void checkOperands(AST *node)
         case AST_SUB:
         case AST_MULT:
         case AST_DIV:
-           if((!arithmeticOperation(node->son[0]->type) &&
-                (node->son[0]->type != AST_SYMBOL))
-                ||
-                ((node->son[0]->type == AST_SYMBOL) &&
-                (node->son[0]->symbol->type == SYMBOL_FUN))
-                ||
-                ((node->son[0]->type == AST_SYMBOL) &&
-                (node->son[0]->symbol->type == SYMBOL_VAR) &&
-                ((node->son[0]->symbol->datatype != SYMBOL_DATATYPE_INT) && (node->son[0]->symbol->datatype !=  SYMBOL_DATATYPE_BYTE))))
-                {
-                    fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid first operand.\n",node->lineNumber);
-                    semanticError++;
-                }
-            if((!arithmeticOperation(node->son[1]->type) &&
-                (node->son[1]->type != AST_SYMBOL))
-                ||
-                ((node->son[1]->type == AST_SYMBOL) &&
-                (node->son[1]->symbol->type == SYMBOL_FUN))
-                ||
-                ((node->son[1]->type == AST_SYMBOL) &&
-                (node->son[1]->symbol->type == SYMBOL_VAR) &&
-                ((node->son[1]->symbol->datatype != SYMBOL_DATATYPE_INT) && (node->son[1]->symbol->datatype !=  SYMBOL_DATATYPE_BYTE))))
-                {
-                    fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid second operand.\n",node->lineNumber);   
-                    semanticError++;
-                }                       
+            if(getType(node) == SYMBOL_DATATYPE_ERROR)  
+            {
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Incompatible type operands.\n",node->lineNumber);
+                semanticError++;
+            }                
         break;
        
         case AST_ASSIGN:
-            if(node->symbol->type !=SYMBOL_VAR)
+            if(node->symbol->type != SYMBOL_VAR)
             {
                 fprintf(stderr,"SEMANTIC ERROR in line %d. Symbol %s must be scalar.\n",node->lineNumber, node->symbol->text);
                 semanticError++;
@@ -182,13 +161,13 @@ void checkOperands(AST *node)
         break;
 
         case AST_ASSIGNARRAY:
-            if(node->symbol->type !=SYMBOL_VET)
+            if(node->symbol->type != SYMBOL_VET)
             {
                 fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s is not a vector.\n",node->lineNumber,node->symbol->text);
                 semanticError++;
             }
 
-            if(node->symbol->datatype !=getType(node->son[1]))
+            if(node->symbol->datatype != getType(node->son[1]))
             {
                 if(node->symbol->datatype==SYMBOL_DATATYPE_FLOAT || getType(node->son[0])==SYMBOL_DATATYPE_FLOAT ||
                 node->symbol->datatype==SYMBOL_DATATYPE_ERROR ||getType(node->son[0])==SYMBOL_DATATYPE_ERROR ||
@@ -209,7 +188,7 @@ void checkOperands(AST *node)
 
         case AST_IFT:
         case AST_IFTE:
-            if(getType(node->son[0]) !=SYMBOL_DATATYPE_BOOL)
+            if(getType(node->son[0]) != SYMBOL_DATATYPE_BOOL)
             {
                 fprintf(stderr,"SEMANTIC ERROR in line %d. If condition type must be BOOL.\n",node->lineNumber);
                 semanticError++;
@@ -217,7 +196,7 @@ void checkOperands(AST *node)
         break;
 
        case AST_LOOP:
-            if(getType(node->son[0]) !=SYMBOL_DATATYPE_BOOL)
+            if(getType(node->son[0]) != SYMBOL_DATATYPE_BOOL)
             {
                 fprintf(stderr,"SEMANTIC ERROR in line %d. Loop condition type must be BOOL.\n",node->lineNumber);
                 semanticError++;
@@ -225,7 +204,7 @@ void checkOperands(AST *node)
             break;
         
         case AST_ARRAY:
-            if(node->symbol->type !=SYMBOL_VET)
+            if(node->symbol->type != SYMBOL_VET)
             {
                 fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s is not a vector.\n",node->lineNumber,node->symbol->text);
                 semanticError++;

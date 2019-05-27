@@ -46,6 +46,7 @@ int main(int argc, char** argv)
     //hashPrint();
 
     fclose(out);
+    
     fprintf(stderr,"\nNo syntactic errors! \n\n");
 
     if(semanticError > 0)
@@ -53,6 +54,7 @@ int main(int argc, char** argv)
         fprintf(stderr,"Total of %d semantic errors! \n\n",semanticError);
         exit(4);
     }
-    
+
+    fprintf(stderr,"\nNo semantic errors! \n\n");
     exit(0);
   }
