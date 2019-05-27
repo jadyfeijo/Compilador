@@ -3,9 +3,10 @@
 #include "semantic.h"
 
 int semanticError=0;
-AST *nodeDeclared=NULL;
+AST *nodeDeclared;
 
-void functionValidation (AST *node);
+int functionValidation (AST* nodeDeclared, AST *node);
+int validReturn(AST* nodeDeclared,AST *node);
 
 
 void setAndCheckRedeclared(AST *node)
@@ -13,7 +14,8 @@ void setAndCheckRedeclared(AST *node)
     int i;
     AST *aux = NULL;
 
-    nodeDeclared = node;
+    if(nodeDeclared==NULL)
+        nodeDeclared = node;
 
     if(node == 0)
         return;
@@ -203,6 +205,25 @@ void checkOperands(AST *node)
                 semanticError++;
             }
         break;
+
+        case AST_IFT:
+        case AST_IFTE:
+
+            if(getType(node->son[0]) !=SYMBOL_DATATYPE_BOOL)
+            {
+                fprintf(stderr,"SEMANTIC ERROR: If condition type must be BOOL\n");
+                semanticError=1;
+            }
+        break;
+
+       case AST_LOOP:
+
+            if(getType(node->son[0]) !=SYMBOL_DATATYPE_BOOL)
+            {
+                fprintf(stderr,"SEMANTIC ERROR: Loop condition type must be BOOL\n");
+                semanticError=1;
+            }
+            break;
         
         case AST_ARRAY:
             if(node->symbol->type !=SYMBOL_VET)
@@ -212,34 +233,48 @@ void checkOperands(AST *node)
             }
         break;
         
-        case AST_FUNCCALL:
+        case AST_DECFUNC:
+        if(validReturn(nodeDeclared,node)==0)
+                fprintf(stderr, "SEMANTIC ERROR: Invalid return type in function %s at line %d \n", node->symbol->text, node->lineNumber);
+                semanticError=1;
+        break;
 
-            if(node->symbol->type != SYMBOL_FUN)
+          case AST_FUNCCALL:
+
+        if (node->symbol->type != SYMBOL_FUN)
+        {
+            fprintf(stderr, "SEMANTIC ERROR: Identifier %s in line %d is not a function\n", node->symbol->text, node->lineNumber);
+            semanticError = 1;
+        }
+
+        else
+        {
+            switch (functionValidation(nodeDeclared, node))
             {
-                fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s is not a function\n",node->lineNumber,node->symbol->text);
-                semanticError++;
 
+            case 1:
+                break; //parametros certos
+            case 2:
+                fprintf(stderr, "SEMANTIC ERROR: Incompatible parameter type in function %s at line %d \n", node->symbol->text, node->lineNumber);
+                semanticError = 1;
+                break;
+
+            case 3:
+                fprintf(stderr, "SEMANTIC ERROR: Invalid number of parameters in function %s at line %d \n", node->symbol->text, node->lineNumber);
+                semanticError = 1;
+
+            default:
+                break;
             }
-            
-            //  functionValidation(node);
-            /* else
-                {
-                    switch (functionValidation(node))
-                    {
-                    
-                    
-                    default:
-                        break;
-                    }
-                }*/
+        }
         break;
-        
-        default: 
-            //fprintf(stderr,"\ncheckOperands() DEFAULT: node type = %d \n", node->type);
+    
+    
+    default:
         break;
-
     }
 }
+
 
 int arithmeticOperation(int nodeType)
 {
@@ -355,4 +390,131 @@ int expressionTypes(int op1,int op2)
     
     default: return SYMBOL_DATATYPE_ERROR;
     }
+}
+int functionValidation(AST *nodeDeclared, AST *node)
+{
+    AST *aux = nodeDeclared;
+
+    if ((nodeDeclared->type == AST_DECFUNC || nodeDeclared->type == AST_DECFUNC_VOID) && strcmp(nodeDeclared->symbol->text, node->symbol->text) == 0)
+    {
+        AST *declaration_param = NULL;
+        int dec_type, call_type;
+
+        if (nodeDeclared->type == AST_DECFUNC)
+            declaration_param = nodeDeclared->son[1];
+
+        AST *funccall_param = node->son[0];
+
+        if (declaration_param == NULL && funccall_param == NULL)
+            return 1;
+        if (declaration_param == NULL || funccall_param == NULL)
+            return 3;
+
+        while (declaration_param != NULL && funccall_param != NULL)
+        {
+            switch (declaration_param->son[0]->type)
+            {
+            case AST_INT:
+                dec_type = SYMBOL_DATATYPE_INT;
+                break;
+
+            case AST_FLOAT:
+                dec_type = SYMBOL_DATATYPE_FLOAT;
+                break;
+
+            case AST_BYTE:
+                dec_type = SYMBOL_DATATYPE_BYTE;
+                break;
+
+            default:
+                dec_type = SYMBOL_DATATYPE_ERROR;
+                break;
+            }
+
+            call_type = getType(funccall_param->son[0]);
+
+            // if(expressionTypes(dec_type,call_type)==SYMBOL_DATATYPE_ERROR) return 2;
+            if (dec_type != call_type)
+            {
+                if ((dec_type == SYMBOL_DATATYPE_BYTE && call_type == SYMBOL_DATATYPE_INT) || (dec_type == SYMBOL_DATATYPE_INT && call_type == SYMBOL_DATATYPE_BYTE))
+                    return 1;
+                else
+                    return 2;
+            }
+            if (declaration_param->son[1])
+                declaration_param = declaration_param->son[1]->son[0];
+
+            else
+            {
+                declaration_param = NULL;
+            }
+
+            if (funccall_param->son[1])
+            {
+                funccall_param = funccall_param->son[1]->son[0];
+            }
+            else
+            {
+                funccall_param = NULL;
+            }
+        }
+
+        /*if(declaration_param==NULL && funccall_param==NULL) return 1;
+
+        return 3;
+            */
+    }
+    else
+    {
+        int number_sons = 0;
+
+        for (number_sons = 0; number_sons < 4; number_sons++)
+        {
+            if (nodeDeclared->son[number_sons] != NULL)
+            {
+                int found;
+                found = functionValidation(nodeDeclared->son[number_sons], node);
+                if (found != 5)
+                    return found;
+            }
+        }
+    }
+
+    return 5;
+}
+
+int validReturn(AST* nodeDeclared,AST *node)
+{
+    int dec_type;
+    if (nodeDeclared->type==AST_RETURN)
+    {
+        dec_type=node->symbol->datatype;
+        int return_type=getType(nodeDeclared->son[0]);
+
+        if(dec_type!=return_type)
+            if ((dec_type == SYMBOL_DATATYPE_BYTE && return_type == SYMBOL_DATATYPE_INT) || (dec_type == SYMBOL_DATATYPE_INT && return_type == SYMBOL_DATATYPE_BYTE))
+                    return 1;
+               
+        else return 0;
+        
+        else return 0;
+    }
+    else
+    {
+        int number_sons = 0;
+
+        for (number_sons = 0; number_sons < 4; number_sons++)
+        {
+            if (nodeDeclared->son[number_sons] != NULL)
+            {
+                int found;
+                found = validReturn(nodeDeclared->son[number_sons], node);
+                if (found != 5)
+                    return found;
+            }
+        }
+    }
+
+    return 5;
+
 }
