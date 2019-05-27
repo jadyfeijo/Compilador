@@ -72,7 +72,10 @@
 
 %%
 
-program: declist							{$$=$1; astPrint(0,$1); astDecompilation($1); 
+program: declist							{$$=$1; 
+												astPrint(0,$1); 
+												astDecompilation($1);
+												fprintf(stderr, "\n"); 
 												setAndCheckRedeclared($1);
 												hashCheckUndeclared();
 												checkOperands($1);
@@ -193,6 +196,6 @@ func_param2:
 
 int yyerror (char *msg)
 {
-	fprintf(stderr, "Sintax error at line %d! \n", getLineNumber());
+	fprintf(stderr, "SYNTACTIC ERROR in line %d! \n", getLineNumber());
 	exit(3);
 }

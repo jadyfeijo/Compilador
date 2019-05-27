@@ -11,7 +11,7 @@ extern int yylex();
 extern char *yytext;
 extern FILE *yyin;
 FILE *out;
-//char *output;
+extern int semanticError;
 
 int isRunning(void);
 int getLineNumber(void);
@@ -46,7 +46,13 @@ int main(int argc, char** argv)
     //hashPrint();
 
     fclose(out);
-    fprintf(stderr,"No sintax errors! \n\n");
+    fprintf(stderr,"\nNo syntactic errors! \n\n");
+
+    if(semanticError != 0)
+    {
+        fprintf(stderr,"Total of %d semantic errors! \n\n",semanticError);
+        exit(4);
+    }
     
     exit(0);
   }

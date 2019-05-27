@@ -25,8 +25,8 @@ void setAndCheckRedeclared(AST *node)
     {
         if(node->symbol->type != SYMBOL_IDENTIFIER)
         {
-            fprintf(stderr,"SEMANTIC ERROR: Identifier %s redeclared type=%d \n",node->symbol->text,node->symbol->type);
-            semanticError=1;
+            fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s redeclared type=%d \n", node->lineNumber,node->symbol->text,node->symbol->type);
+            semanticError++;
         }
 
         else
@@ -41,12 +41,12 @@ void setAndCheckRedeclared(AST *node)
                 {
                     if(node->son[1]->symbol->type != SYMBOL_IDENTIFIER) 
                     {
-                        fprintf(stderr,"SEMANTIC ERROR: Identifier %s redeclared\n",node->son[1]->symbol->text);
-                        semanticError=1;
+                        fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s redeclared\n",node->lineNumber,node->son[1]->symbol->text);
+                        semanticError++;
                     }
                     else
                     {
-                      switch(node->son[1]->son[0]->type) //tipos da lista de parametros
+                      switch(node->son[1]->son[0]->type)
                       {
                           case AST_INT: node->son[1]->symbol->datatype = SYMBOL_DATATYPE_INT; break;
                           case AST_FLOAT: node->son[1]->symbol->datatype = SYMBOL_DATATYPE_FLOAT;break;
@@ -61,7 +61,7 @@ void setAndCheckRedeclared(AST *node)
                     {
                         aux = node->son[1];
 
-                        while(aux->son[1] != NULL) //continuação da lista de parametros
+                        while(aux->son[1] != NULL)
                         {
                             aux=aux->son[1]->son[0];
                             switch (aux->son[0]->type)
@@ -74,8 +74,8 @@ void setAndCheckRedeclared(AST *node)
 
                             if (aux->symbol->type !=SYMBOL_IDENTIFIER)
                             {
-                                fprintf(stderr,"SEMANTIC ERROR: Identifier %s redeclared\n",aux->symbol->text);
-                                semanticError=1;
+                                fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s redeclared\n",aux->lineNumber,aux->symbol->text);
+                                semanticError++;
                             }
                             aux->symbol->type = SYMBOL_VAR;
                             
@@ -139,7 +139,10 @@ void checkOperands(AST *node)
                 ((node->son[0]->type == AST_SYMBOL) &&
                 (node->son[0]->symbol->type == SYMBOL_VAR) &&
                 ((node->son[0]->symbol->datatype != SYMBOL_DATATYPE_INT) && (node->son[0]->symbol->datatype !=  SYMBOL_DATATYPE_BYTE))))
-                fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid first operand.\n",node->lineNumber);
+                {
+                    fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid first operand.\n",node->lineNumber);
+                    semanticError++;
+                }
             if((!arithmeticOperation(node->son[1]->type) &&
                 (node->son[1]->type != AST_SYMBOL))
                 ||
@@ -149,49 +152,72 @@ void checkOperands(AST *node)
                 ((node->son[1]->type == AST_SYMBOL) &&
                 (node->son[1]->symbol->type == SYMBOL_VAR) &&
                 ((node->son[1]->symbol->datatype != SYMBOL_DATATYPE_INT) && (node->son[1]->symbol->datatype !=  SYMBOL_DATATYPE_BYTE))))
-                fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid second operand.\n",node->lineNumber);                          
+                {
+                    fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid second operand.\n",node->lineNumber);   
+                    semanticError++;
+                }                       
         break;
        
         case AST_ASSIGN:
-            if(node->symbol->type != SYMBOL_VAR)
+            if(node->symbol->type !=SYMBOL_VAR)
+            {
                 fprintf(stderr,"SEMANTIC ERROR in line %d. Symbol %s must be scalar!\n",node->lineNumber, node->symbol->text);
-
+                semanticError++;
+            }
             if(node->symbol->datatype != getType(node->son[0]))  
             {
-                if(node->symbol->datatype == SYMBOL_DATATYPE_FLOAT || getType(node->son[0]) == SYMBOL_DATATYPE_FLOAT)
+                if(node->symbol->datatype==SYMBOL_DATATYPE_FLOAT || getType(node->son[0])==SYMBOL_DATATYPE_FLOAT ||
+                node->symbol->datatype==SYMBOL_DATATYPE_ERROR ||getType(node->son[0])==SYMBOL_DATATYPE_ERROR ||
+                node->symbol->datatype==SYMBOL_DATATYPE_BOOL ||getType(node->son[0])==SYMBOL_DATATYPE_BOOL)
                 {
-                    fprintf(stderr,"SEMANTIC ERROR in line %d. Incompatible type in assignment. \n",node->lineNumber);
-                    semanticError=1;
+                    fprintf(stderr,"SEMANTIC ERROR in line %d. Incompatible type in assignment.\n",node->lineNumber);
+                    semanticError++;
                 }
 
             }
         break;
 
         case AST_ASSIGNARRAY:
+            if(node->symbol->type !=SYMBOL_VET)
+            {
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s is not a vector\n",node->lineNumber,node->symbol->text);
+                semanticError++;
+
+            }
+
             if(node->symbol->datatype !=getType(node->son[1]))
             {
-                if(node->symbol->datatype == SYMBOL_DATATYPE_FLOAT || node->son[1]->symbol->datatype == SYMBOL_DATATYPE_FLOAT)
+                if(node->symbol->datatype==SYMBOL_DATATYPE_FLOAT || getType(node->son[0])==SYMBOL_DATATYPE_FLOAT ||
+                node->symbol->datatype==SYMBOL_DATATYPE_ERROR ||getType(node->son[0])==SYMBOL_DATATYPE_ERROR ||
+                node->symbol->datatype==SYMBOL_DATATYPE_BOOL ||getType(node->son[0])==SYMBOL_DATATYPE_BOOL)           
                 {
-                    fprintf(stderr,"SEMANTIC ERROR in line %d. Incompatible type in assignment. \n",node->lineNumber);
-                    semanticError=1;
+                    fprintf(stderr,"SEMANTIC ERROR in line %d. Imcompatible type in assignment %s[%s] = %s",node->lineNumber,node->symbol->text,node->son[0]->symbol->text,node->son[1]->symbol->text);
+                    semanticError++;
                     break;
                 }
 
             }
-            if(node->son[0]->symbol->datatype != SYMBOL_DATATYPE_INT && node->son[0]->symbol->datatype != SYMBOL_DATATYPE_BYTE)
+            if(getType(node->son[0])!=SYMBOL_DATATYPE_INT && getType(node->son[0])!=SYMBOL_DATATYPE_BYTE)
             {
-                fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid Index type in assignment. \n",node->lineNumber);
-                semanticError=1;
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Invalid Index type in assignment.\n",node->lineNumber);
+                semanticError++;
+            }
+        break;
+        
+        case AST_ARRAY:
+            if(node->symbol->type !=SYMBOL_VET)
+            {
+                fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s is not a vector \n",node->lineNumber,node->symbol->text);
+                semanticError++;
             }
         break;
         
         case AST_FUNCCALL:
-            fprintf(stderr,"Passou na func %s \n",node->symbol->text);
 
             if(node->symbol->type != SYMBOL_FUN)
             {
                 fprintf(stderr,"SEMANTIC ERROR in line %d. Identifier %s is not a function\n",node->lineNumber,node->symbol->text);
-                semanticError=1;
+                semanticError++;
 
             }
             
@@ -234,7 +260,7 @@ int getType(AST* node)
 		case AST_FUNCCALL:
 			return node->symbol->datatype;
 		case AST_PARENTH:
-			return getType(node);
+			return getType(node->son[0]);
 		case AST_ADD:
 		case AST_SUB:
 		case AST_DIV:

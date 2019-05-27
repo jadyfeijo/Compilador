@@ -26,7 +26,7 @@ byte main ()
     1 = incn(1,I);
     a = incn(a,I);
 
-    s = s + (1<IO); ZZ TESTE int = int op booleano           -> deve dar ERRO
+    s = s + (1<IO); ZZ TESTE int = int op booleano              -> deve dar ERRO
     r = s + t + i;  ZZ TESTE float = int op float               -> deve aceitar
     s = 'b';        ZZ TESTE int = char                         -> deve aceitar
     s = 'a' + I;    ZZ TESTE int = char op int                  -> deve aceitar
