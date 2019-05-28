@@ -313,11 +313,6 @@ void checkOperands(AST *node)
 				semanticError++;
 			}
 			break;
-		/*case AST_RETURN:
-			if(node->son[0] != NULL){
-				node->datatype = node->son[0]->datatype;
-			}
-		break;*/
 		case AST_PRINT_PARAM:
 			if(node->son[0] != NULL)
             {
@@ -638,7 +633,6 @@ int functionValidation(AST *nodeDeclared, AST *node)
 
             call_type = funccall_param->son[0]->datatype;
 
-            // if(expressionTypes(dec_type,call_type)==SYMBOL_DATATYPE_ERROR) return 2;
             if (dec_type != call_type)
             {
                 if ((dec_type == SYMBOL_DATATYPE_BYTE && call_type == SYMBOL_DATATYPE_INT) || (dec_type == SYMBOL_DATATYPE_INT && call_type == SYMBOL_DATATYPE_BYTE))
