@@ -16,6 +16,7 @@ int getType(AST* node);
 int expressionTypes(int op1,int op2);
 int functionValidation (AST* nodeDeclared, AST *node);
 int validReturn(AST* nodeDeclared,AST *node);
+int checkParams(AST* node);
 
 void setAndCheckRedeclared(AST *node)
 {
@@ -611,7 +612,7 @@ int functionValidation(AST *nodeDeclared, AST *node)
 
         if (declaration_param == NULL && funccall_param == NULL)
             return 1;
-        if (declaration_param == NULL || funccall_param == NULL)
+        if (!checkParams(node))
             return 3;
 
         while (declaration_param != NULL && funccall_param != NULL)
@@ -718,4 +719,20 @@ int validReturn(AST* nodeDeclared,AST *node)
 
     return 5;
 
+}
+
+int checkParams(AST* node)
+{
+	int countParams = 0;
+
+	int params = node->symbol->numparams;
+	
+	countParams = numParamsFunc(node->son[0]);
+
+	if(countParams != params)
+	{
+		return 0;
+	}
+
+    return 1;	
 }

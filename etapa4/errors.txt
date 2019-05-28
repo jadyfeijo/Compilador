@@ -38,11 +38,11 @@ byte main ()
 
     ZZ ------------------ NOVOS TESTES ------------------
 
-    f = somafloatcomint(f,s); ZZ TESTA função que soma int com float       -> deve aceitar
+    f = somafloatcomint(f,s);    ZZ TESTA função que soma int com float       -> deve aceitar
     ZZ f = somafloatcomint(e,s); ZZ TESTA passagem de param com tipo errado   -> deve dar erro OK
     ZZ x = somafloatcomint(f,s); ZZ TESTA assign de byte = float              -> deve dar erro OK
     x = retornafloat(s,x);       ZZ                                           -> deve aceitar
-    x = retornafloat(s);         ZZ TESTA passagem do núm de param incorreto  -> deve dar erro 
+    ZZ x = retornafloat(s);         ZZ TESTA passagem do núm de param incorreto  -> deve dar erro OK
     
     };
 
@@ -67,10 +67,10 @@ byte incn ( byte xis, byte n )
 
 float somafloatcomint ( float y, int z )
   {
-    return y+z;                                        ZZ -> deve ACEITAR pois retorna float em uma op int + float
+    return y + z;                                        ZZ -> deve ACEITAR pois retorna float em uma op int + float
   };
 
 byte retornafloat ( int u, byte m )
   {
-    return IO.IO;                                      ZZ -> deve dar ERRO pois retorna float em uma função do tipo byte
+    return I.O;                                      ZZ -> deve dar ERRO pois retorna float em uma função do tipo byte
   };
