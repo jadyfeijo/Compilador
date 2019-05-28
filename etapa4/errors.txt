@@ -41,7 +41,7 @@ byte main ()
     f = somafloatcomint(f,s);    ZZ TESTA função que soma int com float       -> deve aceitar
     ZZ f = somafloatcomint(e,s); ZZ TESTA passagem de param com tipo errado   -> deve dar erro OK
     ZZ x = somafloatcomint(f,s); ZZ TESTA assign de byte = float              -> deve dar erro OK
-    x = retornafloat(s,x);       ZZ                                           -> deve aceitar
+    ZZ x = retornafloat(s,x);       ZZ                                           -> deve aceitar
     ZZ x = retornafloat(s);         ZZ TESTA passagem do núm de param incorreto  -> deve dar erro OK
     
     };

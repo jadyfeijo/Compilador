@@ -27,8 +27,6 @@ r = e + t + i;
 g = 'a' + I;
 s = 'b';
 f = somafloatcomint(f,s);
-x = retornafloat(s,x);
-x = retornafloat(s);
 };
 print "Incrementado algumas vezes fica ",a,"\n";
 if(a == E) then 
