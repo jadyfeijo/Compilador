@@ -15,7 +15,7 @@ int checkVet(AST* node, int datatype);
 int getType(AST* node);
 int expressionTypes(int op1,int op2);
 int functionValidation (AST* nodeDeclared, AST *node);
-int validReturn(AST* nodeDeclared,AST *node);
+int validReturn(AST *nodeDec,AST *node);
 int checkParams(AST* node);
 
 void setAndCheckRedeclared(AST *node)
@@ -171,7 +171,7 @@ void checkOperands(AST *node)
 		case AST_DECFUNC_VOID:
         case AST_DECFUNC:
         
-            if(validReturn(nodeDeclared,node)==0)
+            if(validReturn(node,node)==0)
             {
                     fprintf(stderr, "SEMANTIC ERROR in line %d. Invalid return type in function %s.\n",node->lineNumber,node->symbol->text);
                     semanticError++;
@@ -313,11 +313,11 @@ void checkOperands(AST *node)
 				semanticError++;
 			}
 			break;
-		case AST_RETURN:
+		/*case AST_RETURN:
 			if(node->son[0] != NULL){
 				node->datatype = node->son[0]->datatype;
 			}
-		break;
+		break;*/
 		case AST_PRINT_PARAM:
 			if(node->son[0] != NULL)
             {
@@ -685,14 +685,14 @@ int functionValidation(AST *nodeDeclared, AST *node)
     return 5;
 }
 
-int validReturn(AST* nodeDeclared,AST *node)
+int validReturn(AST *nodeDec,AST *node)
 {
-    int dec_type;
-    if (nodeDeclared->type==AST_RETURN)
+    int dec_type=nodeDec->symbol->datatype;
+    int return_type;
+    if (node->type==AST_RETURN)
     {
-        dec_type=node->symbol->datatype;
-        int return_type=nodeDeclared->son[0]->datatype;
-
+        return_type=node->son[0]->datatype;
+       
         if(dec_type!=return_type)
             if ((dec_type == SYMBOL_DATATYPE_BYTE && return_type == SYMBOL_DATATYPE_INT) || (dec_type == SYMBOL_DATATYPE_INT && return_type == SYMBOL_DATATYPE_BYTE))
                     return 1;
@@ -707,10 +707,10 @@ int validReturn(AST* nodeDeclared,AST *node)
 
         for (number_sons = 0; number_sons < 4; number_sons++)
         {
-            if (nodeDeclared->son[number_sons] != NULL)
+            if (node->son[number_sons] != NULL)
             {
                 int found;
-                found = validReturn(nodeDeclared->son[number_sons], node);
+                found = validReturn(nodeDec,node->son[number_sons]);
                 if (found != 5)
                     return found;
             }
