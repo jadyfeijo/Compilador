@@ -54,15 +54,20 @@
 #define AST_VECSIZE 43
 #define AST_VECSIZE 43
 #define AST_ASSIGNARRAY 44
-#define AST_SYMBOL_INT 45
-#define AST_SYMBOL_FLOAT 46
-#define AST_SYMBOL_CHAR 47
-
+#define AST_DATATYPE_INT 45
+#define AST_DATATYPE_FLOAT 46
+#define AST_DATATYPE_BYTE 47
+#define AST_DATATYPE_BOOL 48
+#define AST_DATATYPE_STRING 49
+#define AST_DATATYPE_VET 50
+#define AST_DATATYPE_FUN 51
+#define AST_DATATYPE_ERROR 52
 
 
 typedef struct ast_node
 {
     int type;
+    int datatype;
     int lineNumber;
     NODE *symbol;
     struct ast_node *son[MAX_SONS];

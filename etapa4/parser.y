@@ -63,22 +63,19 @@
 %type <ast> func_param
 %type <ast> func_param2
 
-%left '<' '>' '='
+%left OPERATOR_OR OPERATOR_AND OPERATOR_NOT
+%left '<' '>'
+%left OPERATOR_LE OPERATOR_GE
+%left OPERATOR_DIF OPERATOR_EQ  
 %left '-' '+'
 %left '/' '*'
-%left OPERATOR_LE OPERATOR_GE
-%left OPERATOR_DIF OPERATOR_EQ
-%left OPERATOR_OR OPERATOR_AND OPERATOR_NOT  
 
 %%
 
 program: declist							{$$=$1; 
 												astPrint(0,$1); 
 												astDecompilation($1);
-												fprintf(stderr, "\n"); 
-												setAndCheckRedeclared($1);
-												hashCheckUndeclared();
-												checkOperands($1);
+												checkSemantic($1);
 											}
 	;
 
@@ -140,9 +137,9 @@ ctrl_fluxo:
 	;
 	
 lit:
-	LIT_INTEGER				{$$=astCreate(AST_SYMBOL_INT,$1,0,0,0,0,getLineNumber());}									
-	| LIT_FLOAT				{$$=astCreate(AST_SYMBOL_FLOAT,$1,0,0,0,0,getLineNumber());}
-	| LIT_CHAR				{$$=astCreate(AST_SYMBOL_CHAR,$1,0,0,0,0,getLineNumber());}
+	LIT_INTEGER				{$$=astCreate(AST_SYMBOL,$1,0,0,0,0,getLineNumber());}									
+	| LIT_FLOAT				{$$=astCreate(AST_SYMBOL,$1,0,0,0,0,getLineNumber());}
+	| LIT_CHAR				{$$=astCreate(AST_SYMBOL,$1,0,0,0,0,getLineNumber());}
 	;
 
 type:

@@ -5,7 +5,7 @@ byte b = O;
 byte 1 = O;
 byte c = 'x';
 byte x = DE;
-int v [IO]: O O O O O O O O O O;
+int v [IO]: O O O O O O O O O OI;
 int mat [IO]; 
 float f = IO.EE;
 float r = I.A;
@@ -38,11 +38,11 @@ byte main ()
 
     ZZ ------------------ NOVOS TESTES ------------------
 
-    f = soma_float_int(f,s); ZZ TESTA função que soma int com float       -> deve aceitar
-    f = soma_float_int(e,s); ZZ TESTA passagem de param com tipo errado   -> deve dar erro OK
-    x = soma_float_int(f,s); ZZ TESTA assign de byte = float              -> deve dar erro OK
-    x = retfloat(s,x);       ZZ                                           -> deve aceitar
-    x = retfloat(s);         ZZ TESTA passagem do núm de param incorreto  -> deve dar erro 
+    f = somafloatcomint(f,s); ZZ TESTA função que soma int com float       -> deve aceitar
+    ZZ f = somafloatcomint(e,s); ZZ TESTA passagem de param com tipo errado   -> deve dar erro OK
+    ZZ x = somafloatcomint(f,s); ZZ TESTA assign de byte = float              -> deve dar erro OK
+    x = retornafloat(s,x);       ZZ                                           -> deve aceitar
+    x = retornafloat(s);         ZZ TESTA passagem do núm de param incorreto  -> deve dar erro 
     
     };
 
@@ -56,6 +56,8 @@ byte main ()
 
   if (a==IO) then a = a else c = b
     ;
+
+    return x;
   };
 
 byte incn ( byte xis, byte n )
@@ -63,12 +65,12 @@ byte incn ( byte xis, byte n )
   return xis+n;
   };
 
-float soma_float_int ( float y, int z )
+float somafloatcomint ( float y, int z )
   {
     return y+z;                                        ZZ -> deve ACEITAR pois retorna float em uma op int + float
   };
 
-byte retfloat ( int u, byte m )
+byte retornafloat ( int u, byte m )
   {
     return IO.IO;                                      ZZ -> deve dar ERRO pois retorna float em uma função do tipo byte
   };

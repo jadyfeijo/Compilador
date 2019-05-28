@@ -38,11 +38,8 @@ void astPrint(int level, AST *node)
     switch (node->type)
     {
         case AST_SYMBOL:
-        case AST_SYMBOL_INT:
-        case AST_SYMBOL_FLOAT:
-        case AST_SYMBOL_CHAR:
             fprintf(stderr,"AST_SYMBOL,");
-            break;
+        break;
         case AST_ADD:
             fprintf(stderr,"AST_ADD,");
             break;
@@ -195,11 +192,8 @@ void astDecompilation(AST *node)
     switch (node->type)
     {
         case AST_SYMBOL:
-        case AST_SYMBOL_INT:
-        case AST_SYMBOL_FLOAT:
-        case AST_SYMBOL_CHAR:
             fprintf(out,"%s", node->symbol->text);
-            break;
+        break;
         case AST_ADD:
             astDecompilation(node->son[0]); fprintf(out," + "); astDecompilation(node->son[1]);
             break;
