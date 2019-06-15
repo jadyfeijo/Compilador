@@ -25,5 +25,11 @@ typedef struct tac_node
 
 TAC* tacCreate(int type, NODE *res, NODE *op1, NODE *op2);
 void tacPrintSingle(TAC *tac);
+void tacPrintBack(TAC *tac);
+void tacPrintForward(TAC *last);
+void tacReverse(TAC *last);
+TAC* tacJoin(TAC *l1, TAC *l2);
+
+TAC* generateCode(AST *ast);
 
 #endif
