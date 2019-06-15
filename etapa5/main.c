@@ -11,7 +11,7 @@ extern int yylex();
 extern char *yytext;
 extern FILE *yyin;
 FILE *out;
-//char *output;
+extern int semanticError;
 
 int isRunning(void);
 int getLineNumber(void);
@@ -30,22 +30,31 @@ int main(int argc, char** argv)
     if (0==(yyin = fopen(argv[1],"r")))
     {
         printf("Cannot open file %s... \n",argv[1]);
-        exit(1);
+        exit(2);
     }
     if (0==(out = fopen(argv[2],"w"))) 
     {
         printf("Cannot open file %s... \n",argv[2]);
-        exit(1);
+        exit(2);
     }
-    
-    //output = argv[2];
+
 
     initMe();
 
     yyparse();
 
     //hashPrint();
+
     fclose(out);
-    fprintf(stderr,"No sintax errors! \n\n");
+    
+    fprintf(stderr,"\nNo syntactic errors! \n\n");
+
+    if(semanticError > 0)
+    {
+        fprintf(stderr,"Total of %d semantic errors! \n\n",semanticError);
+        exit(4);
+    }
+
+    fprintf(stderr,"\nNo semantic errors! \n\n");
     exit(0);
   }

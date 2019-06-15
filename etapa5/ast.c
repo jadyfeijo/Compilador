@@ -7,7 +7,7 @@
 
 extern FILE *out;
 
-AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3)
+AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3, int lineNumber)
 {
     AST *newnode;
 
@@ -19,6 +19,7 @@ AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3)
     newnode->son[2] = s2;
     newnode->son[3] = s3;
     newnode->symbol = symbol;
+    newnode->lineNumber = lineNumber;
 
     return newnode;
 }
@@ -38,7 +39,7 @@ void astPrint(int level, AST *node)
     {
         case AST_SYMBOL:
             fprintf(stderr,"AST_SYMBOL,");
-            break;
+        break;
         case AST_ADD:
             fprintf(stderr,"AST_ADD,");
             break;
@@ -192,7 +193,7 @@ void astDecompilation(AST *node)
     {
         case AST_SYMBOL:
             fprintf(out,"%s", node->symbol->text);
-            break;
+        break;
         case AST_ADD:
             astDecompilation(node->son[0]); fprintf(out," + "); astDecompilation(node->son[1]);
             break;

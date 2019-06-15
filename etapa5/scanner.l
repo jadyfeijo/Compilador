@@ -37,17 +37,17 @@
                                 }
                               } 
                                   
-[A-IO]+                       { yylval.symbol = hashInsert(LIT_INTEGER,yytext); return LIT_INTEGER; }
+[A-IO]+                       { yylval.symbol = hashInsert(SYMBOL_LIT_INT,yytext); return LIT_INTEGER; }
 
-[A-IO]+"."[A-IO]+		      { yylval.symbol = hashInsert(LIT_FLOAT,yytext); return LIT_FLOAT; }
+[A-IO]+"."[A-IO]+		      { yylval.symbol = hashInsert(SYMBOL_LIT_FLOAT,yytext); return LIT_FLOAT; }
 '(\\.|[^'\n])*\'		      { if (yyleng==3)
-                                { yylval.symbol = hashInsert(LIT_CHAR,yytext);
+                                { yylval.symbol = hashInsert(SYMBOL_LIT_CHAR,yytext);
                                    return LIT_CHAR;
                                 }
                                   else return TOKEN_ERROR;
                               } 
                 
-\"(\\.|[^\"\n])*\"   		  { yylval.symbol = hashInsert(LIT_STRING,yytext); return LIT_STRING;}
+\"(\\.|[^\"\n])*\"   		  { yylval.symbol = hashInsert(SYMBOL_LIT_STRING,yytext); return LIT_STRING;}
 
 [-+*/=(){}<>;,:&$#]           { return (int)yytext[0]; }
 "["                           { return (int)yytext[0]; }

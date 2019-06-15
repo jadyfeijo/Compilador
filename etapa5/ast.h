@@ -55,16 +55,25 @@
 #define AST_VECSIZE 43
 #define AST_ASSIGNARRAY 44
 #define AST_DATATYPE_INT 45
-#define AST_DATATYPE_CHAR 46
+#define AST_DATATYPE_FLOAT 46
+#define AST_DATATYPE_BYTE 47
+#define AST_DATATYPE_BOOL 48
+#define AST_DATATYPE_STRING 49
+#define AST_DATATYPE_VET 50
+#define AST_DATATYPE_FUN 51
+#define AST_DATATYPE_ERROR 52
+
 
 typedef struct ast_node
 {
     int type;
+    int datatype;
+    int lineNumber;
     NODE *symbol;
     struct ast_node *son[MAX_SONS];
 } AST;
 
-AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3);
+AST *astCreate(int type, NODE *symbol, AST *s0, AST *s1, AST *s2, AST *s3, int lineNumber);
 void astPrint(int level, AST *node);
 void astDecompilation(AST *node);
 

@@ -7,5 +7,4 @@
 
 void setAndCheckRedeclared(AST *node);
 void checkOperands(AST *node);
-
 void checkSemantic(AST* node);

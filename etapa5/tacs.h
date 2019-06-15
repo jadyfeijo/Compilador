@@ -1,9 +1,11 @@
 //Eduarda Trindade 274709
 //Jady Feijó 230210
 
-#ifdef TACS_HEADER
+#ifndef TACS_HEADER
 #define TACS_HEADER
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "hash.h"
 #include "ast.h"
 

@@ -45,6 +45,13 @@ NODE* hashInsert(int type, char *text)
     newnode = (NODE*) calloc(1,sizeof(NODE));
     newnode->type = type;
     newnode->text = calloc(strlen(yytext) + 1, sizeof(char));
+    
+    switch(type){
+		case SYMBOL_LIT_INT: newnode->datatype = SYMBOL_DATATYPE_INT; break;
+		case SYMBOL_LIT_FLOAT: newnode->datatype = SYMBOL_DATATYPE_FLOAT; break;
+		case SYMBOL_LIT_CHAR: newnode->datatype = SYMBOL_DATATYPE_BYTE; break;
+		case SYMBOL_LIT_STRING: newnode->datatype = SYMBOL_DATATYPE_STRING; break;
+	}
 
     strcpy(newnode->text,text);
     newnode->next = Table[address];
