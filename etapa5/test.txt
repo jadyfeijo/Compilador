@@ -1,13 +1,8 @@
-int a = B;
-int b = A;
-int c = C;
+int a = A;
 
-int v [IO]: O O O O O O O O O O;
-
-int main()
-{
-    if (a==O) then
-        print "Parou no meio\n";
-
-    c = a + b; 
+int main (){
+    print "teste";
+    if (A<B) then {};
+    if (a>C) then {};
+    if (D<E) then {};
 };

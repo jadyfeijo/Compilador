@@ -84,3 +84,12 @@ void hashCheckUndeclared(void)
                 fprintf(stderr," Undeclared identifier %s\n", node->text);
             }
 }
+
+NODE* makeTemp(void)
+{
+    static int serialNumber = 0;
+    static char buffer[64] = "";
+
+    sprintf(buffer,"mYweirdSgtrangheTem%d",serialNumber++);
+    return hashInsert(SYMBOL_VAR,buffer);
+}

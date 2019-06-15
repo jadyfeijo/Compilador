@@ -1,53 +1,17 @@
-byte a = O; 
-byte b = O; 
-byte 1 = O; 
-byte c = 'x'; 
-byte x = DE; 
-int v[IO]: O O O O O O O O O OI; 
-int mat[IO]; 
-float f = IO.EE; 
-float r = I.A; 
-int s = A; 
-float t = B.C; 
-int i = O; 
-int e = A; 
-int g = O; 
-byte main()
+int a = A; 
+int main()
 {
-a = C;
-v[a] = AO;
-print v[a];
-print "Digite um numero: \n";
-read a;
-loop(1 < IO)
+print "teste";
+if(A < B) then 
+
 {
-1 = incn(1,I);
-a = incn(a,I);
-r = e + t + i;
-g = 'a' + I;
-s = 'b';
-f = somafloatcomint(f,s);
-};
-print "Incrementado algumas vezes fica ",a,"\n";
-if(a == E) then 
-print "Parou no meio\n" ;
-if(a == II or a == IC) then 
-print "Var a ficou II ou IC\n" ;
-if(a == IO) then a = a else c = b;
-return x;
-};
- 
-byte incn(byte xis, byte n)
+} ;
+if(a > C) then 
+
 {
-return xis + n;
-};
- 
-float somafloatcomint(float y, int z)
+} ;
+if(D < E) then 
+
 {
-return y + z;
-};
- 
-byte retornafloat(int u, byte m)
-{
-return I.O;
+} ;
 };

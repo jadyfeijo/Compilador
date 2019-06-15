@@ -63,3 +63,45 @@ void tacPrintForward(TAC *last)
         tacPrintSingle(last);
     }
 }
+
+TAC* tacJoin(TAC *l1, TAC *l2)
+{
+    TAC* tac;
+
+    if (!l1) return l2;
+    if (!l2) return l1;
+
+    for (tac = l2; tac->prev; tac = tac->prev);
+    tac->prev = l1;
+
+    return l2;
+}
+
+TAC* generateCode(AST *node)
+{
+    int i;
+    TAC* result[MAX_SONS];
+
+    if(node == 0)
+        return 0;
+
+    for(i=0; i<MAX_SONS; i++)
+        result[i] = generateCode(node->son[i]);
+
+    switch (node->type)
+    {
+    case AST_SYMBOL:
+        return tacCreate(TAC_SYMBOL, node->symbol,0,0);
+        break;
+    case AST_ADD:
+        return tacCreate(TAC_ADD, makeTemp(),
+                        result[0]?result[0]->res:0,
+                        result[1]?result[1]->res:0);
+        break;
+    
+    default:
+        break;
+    }
+
+    return tacJoin(tacJoin(tacJoin(result[0], result[1]), result[2]), result[3]);
+}

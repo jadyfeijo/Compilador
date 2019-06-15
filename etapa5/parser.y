@@ -7,6 +7,7 @@
 	#include "hash.h"
 	#include "ast.h"
 	#include "semantic.h"
+	#include "tacs.h"
 
 	int yyerror (char *msg);
 	int yylex(void);
@@ -72,10 +73,11 @@
 
 %%
 
-program: declist							{$$=$1; 
+program: declist							{	$$=$1; 
 												astPrint(0,$1); 
 												astDecompilation($1);
 												checkSemantic($1);
+												tacPrintBack(generateCode($1));
 											}
 	;
 

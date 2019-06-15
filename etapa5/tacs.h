@@ -30,6 +30,6 @@ void tacPrintForward(TAC *last);
 void tacReverse(TAC *last);
 TAC* tacJoin(TAC *l1, TAC *l2);
 
-TAC* generateCode(AST *ast);
+TAC* generateCode(AST *node);
 
 #endif

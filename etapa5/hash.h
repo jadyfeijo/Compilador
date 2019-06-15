@@ -47,4 +47,6 @@ NODE* hashInsert(int type, char *text);
 void hashPrint(void);
 void hashCheckUndeclared(void);
 
+NODE* makeTemp(void);
+
 #endif
