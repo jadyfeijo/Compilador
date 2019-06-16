@@ -12,14 +12,14 @@
 #define TAC_SYMBOL 1
 #define TAC_ADD 2
 #define TAC_SUB 3
-#define TAC_MUL 4
+#define TAC_MULT 4
 #define TAC_DIV 5
 #define TAC_COPY 6
 #define TAC_IFZ 7
 #define TAC_LABEL 8
 #define TAC_JUMP 9
 #define TAC_LESS 10
-#define TAC_GREAT 11
+#define TAC_GREATER 11
 #define TAC_LE 12
 #define TAC_GE 13
 #define TAC_EQ 14
@@ -34,6 +34,9 @@
 #define TAC_ENDFUN 23
 #define TAC_ARRAY 24
 #define TAC_VETDEC 25
+#define TAC_FUNCCALL 26
+#define TAC_PARAM 27
+#define TAC_FUNC_PARAM 28
 
 typedef struct tac_node
 {
@@ -49,9 +52,8 @@ TAC* tacCreate(int type, NODE *res, NODE *op1, NODE *op2);
 void tacPrintSingle(TAC *tac);
 void tacPrintBack(TAC *tac);
 void tacPrintForward(TAC *last);
-void tacReverse(TAC *last);
 TAC* tacJoin(TAC *l1, TAC *l2);
 
-TAC* generateCode(AST *node);
+TAC* generateCode(AST *node,NODE *label);
 
 #endif

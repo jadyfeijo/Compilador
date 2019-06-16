@@ -74,10 +74,10 @@
 %%
 
 program: declist							{	$$=$1;
-												//astPrint(0,$1); 
+												astPrint(0,$1); 
 												astDecompilation($1);
 												checkSemantic($1);
-												tacPrintBack(generateCode($1));
+												tacPrintForward(generateCode($1,0));
 											}
 	;
 
