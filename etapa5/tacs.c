@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include "tacs.h"
 
+TAC* makeBinOp(TAC* result0, TAC* result1, int type);
+TAC* makeIfThen(TAC* result0, TAC* result1);
+
 TAC* tacCreate(int type, NODE *res, NODE *op1, NODE *op2)
 {
     TAC *tac= (TAC*) calloc(1,sizeof(TAC));
@@ -21,7 +24,7 @@ TAC* tacCreate(int type, NODE *res, NODE *op1, NODE *op2)
 
 void tacPrintSingle(TAC *tac)
 {
-    if(tac != 0) return;
+    if(tac == 0) return;
 
     fprintf(stderr, "TAC(");
 
@@ -64,6 +67,11 @@ void tacPrintForward(TAC *last)
     }
 }
 
+void tacReverse(TAC *last)
+{
+
+}
+
 TAC* tacJoin(TAC *l1, TAC *l2)
 {
     TAC* tac;
@@ -90,18 +98,32 @@ TAC* generateCode(AST *node)
 
     switch (node->type)
     {
-    case AST_SYMBOL:
-        return tacCreate(TAC_SYMBOL, node->symbol,0,0);
-        break;
-    case AST_ADD:
-        return tacCreate(TAC_ADD, makeTemp(),
-                        result[0]?result[0]->res:0,
-                        result[1]?result[1]->res:0);
-        break;
-    
-    default:
-        break;
+        case AST_SYMBOL:
+            return tacCreate(TAC_SYMBOL, node->symbol,0,0);
+            break;
+        case AST_ADD:
+            return tacCreate(TAC_ADD, makeTemp(),
+                            result[0]?result[0]->res:0,
+                            result[1]?result[1]->res:0);
+            break;
+        
+        default: 
+            //fprintf(stderr,"generateCode: UNKNOWN\n");
+            break;
     }
 
     return tacJoin(tacJoin(tacJoin(result[0], result[1]), result[2]), result[3]);
+}
+
+TAC *makeBinOp(TAC* result0, TAC* result1, int type)
+{
+    return tacJoin(tacJoin(result0, result1),
+					tacCreate(type, makeTemp(),
+						    result0?result0->res:0,
+						    result1?result1->res:0));
+}
+
+TAC* makeIfThen(TAC* result0, TAC* result1)
+{
+
 }

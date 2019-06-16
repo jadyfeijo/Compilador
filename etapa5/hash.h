@@ -48,5 +48,6 @@ void hashPrint(void);
 void hashCheckUndeclared(void);
 
 NODE* makeTemp(void);
+NODE* makeLabel(void);
 
 #endif

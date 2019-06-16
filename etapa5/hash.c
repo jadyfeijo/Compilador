@@ -90,6 +90,15 @@ NODE* makeTemp(void)
     static int serialNumber = 0;
     static char buffer[64] = "";
 
-    sprintf(buffer,"mYweirdSgtrangheTem%d",serialNumber++);
-    return hashInsert(SYMBOL_VAR,buffer);
+    sprintf(buffer,"mYweirdSgtrangheTemp_%d",serialNumber++);
+    return hashInsert(SYMBOL_IDENTIFIER,buffer);
+}
+
+NODE* makeLabel(void)
+{
+    static int serialNumber = 0;
+    static char buffer[64] = "";
+
+    sprintf(buffer,"LaeiBeu_%d",serialNumber++);
+    return hashInsert(SYMBOL_IDENTIFIER,buffer);
 }

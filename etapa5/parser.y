@@ -73,8 +73,8 @@
 
 %%
 
-program: declist							{	$$=$1; 
-												astPrint(0,$1); 
+program: declist							{	$$=$1;
+												//astPrint(0,$1); 
 												astDecompilation($1);
 												checkSemantic($1);
 												tacPrintBack(generateCode($1));
