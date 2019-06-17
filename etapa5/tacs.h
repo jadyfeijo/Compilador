@@ -37,6 +37,9 @@
 #define TAC_FUNCCALL 26
 #define TAC_PARAM 27
 #define TAC_FUNC_PARAM 28
+#define TAC_PUSH 29
+#define TAC_POP 30
+#define TAC_VET_IND 31
 
 typedef struct tac_node
 {
