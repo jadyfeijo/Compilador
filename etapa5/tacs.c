@@ -139,14 +139,14 @@ TAC* generateCode(AST *node, NODE *label)
         case AST_MULT: return makeBinOp(result, TAC_MULT);
         case AST_DIV: return makeBinOp(result, TAC_DIV);
         case AST_LESS: return makeBinOp(result, TAC_LESS);
-	case AST_GREATER: return makeBinOp(result, TAC_GREATER);
+	    case AST_GREATER: return makeBinOp(result, TAC_GREATER);
         case AST_LE: return makeBinOp(result, TAC_LE);
         case AST_GE: return makeBinOp(result, TAC_GE);
-	case AST_EQ: return makeBinOp(result, TAC_EQ);
-	case AST_DIF: return makeBinOp(result, TAC_DIF);
-	case AST_AND: return makeBinOp(result, TAC_AND);
-	case AST_OR: return makeBinOp(result, TAC_OR);
-	case AST_NOT: return makeBinOp(result, TAC_NOT);
+	    case AST_EQ: return makeBinOp(result, TAC_EQ);
+	    case AST_DIF: return makeBinOp(result, TAC_DIF);
+	    case AST_AND: return makeBinOp(result, TAC_AND);
+	    case AST_OR: return makeBinOp(result, TAC_OR);
+	    case AST_NOT: return makeBinOp(result, TAC_NOT);
    
         case AST_ASSIGN: return tacJoin(result[0], tacCreate(TAC_COPY, node->symbol, result[0]?result[0]->res:0, 0));
       	case AST_ASSIGNARRAY: return tacJoin(tacJoin(result[0],result[1]),tacCreate(TAC_COPY,node->symbol,result[1]?result[1]->res:0,result[0]?result[0]->res:0));
@@ -160,13 +160,12 @@ TAC* generateCode(AST *node, NODE *label)
         case AST_LOOP: return makeLoop(result[0],result[1]);
         case AST_LEAP: return makeLeap(result,label);
         case AST_FUNCCALL: label = makeLabel(); return tacJoin(result[1],tacJoin(tacJoin(tacCreate(TAC_FUNCCALL,node->symbol,label,0),tacJoin(tacCreate(TAC_JUMP,node->symbol,0,0),tacCreate(TAC_LABEL,label,0,0))),tacCreate(TAC_PUSH,makeTemp(),0,0)));
-
         case AST_FUNC_PARAM: return tacJoin(tacJoin(result[0],tacCreate(TAC_POP,result[0]->res,0,0)),result[1]);
         case AST_FUNC_PARAM2: return result[0];
-	case AST_DEC: return tacJoin(result[0],result[1]);
+	    case AST_DEC: return tacJoin(result[0],result[1]);
         case AST_DECFUNC: return makeFunc(tacCreate(TAC_SYMBOL, node->symbol, 0, 0), result[1], result[2]);
         case AST_DECFUNC_VOID: return makeFunc(tacCreate(TAC_SYMBOL, node->symbol, 0, 0), result[1], result[2]);
-        case AST_DEC_PARAM: return tacJoin(tacJoin(result[1],tacCreate(TAC_FUNC_PARAM,node->symbol,0,0)),result[2]);//tacJoin(tacCreate(TAC_FUNC_PARAM,node->symbol,0,0),result[2]);
+        case AST_DEC_PARAM: return tacJoin(tacJoin(result[1],tacCreate(TAC_FUNC_PARAM,node->symbol,0,0)),result[2]);
         case AST_DEC_PARAM2: return result[0];
 
         default: 
