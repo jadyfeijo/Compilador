@@ -1,33 +1,33 @@
 byte a = O; 
-byte b = O; 
-byte 1 = O; 
-byte c = 'x'; 
-byte x = DE; 
-int v[IO]: O O O O O O O O O O; 
+int 1 = 'c'; 
+int v[IO]; 
+float v2[AC]: I.I; 
 int mat[IO]; 
 float f = IO.EE; 
-int r = I; 
-int s = A; 
-int t = B; 
+byte c = 'x'; 
 byte main()
 {
 a = C;
-v[a] = AO;
-print v[a];
+v[a + C] = AO + AB;
+print v[a],"oie";
 print "Digite um numero: \n";
 read a;
-loop(1 < IO)
+loop(a == IO)
 {
-1 = incn(1,I);
-a = incn(a,I);
-r = s + t;
+1 = incn(incn(a,a),I);
+a = incn(a,A);
 };
-print "Incrementado algumas vezes fica ",a,"\n";
+print "Incrementado algumas vezes fica ",a + C,"\n";
 if(a == E) then 
 print "Parou no meio\n" ;
 if(a == II or a == IC) then 
-print "Var a ficou II ou IC\n" ;
-if(a == IO) then a = a else c = b;
+{
+print "Var a ficou II ou IC\n";
+a = A;
+;
+;
+} else a = 'z';
+if(a == IO) then  else ;
 ;
 ;
 ;
@@ -40,7 +40,13 @@ if(a == IO) then a = a else c = b;
 };
 };
  
-byte incn(byte xis, byte n)
+byte incn(byte x, byte n)
 {
-return xis + n;
+if(A == A) then 
+{
+a = B;
+} else a = A;
+a = incn(A,A);
+a = incn(A,A);
+return A / I;
 };

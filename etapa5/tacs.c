@@ -10,7 +10,7 @@ TAC* makeIfThen(TAC* result0, TAC* result1);
 TAC* makeIfThenElse(TAC* result0, TAC* result1,TAC* result2);
 TAC* makeFunc(TAC* symbol, TAC* params, TAC* code);
 TAC* makeLoop(TAC* result0, TAC* result1);
-TAC* makeLeap(TAC* result[], NODE* currentLabel); //TO DO
+TAC* makeLeap(TAC* result[], NODE* currentLabel);
 
 TAC* tacCreate(int type, NODE *res, NODE *op1, NODE *op2)
 {
