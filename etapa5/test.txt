@@ -1,8 +1,33 @@
-int a = A;
+ZZ Teste do lab do Johann
 
-int main (){
-    print "teste";
-    if (A<B) then {};
-    if (a>C) then {};
-    if (D<E) then {};
+int a = O;
+int c  = O;
+int v [ IO ]: O O O O O O O O O O;
+int mat[IOOO];
+
+int incn (int x, int n)
+{
+  return x + n;
+};
+
+int main ( )
+{
+  print H+H, "Digite", ")la)la)la", "teste";
+  read a;
+
+  if ( a==I ) then
+    print "Got you!"
+  else
+    print "nao imprime";
+
+  a = E + H * G;
+
+  loop ( a < IO )
+    c = c + I;
+  
+  v[c] = AAA;
+
+  print v[EE];
+
+  return O;
 };

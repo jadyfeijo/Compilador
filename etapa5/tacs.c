@@ -6,8 +6,7 @@
 #include "tacs.h"
 
 TAC* makeBinOp(TAC* result[], int type);
-TAC* makeIfThen(TAC* result0, TAC* result1); 
-TAC* makeIfThenElse(TAC* result0, TAC* result1,TAC* result2);
+TAC* makeIfThenElse(TAC* result[]);
 TAC* makeFunc(TAC* symbol, TAC* params, TAC* code);
 TAC* makeLoop(TAC* result0, TAC* result1);
 TAC* makeLeap(TAC* result[], NODE* currentLabel);
@@ -64,6 +63,8 @@ void tacPrintSingle(TAC *tac)
         case TAC_PUSH: fprintf(stderr,"TAC_PUSH"); break;
         case TAC_POP: fprintf(stderr,"TAC_POP"); break;
         case TAC_VET_IND: fprintf(stderr,"TAC_VET_IND"); break;
+        case TAC_ASSIGNARRAY: fprintf(stderr,"TAC_ASSIGNARRAY"); break;
+        case TAC_PRINT_PARAM:fprintf(stderr, "TAC_PRINT_PARAM"); break;
         
         default: fprintf(stderr,"UNKNOWN TAC TYPE"); break;
     }
@@ -149,14 +150,14 @@ TAC* generateCode(AST *node, NODE *label)
 	    case AST_NOT: return makeBinOp(result, TAC_NOT);
    
         case AST_ASSIGN: return tacJoin(result[0], tacCreate(TAC_COPY, node->symbol, result[0]?result[0]->res:0, 0));
-      	case AST_ASSIGNARRAY: return tacJoin(tacJoin(result[0],result[1]),tacCreate(TAC_COPY,node->symbol,result[1]?result[1]->res:0,result[0]?result[0]->res:0));
+      	case AST_ASSIGNARRAY: return tacJoin(tacJoin(result[0],result[1]),tacCreate(TAC_ASSIGNARRAY,node->symbol,result[1]?result[1]->res:0,result[0]?result[0]->res:0));
       	case AST_ARRAY: return tacJoin(result[0],tacCreate(TAC_VET_IND,makeTemp(),node->symbol,result[0]?result[0]->res:0));
         case AST_RETURN: return tacJoin(result[0],tacCreate(TAC_RETURN,result[0]->res,0,0));
-        case AST_PRINT: return  tacJoin(tacJoin(result[0], tacCreate(TAC_PRINT, result[0]?result[0]->res:0, 0, 0)), result[1]);
-        case AST_PRINT_PARAM: return result[0];
+        case AST_PRINT: return tacJoin(tacJoin(result[0], tacCreate(TAC_PRINT, result[0]?result[0]->res:0, 0, 0)), result[1]);
+        case AST_PRINT_PARAM: return tacJoin(tacJoin(result[0], tacCreate(TAC_PRINT_PARAM, result[0]?result[0]->res:0, 0, 0)), result[1]);
         case AST_READ: return tacCreate(TAC_READ,node->symbol,0,0);
-        case AST_IFT: return makeIfThen(result[0],result[1]);
-        case AST_IFTE: return makeIfThenElse(result[0],result[1],result[2]);
+        case AST_IFTE:
+        case AST_IFT: return makeIfThenElse(result);
         case AST_LOOP: return makeLoop(result[0],result[1]);
         case AST_LEAP: return makeLeap(result,label);
         case AST_FUNCCALL: label = makeLabel(); return tacJoin(result[1],tacJoin(tacJoin(tacCreate(TAC_FUNCCALL,node->symbol,label,0),tacJoin(tacCreate(TAC_JUMP,node->symbol,0,0),tacCreate(TAC_LABEL,label,0,0))),tacCreate(TAC_PUSH,makeTemp(),0,0)));
@@ -191,28 +192,24 @@ TAC *makeBinOp(TAC* result[], int type)
 	return tacJoin(result[0],tacJoin(result[1],tacCreate(type,makeTemp(),op1,op2)));
 }
 
-TAC* makeIfThen(TAC* result0, TAC* result1)
+TAC* makeIfThenElse(TAC* result[])
 {
-	TAC* tacIf;
-	NODE * label1;
-	NODE * label2;
+	NODE* labelIf = makeLabel();
+	TAC* tacIf = tacJoin(result[0],tacCreate(TAC_IFZ,labelIf,result[0]?result[0]->res:0, 0));
+	TAC* tacLabelIf = tacCreate(TAC_LABEL,labelIf, 0, 0);
+	
+	if(result[2])
+    {
+		NODE* labelElse = makeLabel();
+		TAC* tacLabelElse = tacCreate(TAC_LABEL, labelElse, 0, 0);
+		TAC* tacJumpElse = tacCreate(TAC_JUMP, labelElse, 0, 0);
 
-	label1= makeLabel();
-	label2= makeLabel();
-
-	  return tacIf = tacJoin(result0,tacJoin(tacJoin(tacCreate(TAC_IFZ,result0->res,label1,label2),tacCreate(TAC_LABEL,label1,0,0)),tacJoin(result1,tacCreate(TAC_LABEL,label2,0,0))));		
-}
-
-TAC* makeIfThenElse(TAC* result0, TAC* result1,TAC* result2)
-{
-	TAC* tacIfElse;
-	NODE * label1;
-	NODE * label2;
-
-	label1= makeLabel();
-	label2= makeLabel();
-
-	   return tacIfElse = tacJoin(result0,tacJoin(tacJoin(tacCreate(TAC_IFZ,result0->res,label1,label2),tacCreate(TAC_LABEL,label1,0,0)),tacJoin(result1,tacJoin(tacCreate(TAC_LABEL,label2,0,0),result2))));	
+		return tacJoin(tacJoin(tacJoin(tacJoin(tacJoin(tacIf,result[1]),tacJumpElse),tacLabelIf), result[2]),tacLabelElse);
+	}
+    
+    else
+		return tacJoin(tacJoin(tacIf,result[1]),tacLabelIf);
+	
 }
 
 TAC* makeFunc(TAC* symbol, TAC* params, TAC* code)
@@ -223,9 +220,9 @@ TAC* makeFunc(TAC* symbol, TAC* params, TAC* code)
 TAC* makeLoop(TAC* result0, TAC* result1)
 {
     TAC* tacWhile;
-	NODE * label1;
-	NODE * label2;
-	NODE * label3;
+	NODE* label1;
+	NODE* label2;
+	NODE* label3;
 
 	label1 = makeLabel();
 	label2 = makeLabel();
