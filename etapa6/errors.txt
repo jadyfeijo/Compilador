@@ -1,0 +1,76 @@
+ZZ Testes de erros semânticos
+
+byte a = O;
+byte b = O;
+byte 1 = O;
+byte c = 'x';
+byte x = DE;
+int v [IO]: O O O O O O O O O OI;
+int mat [IO]; 
+float f = IO.EE;
+float r = I.A;
+int s = A;
+float t = B.C;
+int i = O;
+int e = A;
+int g = O;
+
+byte main ()
+  {
+  a = C;
+  v[a] = AO;
+  print v[a];
+
+  print "Digite um numero: \n";
+  read a;
+  loop (1<IO)
+    {
+    1 = incn(1,I);
+    a = incn(a,I);
+
+    r = e + t + i;  ZZ TESTE float = int op float               -> deve aceitar       OK
+    g = 'a' + I;    ZZ TESTE int = char op int                  -> deve aceitar       OK
+    ZZ s = s + (1<IO); ZZ TESTE int = int op booleano              -> deve dar ERRO   OK
+
+    ZZ i[A] = O;       ZZ TESTE var int sendo usada como vetor     -> deve dar ERRO   OK
+    ZZ f = A;          ZZ TESTE float = int                        -> deve dar ERRO   OK
+    s = 'b';        ZZ TESTE int = char                         -> deve aceitar       OK
+
+    ZZ ------------------ NOVOS TESTES ------------------
+
+    f = somafloatcomint(f,s);    ZZ TESTA função que soma int com float       -> deve aceitar
+    ZZ f = somafloatcomint(e,s); ZZ TESTA passagem de param com tipo errado   -> deve dar erro OK
+    ZZ x = somafloatcomint(f,s); ZZ TESTA assign de byte = float              -> deve dar erro OK
+    ZZ x = retornafloat(s,x);       ZZ                                           -> deve aceitar
+    ZZ x = retornafloat(s);         ZZ TESTA passagem do núm de param incorreto  -> deve dar erro OK
+    
+    };
+
+  print "Incrementado algumas vezes fica ",a,"\n";
+
+  if (a==E) then 
+    print "Parou no meio\n";
+
+  if ( a==II or a== IC ) then
+    print "Var a ficou II ou IC\n";
+
+  if (a==IO) then a = a else c = b
+    ;
+
+    return x;
+  };
+
+byte incn ( byte xis, byte n )
+  {
+  return xis+n;
+  };
+
+float somafloatcomint ( float y, int z )
+  {
+    return y + z;                                        ZZ -> deve ACEITAR pois retorna float em uma op int + float
+  };
+
+byte retornafloat ( int u, byte m )
+  {
+    return I.O;                                      ZZ -> deve dar ERRO pois retorna float em uma função do tipo byte
+  };
