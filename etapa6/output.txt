@@ -1,5 +1,9 @@
+int a = O; 
+int b = I; 
 int main()
 {
 print I;
+a = a + b;
+print a;
 return O;
 };

@@ -18,14 +18,12 @@ b:
 	.size	c, 4
 c:
 	.long	73
-
 	.globl	retorno
 	.align 4
 	.type	retorno, @object
 	.size	retorno, 4
 retorno:
 	.long	99
-
 	.section	.rodata
 .LC0:
 	.string	"%d\n"
@@ -40,16 +38,18 @@ main:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
+
+	movl	c(%rip), %edx
 	movl	b(%rip), %eax
+	addl	%edx, %eax
 	movl	%eax, a(%rip)
-	movl	c(%rip), %eax
+	
+	movl	a(%rip), %eax
 	movl	%eax, %esi
 	leaq	.LC0(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
-
 	movl	retorno(%rip), %eax
-	
 	popq	%rbp
 	.cfi_def_cfa 7, 8
 	ret

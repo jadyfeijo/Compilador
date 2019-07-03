@@ -9,9 +9,9 @@ int retorno = 99;
 
 int main()
 {
-    a = b;
+    a = c + b;
 
-    printf("%d\n",c);
+    printf("%d\n",a);
 
     return retorno;
 }

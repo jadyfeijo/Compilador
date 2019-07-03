@@ -41,8 +41,14 @@ main:
 	movl	_b(%rip), %eax
 	movl	%eax, _a(%rip)
 
+# ADD
+	movl	_c(%rip), %edx
+	movl	_b(%rip), %eax
+	addl	%edx, %eax
+	movl	%eax, _a(%rip)
+
 # PRINT
-	movl	_c(%rip), %eax
+	movl	_a(%rip), %eax
 	movl	%eax, %esi
 	leaq	_meuString(%rip), %rdi
 	movl	$0, %eax
