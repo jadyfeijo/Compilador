@@ -1,5 +1,4 @@
 # Eduarda Trindade 274709
-# Jady Feijó 230210
 
 # START ASM GEN
     .section	.rodata

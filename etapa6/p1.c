@@ -2,21 +2,16 @@
 
 #include <stdio.h>
 
-int a;
-int b;
-int c;
+int a = 111;
+int b = 88;
+int c = 73;
+int retorno = 99;
 
 int main()
 {
-    a = 111;
-    b = 88;
-    c = 73;
-
     a = b;
 
     printf("%d\n",c);
 
-    c = a;
-
-    return 99;
+    return retorno;
 }

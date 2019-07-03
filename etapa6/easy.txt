@@ -1,11 +1,9 @@
-int a = O;
-int b = O;
+ZZ int a = O;
+ZZ int b = O;
 
 int main()
 {
     print I;
-
-    a = b;
 
     return O;
 };

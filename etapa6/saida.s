@@ -7,6 +7,7 @@
 	.text
 
 # FOR EACH SYMBOL IN HASH TABLE (EXCEPT LABELS)
+_O: .long 0
 _I: .long 1
 
 # BEGIN FUN
@@ -15,7 +16,6 @@ main:
 	.cfi_startproc
 	pushq	%rbp
 	movq	%rsp, %rbp
-	subq	$16, %rsp 
 
 # PRINT
 	movl	_I(%rip), %eax
@@ -24,13 +24,11 @@ main:
 	movl	$0, %eax
 	call	printf@PLT
 
-# COPY
-	movl	_b(%rip), %eax
-	movl	%eax, _a(%rip)
+# RETURN
+	movl	_O(%rip), %eax
 
 # END FUN
-	movl	$0, %eax
-	leave
+	popq	%rbp
 	ret
 	.cfi_endproc
 

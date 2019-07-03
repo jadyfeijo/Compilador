@@ -1,8 +1,5 @@
-int a = O; 
-int b = O; 
 int main()
 {
 print I;
-a = b;
 return O;
 };

@@ -1,4 +1,5 @@
 //Eduarda Trindade 274709
+//Jady Feijó 230210
 
 #include "asmgen.h"
 
@@ -16,6 +17,7 @@ void generateAsm(TAC *first, char *fileName)
     // Print Fixed Beginning
     fprintf(fout, "# START ASM GEN\n"
 	                "\t.section	.rodata\n\n");
+
     fprintf(fout, "# STRING\n"
                     ".meuString:\n"
                     "\t.string \"%%d\\n\" \n"
@@ -23,11 +25,10 @@ void generateAsm(TAC *first, char *fileName)
 
     // Print Hash Symbols
     fprintf(fout, "# FOR EACH SYMBOL IN HASH TABLE (EXCEPT LABELS)\n"
+                    "_O: .long 0\n"
                     "_I: .long 1\n\n");
 
     // Print Code
-    //fprintf(fout, "");
-
     for(tac = first; tac; tac = tac->next)
     {
         switch (tac->type)
@@ -38,15 +39,18 @@ void generateAsm(TAC *first, char *fileName)
                             "main:\n"
 	                        "\t.cfi_startproc\n"
 	                        "\tpushq	%%rbp\n"
-	                        "\tmovq	%%rsp, %%rbp\n"
-	                        "\tsubq	$16, %%rsp \n\n");
+	                        "\tmovq	%%rsp, %%rbp\n\n");
             break;
         case TAC_ENDFUN:
             fprintf(fout, "# END FUN\n"
-	                        "\tmovl	$0, %%eax\n"
-	                        "\tleave\n"
+	                        "\tpopq	%%rbp\n"
 	                        "\tret\n"
 	                        "\t.cfi_endproc\n\n");
+            break;
+        case TAC_RETURN:
+            fprintf(fout, "# RETURN\n"
+	                        "\tmovl	_%s(%%rip), %%eax\n\n",
+                            tac->res?tac->res->text:"O");
             break;
         case TAC_PRINT:
             fprintf(fout, "# PRINT\n"
