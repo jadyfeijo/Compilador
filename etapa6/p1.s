@@ -14,12 +14,21 @@ main:
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
 	subq	$16, %rsp
-	movl	$6, -4(%rbp)
+
+	movl	$111, -12(%rbp)
+	movl	$88, -8(%rbp)
+
+	movl	$73, -4(%rbp)
+	
+	movl	-8(%rbp), %eax
+	movl	%eax, -12(%rbp)
+
 	movl	-4(%rbp), %eax
 	movl	%eax, %esi
 	leaq	.LC0(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
+
 	movl	$0, %eax
 	leave
 	.cfi_def_cfa 7, 8

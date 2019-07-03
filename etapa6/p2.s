@@ -1,10 +1,15 @@
 # START ASM GEN
 	.section	.rodata
 
-# string
+# STRING
 .meuString: 
     .string "%d\n"
     .text
+
+# FOR EACH SYMBOL IN HASH TABLE (EXCEPT LABELS)
+_a: .long 111
+_b: .long 88
+_c: .long 73
 
 # BEGIN FUN
 	.globl	main 
@@ -12,16 +17,22 @@ main:
 	.cfi_startproc
 	pushq	%rbp
 	movq	%rsp, %rbp
-	
+	subq	$16, %rsp
+
+# COPY
+ #	movl	_b(%rip), %eax
+ #	movl	%eax, _a(%rip)
+
 # PRINT
-	movl	$5, %esi
+	movl	_c(%rip), %eax
+	movl	%eax, %esi
 	leaq	.meuString(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
-	movl	$0, %eax
 
 # END FUN
-	popq	%rbp
+	movl	$0, %eax
+	leave
 	ret
 	.cfi_endproc
 
