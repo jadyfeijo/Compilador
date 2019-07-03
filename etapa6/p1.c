@@ -2,12 +2,12 @@
 
 #include <stdio.h>
 
+int a;
+int b;
+int c;
+
 int main()
 {
-    int a;
-    int b;
-    int c;
-
     a = 111;
     b = 88;
     c = 73;
@@ -15,4 +15,8 @@ int main()
     a = b;
 
     printf("%d\n",c);
+
+    c = a;
+
+    return 99;
 }

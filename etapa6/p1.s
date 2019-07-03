@@ -1,4 +1,7 @@
 	.file	"p1.c"
+	.comm	a,4,4
+	.comm	b,4,4
+	.comm	c,4,4
 	.section	.rodata
 .LC0:
 	.string	"%d\n"
@@ -13,24 +16,20 @@ main:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	subq	$16, %rsp
-
-	movl	$111, -12(%rbp)
-	movl	$88, -8(%rbp)
-
-	movl	$73, -4(%rbp)
-	
-	movl	-8(%rbp), %eax
-	movl	%eax, -12(%rbp)
-
-	movl	-4(%rbp), %eax
+	movl	$111, a(%rip)
+	movl	$88, b(%rip)
+	movl	$73, c(%rip)
+	movl	b(%rip), %eax
+	movl	%eax, a(%rip)
+	movl	c(%rip), %eax
 	movl	%eax, %esi
 	leaq	.LC0(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
-
-	movl	$0, %eax
-	leave
+	movl	a(%rip), %eax
+	movl	%eax, c(%rip)
+	movl	$99, %eax
+	popq	%rbp
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc

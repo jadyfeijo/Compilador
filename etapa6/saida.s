@@ -1,36 +1,40 @@
 # START ASM GEN
-.section	.rodata
+	.section	.rodata
 
 # STRING
 .meuString:
-.string "%d\n" 
-.text
+	.string "%d\n" 
+	.text
 
 # FOR EACH SYMBOL IN HASH TABLE (EXCEPT LABELS)
 _I: .long 1
 
 # BEGIN FUN
-.globl	main
+	.globl	main
 main:
-.cfi_startproc
-pushq	%rbp
-movq	%rsp, %rbp
-subq	$16, %rsp 
+	.cfi_startproc
+	pushq	%rbp
+	movq	%rsp, %rbp
+	subq	$16, %rsp 
 
 # PRINT
-movl	_I(%rip), %eax
-movl	%eax, %esi
-leaq	.meuString(%rip), %rdi
-movl	$0, %eax
-call	printf@PLT
+	movl	_I(%rip), %eax
+	movl	%eax, %esi
+	leaq	.meuString(%rip), %rdi
+	movl	$0, %eax
+	call	printf@PLT
+
+# COPY
+	movl	_b(%rip), %eax
+	movl	%eax, _a(%rip)
 
 # END FUN
-movl	$0, %eax
-leave
-ret
-.cfi_endproc
+	movl	$0, %eax
+	leave
+	ret
+	.cfi_endproc
 
 # FIXED
-.size	main, .-main
-.ident	"GCC: (Ubuntu 7.2.0-18ubuntu2) 7.2.0"
-.section	.note.GNU-stack,"",@progbits
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu 7.2.0-18ubuntu2) 7.2.0"
+	.section	.note.GNU-stack,"",@progbits

@@ -12,6 +12,7 @@
 _a: .long 111
 _b: .long 88
 _c: .long 73
+_99: .long 99
 
 # BEGIN FUN
 	.globl	main 
@@ -22,8 +23,8 @@ main:
 	subq	$16, %rsp
 
 # COPY
- #	movl	_b(%rip), %eax
- #	movl	%eax, _a(%rip)
+ 	movl	_b(%rip), %eax
+ 	movl	%eax, _a(%rip)
 
 # PRINT
 	movl	_c(%rip), %eax
@@ -32,8 +33,10 @@ main:
 	movl	$0, %eax
 	call	printf@PLT
 
+# RETURN
+	movl	_99(%rip), %eax
+
 # END FUN
-	movl	$0, %eax
 	leave
 	ret
 	.cfi_endproc
