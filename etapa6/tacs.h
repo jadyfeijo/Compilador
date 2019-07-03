@@ -58,6 +58,7 @@ void tacPrintSingle(TAC *tac);
 void tacPrintBack(TAC *tac);
 void tacPrintForward(TAC *last);
 TAC* tacJoin(TAC *l1, TAC *l2);
+TAC* tacReverse(TAC *last);
 
 TAC* generateCode(AST *node,NODE *label);
 

@@ -118,6 +118,16 @@ TAC* tacJoin(TAC *l1, TAC *l2)
     return l2;
 }
 
+TAC* tacReverse(TAC *last)
+{
+    TAC* tac;
+    
+    for (tac = last; tac->prev; tac = tac->prev)
+        tac->prev->next = tac;
+
+    return tac;
+}
+
 TAC* generateCode(AST *node, NODE *label)
 {
     int i;

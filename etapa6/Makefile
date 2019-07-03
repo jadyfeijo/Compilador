@@ -1,8 +1,8 @@
 #Eduarda Trindade 274709
 #Jady Feijó 230210
 
-etapa6: y.tab.o lex.yy.o ast.o semantic.o tacs.o main.o
-	gcc lex.yy.o y.tab.o ast.o semantic.o tacs.o main.o -o etapa6
+etapa6: y.tab.o lex.yy.o ast.o semantic.o tacs.o asmgen.o main.o
+	gcc lex.yy.o y.tab.o ast.o semantic.o tacs.o asmgen.o main.o -o etapa6
 
 main.o: main.c
 	gcc -c main.c
@@ -15,6 +15,9 @@ semantic.o: semantic.c
 
 tacs.o: tacs.c
 	gcc -c tacs.c
+
+asmgen.o: asmgen.c
+	gcc -c asmgen.c
 
 lex.yy.o: lex.yy.c
 	gcc -c lex.yy.c

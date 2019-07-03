@@ -8,6 +8,7 @@
 	#include "ast.h"
 	#include "semantic.h"
 	#include "tacs.h"
+	#include "asmgen.h"
 
 	int yyerror (char *msg);
 	int yylex(void);
@@ -74,10 +75,12 @@
 %%
 
 program: declist							{	$$=$1;
+												TAC* tac;
 												astPrint(0,$1); 
 												astDecompilation($1);
 												checkSemantic($1);
-												tacPrintForward(generateCode($1,0));
+												tacPrintForward(tac = generateCode($1,0));
+												generateAsm(tacReverse(tac),"saida.s");
 											}
 	;
 
