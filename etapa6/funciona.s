@@ -13,13 +13,13 @@ _O:	.long	0
 	.data
 	.type	_a, @object
 	.size	_a, 4
-_a:	.long	0
+_a:	.long	5	# ---------------------------- CORRIGI ESSE VALOR
 
 	.globl	_b
 	.data
 	.type	_b, @object
 	.size	_b, 4
-_b:	.long	1
+_b:	.long	1	# ---------------------------- CORRIGI ESSE VALOR
 
 _myTemp0:	.long	0
 
@@ -44,7 +44,7 @@ main:
 	cmpl	%eax, %edx
 	jne myLabel0
 
-# PRINT
+# PRINT	--------------------------------------- MODIFIQUEI ESSE PRINT
 	movq	stderr(%rip), %rax
 	movq	%rax, %rcx
 	movl	$4, %edx

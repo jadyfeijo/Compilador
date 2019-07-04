@@ -103,7 +103,8 @@ void generateAsm(TAC *first, char *fileName)
                 break;
             case TAC_JUMP:
                 fprintf(fout,"# JUMP\n"
-                                "\t \n\n");
+                                "\tjmp\t%s\n\n",
+                                tac->res->text);
                 break;
             case TAC_SYMBOL:
                 break;

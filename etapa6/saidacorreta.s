@@ -17,19 +17,19 @@ _O:	.long	0
 	.data
 	.type	_a, @object
 	.size	_a, 4
-_a:	.long	0
+_a:	.long	5   # ---------------------------- CORRIGI ESSE VALOR
 
 	.globl	_b
 	.data
 	.type	_b, @object
 	.size	_b, 4
-_b:	.long	0
+_b:	.long	1   # ---------------------------- CORRIGI ESSE VALOR
 
 	.globl	_c
 	.data
 	.type	_c, @object
 	.size	_c, 4
-_c:	.long	0
+_c:	.long	9   # ---------------------------- CORRIGI ESSE VALOR
 
 _myTemp0:	.long	0
 

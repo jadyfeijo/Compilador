@@ -1,8 +1,9 @@
 int a = E; 
 int b = I; 
+int c = A; 
 int main()
 {
-if(b == I) then 
-print "Ok!" ;
+a = b + c;
+if(b == I) then print a else print b;
 return O;
 };

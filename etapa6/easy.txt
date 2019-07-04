@@ -1,11 +1,16 @@
 int a = E;
 int b = I;
+int c = A;
 
 int main()
 {
 
+    a = b + c;
+
     if ( b==I ) then
-        print a;
+        print a
+    else
+        print b;
 
 ZZ    if ( a<I ) then
 ZZ        print "Got you!\n"
