@@ -7,6 +7,7 @@ void generateAsm(TAC *first, char *fileName)
 {
     FILE *fout;
     TAC *tac;
+    int numLabels = 0;
 
     if(!(fout = fopen(fileName,"w")))
     {
@@ -77,7 +78,30 @@ void generateAsm(TAC *first, char *fileName)
                                 tac->op1->text,tac->op2->text,tac->res->text);
                 break;
             case TAC_SUB:
-                fprintf(fout,"# SUB\n");
+                fprintf(fout,"# SUB\n"
+                                "\t \n\n");
+                break;
+            case TAC_LESS:
+                fprintf(fout,"# LESS\n"
+                                "\t \n\n");
+                break;
+            case TAC_EQ:
+                fprintf(fout,"# EQUAL\n"
+                                "\tjne");
+                break;
+            case TAC_IFZ:
+                fprintf(fout,"%s\n\n",tac->res->text);
+                break;
+            case TAC_LABEL:
+                fprintf(fout,"# LABEL\n"
+                                "%s:\n\n",
+                                tac->res->text);
+                break;
+            case TAC_JUMP:
+                fprintf(fout,"# JUMP\n"
+                                "\t \n\n");
+                break;
+            case TAC_SYMBOL:
                 break;
             default:
                 fprintf(fout,"# NOT FINISHED TAC %d\n\n",tac->type);

@@ -91,7 +91,7 @@ NODE* makeTemp(void)
     static char buffer[64] = "";
 
     sprintf(buffer,"myTemp%d",serialNumber++);
-    return hashInsert(SYMBOL_IDENTIFIER,buffer);
+    return hashInsert(SYMBOL_TEMP,buffer);
 }
 
 NODE* makeLabel(void)
@@ -100,33 +100,40 @@ NODE* makeLabel(void)
     static char buffer[64] = "";
 
     sprintf(buffer,"myLabel%d",serialNumber++);
-    return hashInsert(SYMBOL_IDENTIFIER,buffer);
+    return hashInsert(SYMBOL_LABEL,buffer);
 }
 
 void hashPrintAsm(FILE *fout)
 {
-    int i;
+    int i,numLabels = 0;
     NODE *node;
 
     for(i=0; i<HASH_SIZE; i++)
     {
         for(node = Table[i]; node; node=node->next)
         {
-            if(node->type != SYMBOL_FUN)
-                if(node->type == SYMBOL_IDENTIFIER)
-                    fprintf(fout,"_%s:\t.long\t0\n",node->text);
-                else
-                {   
-                    if(node->type == SYMBOL_LIT_INT)
-                        fprintf(fout,"_%s:\t.long\t%d\n",node->text,convertIntegers(node->text));
-                    else
-                        fprintf(fout,"\n\t.globl	_%s\n"
+            if((node->type != SYMBOL_FUN) && (node->type != SYMBOL_LABEL))
+
+            switch (node->type)
+            {
+            case SYMBOL_TEMP:
+                fprintf(fout,"\n_%s:\t.long\t0\n",node->text);
+                break;
+            case SYMBOL_LIT_INT:
+                fprintf(fout,"\n_%s:\t.long\t%d\n",node->text,convertIntegers(node->text));
+                break;
+            case SYMBOL_LIT_STRING:
+                fprintf(fout,"\n_%s:\t.string\t%s\n",node->text,node->text);
+                break;
+            default:
+                fprintf(fout,"\n\t.globl	_%s\n"
 	                                 "\t.data\n"
 	                                 "\t.type	_%s, @object\n"
 	                                 "\t.size	_%s, 4\n"
                                     "_%s:\t.long\t%d\n",
                                     node->text,node->text,node->text,node->text,0);
-                }
+                break;
+            }
         }
     }
 }

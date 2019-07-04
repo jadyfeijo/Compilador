@@ -9,9 +9,14 @@ int retorno = 99;
 
 int main()
 {
-    a = c + b;
+    
+    if(b==c)
+        printf("OK!\n");
 
-    printf("%d\n",a);
+    if(a<c)
+        printf("Got you!\n");
+    else
+        printf("%d\n",a);
 
     return retorno;
 }

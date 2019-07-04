@@ -3,9 +3,14 @@ int b = I;
 
 int main()
 {
-    a = b;
 
-    print a;
+    if ( b==I ) then
+        print "Ok!";
+
+    if ( a<I ) then
+        print "Got you!"
+    else
+        print a;
 
     return O;
 };

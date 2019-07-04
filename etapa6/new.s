@@ -2,31 +2,30 @@
 	.section	.rodata
 
 # FOR EACH SYMBOL IN HASH TABLE (EXCEPT LABELS)
-_O: .long 0
-_I: .long 1
 
-	.globl	_myTemp0
-	.data
-	.align 4
-	.type	_myTemp0, @object
-	.size	_myTemp0, 4
-_myTemp0: 
-	.long 0
+_myTemp1:	.long	0
+
+_E:	.long	5
+
+_I:	.long	1
+
+_O:	.long	0
 
 	.globl	_a
 	.data
-	.align 4
 	.type	_a, @object
 	.size	_a, 4
-_a:
-	.long	0
+_a:	.long	0
 
 	.globl	_b
-	.align 4
+	.data
 	.type	_b, @object
 	.size	_b, 4
-_b:
-	.long	1
+_b:	.long	0
+
+_myTemp0:	.long	0
+
+_Ok:	.string	"Ok!"
 
 # STRING
 .meuString:
@@ -41,29 +40,18 @@ main:
 	pushq	%rbp
 	movq	%rsp, %rbp
 
-# PRINT
-	movl	_I(%rip), %eax
-	movl	%eax, %esi
-	leaq	.meuString(%rip), %rdi
-	movl	$0, %eax
-	call	printf@PLT
-
-# ADD
-	movl	_a(%rip), %edx
-	movl	_b(%rip), %eax
-	addl	%edx, %eax
-	movl	%eax, _myTemp0(%rip)
-
-# COPY
-	movl	_myTemp0(%rip), %eax
-	movl	%eax, _a(%rip)
-
-# PRINT
+# EQUAL
+	movl	_b(%rip), %edx
 	movl	_a(%rip), %eax
-	movl	%eax, %esi
-	leaq	.meuString(%rip), %rdi
-	movl	$0, %eax
-	call	printf@PLT
+	cmpl	%eax, %edx 
+	jne		myLabel0
+
+# PRINT
+	leaq	_Ok(%rip), %rdi
+	call	puts@PLT
+
+# LABEL
+myLabel0:
 
 # RETURN
 	movl	_O(%rip), %eax
