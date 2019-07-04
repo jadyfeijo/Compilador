@@ -5,9 +5,18 @@
 _E:	.long	5
 _I:	.long	1
 _O:	.long	0
-_a:	.long	a
-_b:	.long	b
-_myTemp0:	.long	0
+
+	.globl	_a
+	.data
+	.type	_a, @object
+	.size	_a, 4
+_a:	.long	0
+
+	.globl	_b
+	.data
+	.type	_b, @object
+	.size	_b, 4
+_b:	.long	0
 
 # STRING
 .meuString:
@@ -22,21 +31,8 @@ main:
 	pushq	%rbp
 	movq	%rsp, %rbp
 
-# PRINT
-	movl	_I(%rip), %eax
-	movl	%eax, %esi
-	leaq	.meuString(%rip), %rdi
-	movl	$0, %eax
-	call	printf@PLT
-
-# ADD
-	movl	_a(%rip), %edx
-	movl	_b(%rip), %eax
-	addl	%edx, %eax
-	movl	%eax, _myTemp0(%rip)
-
 # COPY
-	movl	_myTemp0(%rip), %eax
+	movl	_b(%rip), %eax
 	movl	%eax, _a(%rip)
 
 # PRINT

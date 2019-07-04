@@ -3,9 +3,7 @@ int b = I;
 
 int main()
 {
-    print I;
-
-    a = a + b;
+    a = b;
 
     print a;
 

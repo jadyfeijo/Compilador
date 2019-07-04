@@ -26,7 +26,7 @@ void generateAsm(TAC *first, char *fileName)
                     ".meuString:\n"
                     "\t.string \"%%d\\n\" \n"
                     "\t.text\n\n");
-
+    
     // Print Code
     for(tac = first; tac; tac = tac->next)
     {

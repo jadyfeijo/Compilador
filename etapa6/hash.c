@@ -116,11 +116,16 @@ void hashPrintAsm(FILE *fout)
                 if(node->type == SYMBOL_IDENTIFIER)
                     fprintf(fout,"_%s:\t.long\t0\n",node->text);
                 else
-                {
+                {   
                     if(node->type == SYMBOL_LIT_INT)
                         fprintf(fout,"_%s:\t.long\t%d\n",node->text,convertIntegers(node->text));
                     else
-                        fprintf(fout,"_%s:\t.long\t%s\n",node->text,node->text);
+                        fprintf(fout,"\n\t.globl	_%s\n"
+	                                 "\t.data\n"
+	                                 "\t.type	_%s, @object\n"
+	                                 "\t.size	_%s, 4\n"
+                                    "_%s:\t.long\t%d\n",
+                                    node->text,node->text,node->text,node->text,0);
                 }
         }
     }
