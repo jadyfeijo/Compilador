@@ -156,7 +156,7 @@ TAC* generateCode(AST *node, NODE *label)
         case AST_PRINT: return result[0];
         case AST_PRINT_PARAM: return tacJoin(tacJoin(result[0], tacCreate(TAC_PRINT, result[0]?result[0]->res:0, 0, 0)), result[1]);
         case AST_PRINT_PARAM2: return result[0];
-	case AST_READ: return tacCreate(TAC_READ,node->symbol,0,0);
+	    case AST_READ: return tacCreate(TAC_READ,node->symbol,0,0);
         case AST_IFTE:
         case AST_IFT: return makeIfThenElse(result);
         case AST_LOOP: return makeLoop(result,label);

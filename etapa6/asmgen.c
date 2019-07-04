@@ -26,58 +26,62 @@ void generateAsm(TAC *first, char *fileName)
                     ".meuString:\n"
                     "\t.string \"%%d\\n\" \n"
                     "\t.text\n\n");
-    
+
     // Print Code
     for(tac = first; tac; tac = tac->next)
     {
         switch (tac->type)
         {
-        case TAC_BEGINFUN:
-            fprintf(fout,   "# BEGIN FUN\n"
-                            "\t.globl	%s\n"
-                            "\t.type	%s, @function\n" 
-                            "%s:\n"
-	                        "\t.cfi_startproc\n"
-	                        "\tpushq	%%rbp\n"
-	                        "\tmovq	%%rsp, %%rbp\n\n",
-                            tac->res->text,tac->res->text,tac->res->text);
-            break;
-        case TAC_ENDFUN:
-            fprintf(fout, "# END FUN\n"
-	                        "\tpopq	%%rbp\n"
-	                        "\tret\n"
-	                        "\t.cfi_endproc\n\n");
-            break;
-        case TAC_RETURN:
-            fprintf(fout, "# RETURN\n"
-	                        "\tmovl	_%s(%%rip), %%eax\n\n",
-                            tac->res?tac->res->text:"O");
-            break;
-        case TAC_PRINT:
-            fprintf(fout, "# PRINT\n"
-	                        "\tmovl	_%s(%%rip), %%eax\n"
-	                        "\tmovl	%%eax, %%esi\n"
-	                        "\tleaq	.meuString(%%rip), %%rdi\n"
-	                        "\tmovl	$0, %%eax\n"
-	                        "\tcall	printf@PLT\n\n",
-                            tac->res?tac->res->text:"");
-            break;
-        case TAC_COPY:
-            fprintf(fout, "# COPY\n"
-                            "\tmovl	_%s(%%rip), %%eax\n"
-						    "\tmovl	%%eax, _%s(%%rip)\n\n", 
-                            tac->op1->text, tac->res->text);
-            break;
-        case TAC_ADD:
-            fprintf(fout,"# ADD\n"
-                            "\tmovl	_%s(%%rip), %%edx\n"
-	                        "\tmovl	_%s(%%rip), %%eax\n"
-	                        "\taddl	%%edx, %%eax\n"
-	                        "\tmovl	%%eax, _%s(%%rip)\n\n",
-                            tac->op1->text,tac->op2->text,tac->res->text);
-            break;
-        default:
-            break;
+            case TAC_BEGINFUN:
+                fprintf(fout,   "# BEGIN FUN\n"
+                                "\t.globl	%s\n"
+                                "\t.type	%s, @function\n" 
+                                "%s:\n"
+                                "\t.cfi_startproc\n"
+                                "\tpushq	%%rbp\n"
+                                "\tmovq	%%rsp, %%rbp\n\n",
+                                tac->res->text,tac->res->text,tac->res->text);
+                break;
+            case TAC_ENDFUN:
+                fprintf(fout, "# END FUN\n"
+                                "\tpopq	%%rbp\n"
+                                "\tret\n"
+                                "\t.cfi_endproc\n\n");
+                break;
+            case TAC_RETURN:
+                fprintf(fout, "# RETURN\n"
+                                "\tmovl	_%s(%%rip), %%eax\n\n",
+                                tac->res?tac->res->text:"O");
+                break;
+            case TAC_PRINT:
+                fprintf(fout, "# PRINT\n"
+                                "\tmovl	_%s(%%rip), %%eax\n"
+                                "\tmovl	%%eax, %%esi\n"
+                                "\tleaq	.meuString(%%rip), %%rdi\n"
+                                "\tmovl	$0, %%eax\n"
+                                "\tcall	printf@PLT\n\n",
+                                tac->res?tac->res->text:"");
+                break;
+            case TAC_COPY:
+                fprintf(fout, "# COPY\n"
+                                "\tmovl	_%s(%%rip), %%eax\n"
+                                "\tmovl	%%eax, _%s(%%rip)\n\n", 
+                                tac->op1->text, tac->res->text);
+                break;
+            case TAC_ADD:
+                fprintf(fout,"# ADD\n"
+                                "\tmovl	_%s(%%rip), %%edx\n"
+                                "\tmovl	_%s(%%rip), %%eax\n"
+                                "\taddl	%%edx, %%eax\n"
+                                "\tmovl	%%eax, _%s(%%rip)\n\n",
+                                tac->op1->text,tac->op2->text,tac->res->text);
+                break;
+            case TAC_SUB:
+                fprintf(fout,"# SUB\n");
+                break;
+            default:
+                fprintf(fout,"# NOT FINISHED TAC %d\n\n",tac->type);
+                break;
         }
     }
 

@@ -23,6 +23,10 @@ _b:	.long	0
 	.string "%d\n" 
 	.text
 
+# NOT FINISHED TAC 1
+
+# NOT FINISHED TAC 1
+
 # BEGIN FUN
 	.globl	main
 	.type	main, @function
@@ -31,9 +35,15 @@ main:
 	pushq	%rbp
 	movq	%rsp, %rbp
 
+# NOT FINISHED TAC 1
+
 # COPY
 	movl	_b(%rip), %eax
 	movl	%eax, _a(%rip)
+
+# NOT FINISHED TAC 1
+
+# NOT FINISHED TAC 33
 
 # PRINT
 	movl	_a(%rip), %eax
@@ -41,6 +51,8 @@ main:
 	leaq	.meuString(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
+
+# NOT FINISHED TAC 1
 
 # RETURN
 	movl	_O(%rip), %eax
