@@ -2,9 +2,6 @@
 	.section	.rodata
 
 # FOR EACH SYMBOL IN HASH TABLE (EXCEPT LABELS)
-_O: .long 0
-_I: .long 1
-
 _E:	.long	5
 _I:	.long	1
 _O:	.long	0

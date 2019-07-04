@@ -19,10 +19,7 @@ void generateAsm(TAC *first, char *fileName)
 	                "\t.section	.rodata\n\n");
 
     // Print Hash Symbols
-    fprintf(fout, "# FOR EACH SYMBOL IN HASH TABLE (EXCEPT LABELS)\n"
-                    "_O: .long 0\n"
-                    "_I: .long 1\n\n");
-    
+    fprintf(fout, "# FOR EACH SYMBOL IN HASH TABLE (EXCEPT LABELS)\n");
     hashPrintAsm(fout);
 
     fprintf(fout, "\n# STRING\n"
