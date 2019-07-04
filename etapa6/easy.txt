@@ -1,4 +1,4 @@
-int a = O;
+int a = E;
 int b = I;
 
 int main()

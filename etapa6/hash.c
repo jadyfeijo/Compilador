@@ -128,8 +128,25 @@ void hashPrintAsm(FILE *fout)
 
 int convertIntegers(char *text)
 {
+    if(strcmp (text, "O") == 0)
+        return 0;
     if(strcmp (text, "I") == 0)
         return 1;
-    
+    if(strcmp (text, "H") == 0)
+        return 2;
+    if(strcmp (text, "G") == 0)
+        return 3;
+    if(strcmp (text, "F") == 0)
+        return 4;
+    if(strcmp (text, "E") == 0)
+        return 5;
+    if(strcmp (text, "D") == 0)
+        return 6;
+    if(strcmp (text, "C") == 0)
+        return 7;
+    if(strcmp (text, "B") == 0)
+        return 8;
+    if(strcmp (text, "A") == 0)
+        return 9;
     return 0;
 }

@@ -5,6 +5,7 @@
 _O: .long 0
 _I: .long 1
 
+_E:	.long	5
 _I:	.long	1
 _O:	.long	0
 _a:	.long	a
