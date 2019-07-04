@@ -9,7 +9,7 @@ return x + n;
  
 int main()
 {
-print H + H,"Digite",")la)la)la","teste";
+print H + H, "Digite", ")la)la)la", "teste";
 read a;
 if(a == I) then print "Got you!" else print "nao imprime";
 a = E + H * G;

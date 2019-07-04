@@ -167,17 +167,30 @@ main:
 	addl	%edx, %eax
 	movl	%eax, _myTemp1(%rip)
 
-# NOT FINISHED TAC 33
-
-# NOT FINISHED TAC 33
+# PRINT
+	movl	_myTemp1(%rip), %eax
+	movl	%eax, %esi
+	leaq	.meuString(%rip), %rdi
+	movl	$0, %eax
+	call	printf@PLT
 
 # NOT FINISHED TAC 1
 
-# NOT FINISHED TAC 33
+# PRINT
+	movl	_"Digite"(%rip), %eax
+	movl	%eax, %esi
+	leaq	.meuString(%rip), %rdi
+	movl	$0, %eax
+	call	printf@PLT
 
 # NOT FINISHED TAC 1
 
-# NOT FINISHED TAC 33
+# PRINT
+	movl	_")la)la)la"(%rip), %eax
+	movl	%eax, %esi
+	leaq	.meuString(%rip), %rdi
+	movl	$0, %eax
+	call	printf@PLT
 
 # NOT FINISHED TAC 1
 
@@ -200,8 +213,6 @@ main:
 
 # NOT FINISHED TAC 1
 
-# NOT FINISHED TAC 33
-
 # PRINT
 	movl	_"Got you!"(%rip), %eax
 	movl	%eax, %esi
@@ -214,8 +225,6 @@ main:
 # NOT FINISHED TAC 8
 
 # NOT FINISHED TAC 1
-
-# NOT FINISHED TAC 33
 
 # PRINT
 	movl	_"nao imprime"(%rip), %eax
@@ -281,8 +290,6 @@ main:
 # NOT FINISHED TAC 1
 
 # NOT FINISHED TAC 31
-
-# NOT FINISHED TAC 33
 
 # PRINT
 	movl	_myTemp7(%rip), %eax

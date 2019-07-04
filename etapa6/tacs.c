@@ -64,7 +64,6 @@ void tacPrintSingle(TAC *tac)
         case TAC_POP: fprintf(stderr,"TAC_POP"); break;
         case TAC_VET_IND: fprintf(stderr,"TAC_VET_IND"); break;
         case TAC_ASSIGNARRAY: fprintf(stderr,"TAC_ASSIGNARRAY"); break;
-        case TAC_PRINT_PARAM:fprintf(stderr, "TAC_PRINT_PARAM"); break;
         
         default: fprintf(stderr,"UNKNOWN TAC TYPE"); break;
     }
@@ -163,8 +162,9 @@ TAC* generateCode(AST *node, NODE *label)
       	case AST_ASSIGNARRAY: return tacJoin(tacJoin(result[0],result[1]),tacCreate(TAC_ASSIGNARRAY,node->symbol,result[1]?result[1]->res:0,result[0]?result[0]->res:0));
       	case AST_ARRAY: return tacJoin(result[0],tacCreate(TAC_VET_IND,makeTemp(),node->symbol,result[0]?result[0]->res:0));
         case AST_RETURN: return tacJoin(result[0],tacCreate(TAC_RETURN,result[0]->res,0,0));
-        case AST_PRINT: return tacJoin(tacJoin(result[0], tacCreate(TAC_PRINT, result[0]?result[0]->res:0, 0, 0)), result[1]);
-        case AST_PRINT_PARAM: return tacJoin(tacJoin(result[0], tacCreate(TAC_PRINT_PARAM, result[0]?result[0]->res:0, 0, 0)), result[1]);
+        case AST_PRINT: return result[0];
+	    case AST_PRINT_PARAM: return tacJoin(tacJoin(result[0], tacCreate(TAC_PRINT, result[0]?result[0]->res:0, 0, 0)), result[1]);
+	    case AST_PRINT_PARAM2: return result[0];
         case AST_READ: return tacCreate(TAC_READ,node->symbol,0,0);
         case AST_IFTE:
         case AST_IFT: return makeIfThenElse(result);

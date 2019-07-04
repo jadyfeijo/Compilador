@@ -62,6 +62,7 @@
 #define AST_DATATYPE_VET 50
 #define AST_DATATYPE_FUN 51
 #define AST_DATATYPE_ERROR 52
+#define AST_PRINT_PARAM2 53
 
 
 typedef struct ast_node

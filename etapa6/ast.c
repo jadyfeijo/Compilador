@@ -139,6 +139,9 @@ void astPrint(int level, AST *node)
         case AST_PRINT_PARAM:
             fprintf(stderr,"AST_PRINT_PARAM,");
             break;
+        case AST_PRINT_PARAM2:
+	            fprintf(stderr,"AST_PRINT_PARAM,");
+	            break;
         case AST_FLOAT:
             fprintf(stderr,"AST_FLOAT,");
             break;
@@ -318,11 +321,16 @@ void astDecompilation(AST *node)
         case AST_PRINT_PARAM:
             if(node->son[1] != NULL)
             {
-        		astDecompilation(node->son[0]); fprintf(out,","); astDecompilation(node->son[1]);
+        		astDecompilation(node->son[0]); astDecompilation(node->son[1]);
             }
             else
            	 	astDecompilation(node->son[0]);
             break;
+        case AST_PRINT_PARAM2:
+			if(node->son[0] != NULL){
+	            		fprintf(out,", ");
+				astDecompilation(node->son[0]); }
+	            break;
         case AST_FLOAT:
             fprintf(out,"float");
             break;

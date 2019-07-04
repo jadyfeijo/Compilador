@@ -41,7 +41,6 @@
 #define TAC_POP 30
 #define TAC_VET_IND 31
 #define TAC_ASSIGNARRAY 32
-#define TAC_PRINT_PARAM 33
 
 typedef struct tac_node
 {
