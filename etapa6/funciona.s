@@ -51,6 +51,7 @@ main:
 	movl	$1, %esi
 	leaq	_string0(%rip), %rdi
 	call	fwrite@PLT
+
 # LABEL
 myLabel0:
 

@@ -1,0 +1,11 @@
+int a = E;
+int b = I;
+
+int main()
+{
+
+    if ( b==I ) then
+        print "Ok!\n";
+
+    return O;
+};

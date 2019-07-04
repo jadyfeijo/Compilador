@@ -11,12 +11,7 @@ int main()
 {
     
     if(b==c)
-        printf("OK!\n");
-
-    if(a<c)
-        printf("Got you!\n");
-    else
-        printf("%d\n",a);
+        fprintf(stderr,"%d\n",a);
 
     return retorno;
 }

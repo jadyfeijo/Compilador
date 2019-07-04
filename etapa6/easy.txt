@@ -5,12 +5,12 @@ int main()
 {
 
     if ( b==I ) then
-        print "Ok!";
-
-    if ( a<I ) then
-        print "Got you!"
-    else
         print a;
+
+ZZ    if ( a<I ) then
+ZZ        print "Got you!\n"
+ZZ    else
+ZZ        print a;
 
     return O;
 };

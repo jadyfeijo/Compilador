@@ -17,7 +17,7 @@ b:
 	.type	c, @object
 	.size	c, 4
 c:
-	.long	88
+	.long	73
 	.globl	retorno
 	.align 4
 	.type	retorno, @object
@@ -26,10 +26,6 @@ retorno:
 	.long	99
 	.section	.rodata
 .LC0:
-	.string	"OK!"
-.LC1:
-	.string	"Got you!"
-.LC2:
 	.string	"%d\n"
 	.text
 	.globl	main
@@ -42,33 +38,19 @@ main:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-
 	movl	b(%rip), %edx
 	movl	c(%rip), %eax
 	cmpl	%eax, %edx
 	jne	.L2
 
-	leaq	.LC0(%rip), %rdi
-	call	puts@PLT
-
-.L2:
 	movl	a(%rip), %edx
-	movl	c(%rip), %eax
-	cmpl	%eax, %edx
-	jge	.L3
-
-	leaq	.LC1(%rip), %rdi
-	call	puts@PLT
-
-	jmp	.L4
-
-.L3:
-	movl	a(%rip), %eax
-	movl	%eax, %esi
-	leaq	.LC2(%rip), %rdi
+	movq	stderr(%rip), %rax
+	leaq	.LC0(%rip), %rsi
+	movq	%rax, %rdi
 	movl	$0, %eax
-	call	printf@PLT
-.L4:
+	call	fprintf@PLT
+	
+.L2:
 	movl	retorno(%rip), %eax
 	popq	%rbp
 	.cfi_def_cfa 7, 8

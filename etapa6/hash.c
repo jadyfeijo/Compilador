@@ -105,7 +105,7 @@ NODE* makeLabel(void)
 
 void hashPrintAsm(FILE *fout)
 {
-    int i,numLabels = 0;
+    int i,numString = 0;
     NODE *node;
 
     for(i=0; i<HASH_SIZE; i++)
@@ -123,7 +123,7 @@ void hashPrintAsm(FILE *fout)
                 fprintf(fout,"\n_%s:\t.long\t%d\n",node->text,convertIntegers(node->text));
                 break;
             case SYMBOL_LIT_STRING:
-                fprintf(fout,"\n_%s:\t.string\t%s\n",node->text,node->text);
+                fprintf(fout,"\n_string%d:\t.string\t%s\n",numString,node->text);
                 break;
             default:
                 fprintf(fout,"\n\t.globl	_%s\n"

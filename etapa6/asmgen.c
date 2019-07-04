@@ -87,7 +87,11 @@ void generateAsm(TAC *first, char *fileName)
                 break;
             case TAC_EQ:
                 fprintf(fout,"# EQUAL\n"
-                                "\tjne");
+                                "\tmovl	_%s(%%rip), %%edx\n"
+	                            "\tmovl	_%s(%%rip), %%eax\n"
+	                            "\tcmpl	%%eax, %%edx\n"
+                                "\tjne ",
+                                tac->op1->text,tac->op2->text);
                 break;
             case TAC_IFZ:
                 fprintf(fout,"%s\n\n",tac->res->text);
