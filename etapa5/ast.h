@@ -43,6 +43,7 @@
 #define AST_DEC_PARAM 32
 #define AST_DEC_PARAM2 33
 #define AST_PRINT_PARAM 34
+#define AST_PRINT_PARAM2 53
 #define AST_INT 35
 #define AST_FLOAT 36
 #define AST_BYTE 37

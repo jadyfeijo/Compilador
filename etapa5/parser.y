@@ -57,6 +57,7 @@
 %type <ast> block
 %type <ast> ctrl_fluxo
 %type <ast> lit
+%type <ast> lit2
 %type <ast> type
 %type <ast> array_init
 %type <ast> array_init2
@@ -107,14 +108,19 @@ cmd_list:
 	| 								{$$=0;}
 	;
 
+lit2:
+	LIT_STRING					{$$=astCreate(AST_SYMBOL,$1,0,0,0,0,getLineNumber());}
+	;
+
 print:
-	print ',' print_list				{$$=astCreate(AST_PRINT_PARAM,0,$1,$3,0,0,getLineNumber());}
-	| print_list							{$$=astCreate(AST_PRINT_PARAM,0,$1,0,0,0,getLineNumber());}
+	exp print_list				{$$=astCreate(AST_PRINT_PARAM,0,$1,$2,0,0,getLineNumber());}
+	| lit2 print_list							{$$=astCreate(AST_PRINT_PARAM,0,$1,$2,0,0,getLineNumber());}
 	;
 
 print_list:
-	LIT_STRING					{$$=astCreate(AST_SYMBOL,$1,0,0,0,0,getLineNumber());}
-	|exp						{$$=$1;}
+	',' print					{$$=astCreate(AST_PRINT_PARAM2,0,$2,0,0,0,getLineNumber());}
+	|LIT_STRING						{$$=astCreate(AST_SYMBOL,$1,0,0,0,0,getLineNumber());}	
+	|						{$$=0;}		
 	;
 
 cmd:
