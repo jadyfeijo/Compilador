@@ -1,8 +1,20 @@
-int a = E; 
-int b = I; 
+int a = O; 
+int c = O; 
+int v[IO]: O O O O O O O O O O; 
+int mat[IOOO]; 
+int incn(int x, int n)
+{
+return x + n;
+};
+ 
 int main()
 {
-a = b;
-print a;
+print H + H,"Digite",")la)la)la","teste";
+read a;
+if(a == I) then print "Got you!" else print "nao imprime";
+a = E + H * G;
+loop(a < IO)c = c + I;
+v[c] = AAA;
+print v[EE];
 return O;
 };
