@@ -43,7 +43,7 @@ int main(int argc, char** argv)
 
     yyparse();
 
-    //hashPrint();
+    hashPrint();
 
     fclose(out);
     

@@ -5,28 +5,11 @@
 _O: .long 0
 _I: .long 1
 
-	.globl	_myTemp0
-	.data
-	.align 4
-	.type	_myTemp0, @object
-	.size	_myTemp0, 4
-_myTemp0: 
-	.long 0
-
-	.globl	_a
-	.data
-	.align 4
-	.type	_a, @object
-	.size	_a, 4
-_a:
-	.long	0
-
-	.globl	_b
-	.align 4
-	.type	_b, @object
-	.size	_b, 4
-_b:
-	.long	1
+_I:	.long	1
+_O:	.long	0
+_a:	.long	a
+_b:	.long	b
+_myTemp0:	.long	0
 
 # STRING
 .meuString:

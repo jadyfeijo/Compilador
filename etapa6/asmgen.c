@@ -22,8 +22,10 @@ void generateAsm(TAC *first, char *fileName)
     fprintf(fout, "# FOR EACH SYMBOL IN HASH TABLE (EXCEPT LABELS)\n"
                     "_O: .long 0\n"
                     "_I: .long 1\n\n");
+    
+    hashPrintAsm(fout);
 
-    fprintf(fout, "# STRING\n"
+    fprintf(fout, "\n# STRING\n"
                     ".meuString:\n"
                     "\t.string \"%%d\\n\" \n"
                     "\t.text\n\n");

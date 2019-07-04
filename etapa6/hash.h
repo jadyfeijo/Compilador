@@ -50,4 +50,7 @@ void hashCheckUndeclared(void);
 NODE* makeTemp(void);
 NODE* makeLabel(void);
 
+void hashPrintAsm(FILE *fout);
+int convertIntegers(char *text);
+
 #endif
