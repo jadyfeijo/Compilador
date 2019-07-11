@@ -46,6 +46,18 @@ main:
 	pushq	%rbp
 	movq	%rsp, %rbp
 
+# COPY
+	movl	_E(%rip), %eax
+	movl	%eax, _a(%rip)
+
+# COPY
+	movl	_O(%rip), %eax
+	movl	%eax, _b(%rip)
+
+# COPY
+	movl	_A(%rip), %eax
+	movl	%eax, _c(%rip)
+
 # ADD
 	movl	_b(%rip), %edx
 	movl	_c(%rip), %eax

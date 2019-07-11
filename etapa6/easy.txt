@@ -1,9 +1,12 @@
 int a = E;
-int b = I;
+int b = O;
 int c = A;
 
 int main()
 {
+    a = E;
+    b = O;
+    c = A;
 
     a = b + c;
 
